@@ -1,0 +1,10 @@
+<svg width="500" height="200" viewBox="0 0 500 200" class="text-xl" xmlns:xlink="http://www.w3.org/1999/xlink">
+  <g>
+    <polyline stroke-width="5" fill="transparent" stroke="orange" points="33,79 79,46 33,79 79,112" />
+    <text transform="matrix(1.1,0,0,1,-28.4,0)" font-size="35" x="97.5" y="93.1" textLength="324.7">
+      Development and Design
+    </text>
+    <line x1="450" y1="20" x2="400" y2="130" stroke="orange" stroke-width="5" />
+    <polyline stroke-width="5" fill="transparent" stroke="orange" points="398,79 448,159 448,159 398,191" />
+  </g>
+</svg>

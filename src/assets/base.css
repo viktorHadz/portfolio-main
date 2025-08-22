@@ -1,0 +1,122 @@
+@import 'tailwindcss';
+@import './fonts.css';
+
+@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
+@custom-variant light (&:where([data-theme="light"], [data-theme="light"] *));
+
+/* ---------- LIGHT THEME ---------- */
+[data-theme='light'] {
+  color-scheme: light;
+
+  /* palette */
+
+  --bg-primary: hsl(0, 0%, 95%);
+  --bg-secondary: hsl(199, 18%, 82%);
+  --bg-tertiary: hsl(199, 12%, 63%);
+  --fg-primary: hsl(210, 4%, 10%);
+  --fg-secondary: hsl(0, 0%, 46%);
+  --fg-tertiary: hsl(211, 100%, 96%);
+  --acc-primary: hsl(207, 61%, 59%);
+  --acc-secondary: hsl(209, 40%, 16%);
+  --acc-tertiary: hsl(162, 52%, 71%);
+  --border-color: hsl(0, 0%, 79%);
+
+  /* primitives */
+  --red: hsl(358, 84%, 64%);
+  --green: hsl(153, 48%, 49%);
+  --blue: hsl(214, 58%, 61%);
+  --yellow: hsl(43, 81%, 70%);
+  --purple: hsl(279, 49%, 68%);
+  --offwhite: #fdffff;
+  --gray: hsl(0, 0%, 63%);
+}
+
+/* ---------- DARK THEME ---------- */
+[data-theme='dark'] {
+  color-scheme: dark;
+
+  /* palette */
+  --bg-primary: hsl(220, 2%, 3%);
+  --bg-secondary: hsl(220, 5%, 5%);
+  --bg-tertiary: hsl(220, 5%, 12%);
+  --fg-primary: hsl(51, 66%, 92%);
+  --fg-secondary: hsl(53, 100%, 84%);
+  --fg-tertiary: hsl(55, 100%, 73%);
+  --acc-primary: hsl(23, 100%, 60%);
+  --acc-secondary: lch(81.14% 65.79 85.33);
+  --acc-tertiary: hsl(212, 98%, 48%);
+  --border-color: hsl(240, 2%, 10%);
+
+  /* primitives */
+  --red: oklch(61.508% 0.11511 18.873);
+  --green: oklch(78.732% 0.08344 116.577);
+  --blue: oklch(69.77% 0.05046 242.865);
+  --yellow: oklch(78.973% 0.08626 88.701);
+  --purple: oklch(68.754% 0.03247 313.869);
+  --offwhite: oklch(99.849% 0.00215 200.033);
+  --gray: oklch(78% 0.00009 271.152);
+}
+
+/* ---------- TAILWIND CONFIG ---------- */
+@layer base {
+  /* h1 {
+    font-size: var(--text-4xl);
+  }
+  h2 {
+    font-size: var(--text-3xl);
+  }
+  h3 {
+    font-size: var(--text-2xl);
+  } */
+}
+/* ---------- TAILWIND THEME TOKENS ---------- */
+@theme {
+  /* typography */
+  --font-*: initial;
+  --font-sans:
+    'Ubuntu', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI',
+    'Roboto', 'Helvetica Neue', 'Liberation Sans', 'Noto Sans', 'DejaVu Sans',
+    'Arial', sans-serif;
+
+  /* --font-mono:
+    'JetBrains Mono', 'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, Consolas,
+    'Liberation Mono', 'DejaVu Sans Mono', 'Courier New', monospace; */
+
+  --default-font-family: var(--font-sans);
+  --text-mini: 0.725rem;
+  --text-tiny: 0.625rem;
+  /* palette */
+  --color-bg-prim: var(--bg-primary);
+  --color-bg-sec: var(--bg-secondary);
+  --color-bg-ter: var(--bg-tertiary);
+  --color-fg-prim: var(--fg-primary);
+  --color-fg-sec: var(--fg-secondary);
+  --color-fg-ter: var(--fg-tertiary);
+  --color-acc-prim: var(--acc-primary);
+  --color-acc-sec: var(--acc-secondary);
+  --color-acc-ter: var(--acc-tertiary);
+  --color-brdr: var(--border-color);
+
+  /* primitives */
+  --color-red: var(--red);
+  --color-green: var(--green);
+  --color-blue: var(--blue);
+  --color-yellow: var(--yellow);
+  --color-purple: var(--purple);
+  --color-offwhite: var(--offwhite);
+  --color-gray: var(--gray);
+}
+
+html {
+  min-height: 100vh;
+  /* width: 100vw; */
+  /* max-width: 100vw; */
+  color: var(--fg-primary);
+  background: var(--bg-primary);
+  transition:
+    color 0.5s,
+    background-color 0.5s;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
