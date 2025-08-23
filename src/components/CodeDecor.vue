@@ -2,23 +2,13 @@
 import { ref, onMounted, onBeforeUnmount, computed } from 'vue'
 
 const props = defineProps({
-  /** Where to pin inside the parent box */
   anchor: {
     type: String,
-    default: 'center', // 'top-left' | 'top-right' | 'bottom-left' | 'bottom-right' | 'center'
+    default: 'center', // 'top-left' 'top-right' 'bottom-left' 'bottom-right' 'center'
   },
-  /** Visual pattern of lines */
-  variant: {
-    type: String,
-    default: 'stack', // 'stack' | 'fan' | 'stripe'
-  },
-  /** Overall opacity (0..1) */
+
   opacity: { type: Number, default: 0.5 },
-  /** Scale multiplier */
   scale: { type: Number, default: 1 },
-  /** Degrees of rotation */
-  tilt: { type: Number, default: 0 }, // e.g. 2
-  /** Animation speed in ms */
   speed: { type: Number, default: 700 },
 })
 
@@ -65,7 +55,6 @@ const maskUtilities =
     aria-hidden="true"
   >
     <div
-      v-if="variant === 'stack'"
       class="flex w-[min(90vw,50rem)] max-w-full flex-col gap-2"
       :class="[
         isLoaded ? 'translate-x-0 opacity-100' : 'translate-x-4 opacity-0',

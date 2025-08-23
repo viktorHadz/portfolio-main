@@ -19,19 +19,17 @@ import CodeDecor from '@/components/CodeDecor.vue'
       <TheSvgHero class="text-fg-prim" />
     </div>
     <div class="relative isolate w-full max-w-xl overflow-hidden rounded-2xl">
-      <!-- decor behind -->
-      <CodeDecor anchor="center" variant="stack" :opacity="0.6" :scale="1.8" />
+      <CodeDecor variant="center" :opacity="0.6" :scale="1.4" />
 
-      <!-- your foreground content -->
       <div class="flex flex-col items-center gap-4 sm:items-start">
         <div
           class="pt-2 text-center text-4xl font-bold sm:text-left sm:text-5xl lg:text-6xl"
         >
           Viktor Hadzhiyski
         </div>
-        <div class="text-acc-prim hidden text-center sm:block sm:text-left">
-          <span class="text-xl md:text-2xl">
-            I love programing and building software more than anything
+        <div class="text-acc-prim text-center sm:text-left">
+          <span class="text-2xl">
+            I love programing and building software
           </span>
         </div>
         <div class="mt-2 flex justify-center gap-4 sm:justify-start">
