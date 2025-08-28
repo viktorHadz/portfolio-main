@@ -34,9 +34,10 @@ const toggleMode = () => {
 <style scoped>
 /* go to base.css for globals */
 #app {
-  /* min-height: 100%; */
-  /* min-width: 100%; */
+  min-height: 100%;
+  min-width: 100%;
   display: flex;
   justify-items: center;
+  color: var(--color-fg-prim);
 }
 </style>

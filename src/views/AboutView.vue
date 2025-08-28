@@ -1,42 +1,71 @@
 <script setup>
-import TheButton from '@/components/layout/TheButton.vue'
+import { ref, onMounted, useTemplateRef } from 'vue'
+import gsap from 'gsap'
+import Draggable from 'gsap/Draggable'
+import InertiaPlugin from 'gsap/InertiaPlugin'
 import TheContainer from '@/components/layout/TheContainer.vue'
-import TheSvgHero from '@/components/svg/TheSvgHero.vue'
-import CodeDecor from '@/components/CodeDecor.vue'
+import TheDialog from '@/components/layout/TheDialog.vue'
+// SVG Imports
+import svgVue from '@/assets/svgs/brandIcons/Vue.js.svg'
+gsap.registerPlugin(Draggable, InertiaPlugin)
+
+const box = useTemplateRef('box')
+const svgVueRef = useTemplateRef('svgVueRef')
+// const skillIcons = ref({
+
+// })
+
+onMounted(() => {
+  gsap.fromTo(
+    box.value,
+    { x: -200, y: 0 },
+    { x: 200, y: 300, rotation: 360, duration: 10, ease: 'elastic' },
+  )
+  Draggable.create(box.value, {
+    type: 'x,y',
+    inertia: true,
+    bounds: document.getElementById('boundary'),
+  })
+  Draggable.create(svgVueRef.value, {
+    type: 'x,y',
+    inertia: true,
+    bounds: document.getElementById('boundary'),
+  })
+})
 </script>
-
 <template>
-  <TheContainer
-    width="full"
-    :center-mobile="false"
-    :mobile-padding="false"
-    :mobile-margin-x="false"
-    class="mt-8 grid grid-cols-1 items-center justify-items-center sm:mt-12 sm:grid-cols-2 sm:gap-8"
-  >
-    <div
-      class="flex w-full max-w-[12rem] justify-center sm:max-w-xs sm:justify-end"
-    >
-      <TheSvgHero class="text-fg-prim" />
+  <TheContainer>
+    <div class="flex h-full w-full gap-6 p-8">
+      <TheDialog
+        open-dialog-button-title="quick view"
+        openButtonVariant="tertiary"
+        open-button-classes="hover:text-green-300 border rounded"
+        close-button-variant="tertiary"
+        close-button-classes="p-0! -ml-2"
+      >
+        <template #diagTitle><h1>Skills Description</h1></template>
+        <template #diagDesc>
+          <p class="text-fg-sec">
+            Here are my skills and my evaluation of them.
+          </p>
+        </template>
+        <template #diagContent>
+          <ol class="list list-inside list-disc">
+            <li>one</li>
+            <li>two</li>
+            <li>three</li>
+            <li>four</li>
+          </ol>
+        </template>
+      </TheDialog>
     </div>
-    <div class="relative isolate w-full max-w-xl overflow-hidden rounded-2xl">
-      <CodeDecor variant="center" :opacity="0.6" :scale="1.4" />
 
-      <div class="flex flex-col items-center gap-4 sm:items-start">
-        <div
-          class="pt-2 text-center text-4xl font-bold sm:text-left sm:text-5xl lg:text-6xl"
-        >
-          Viktor Hadzhiyski
-        </div>
-        <div class="text-acc-prim text-center sm:text-left">
-          <span class="text-2xl">
-            I love programing and building software
-          </span>
-        </div>
-        <div class="mt-2 flex justify-center gap-4 sm:justify-start">
-          <TheButton>My Work</TheButton>
-          <TheButton variant="secondary">Get in Touch</TheButton>
-        </div>
-      </div>
+    <div id="boundary" class="h-[600px] max-w-full">
+      <img :src="svgVue" alt="svg-vue" ref="svgVueRef" class="size-24" />
+      <div
+        ref="box"
+        class="size-24 bg-gradient-to-br from-lime-400 to-green-300 p-2"
+      ></div>
     </div>
   </TheContainer>
 </template>

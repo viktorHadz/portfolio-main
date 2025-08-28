@@ -9,65 +9,64 @@
   color-scheme: light;
 
   /* palette */
-
-  --bg-primary: hsl(0, 0%, 95%);
-  --bg-secondary: hsl(199, 18%, 82%);
-  --bg-tertiary: hsl(199, 12%, 63%);
-  --fg-primary: hsl(210, 4%, 10%);
-  --fg-secondary: hsl(0, 0%, 46%);
-  --fg-tertiary: hsl(211, 100%, 96%);
-  --acc-primary: hsl(153, 48%, 49%);
-  --acc-secondary: hsl(209, 40%, 16%);
-  --acc-tertiary: hsl(162, 52%, 71%);
-  --border-color: hsl(0, 0%, 79%);
+  /* --bg-primary: hsl(0, 0%, 95%); */
+  --bg-primary: hsl(0, 0%, 99%);
+  --bg-secondary: hsl(0, 0%, 96%);
+  --bg-tertiary: hsl(210, 15%, 92%);
+  --fg-primary: hsl(210, 20%, 15%);
+  --fg-secondary: hsl(210, 15%, 35%);
+  --fg-tertiary: hsl(210, 10%, 55%);
+  --acc-primary: hsl(205, 70%, 55%);
+  --acc-secondary: hsl(205, 50%, 45%);
+  --acc-tertiary: hsl(160, 45%, 50%);
+  --border-color: hsl(210, 15%, 85%);
 
   /* primitives */
-  --red: hsl(358, 84%, 64%);
-  --green: hsl(153, 48%, 49%);
-  --blue: hsl(214, 58%, 61%);
-  --yellow: hsl(43, 81%, 70%);
-  --purple: hsl(279, 49%, 68%);
-  --offwhite: #fdffff;
-  --gray: hsl(0, 0%, 63%);
+  --red: hsl(358, 70%, 60%);
+  --green: hsl(160, 45%, 50%);
+  --blue: hsl(205, 70%, 55%);
+  --yellow: hsl(43, 75%, 65%);
+  --purple: hsl(270, 45%, 60%);
+  --offwhite: hsl(0, 0%, 98%);
+  --gray: hsl(210, 10%, 60%);
 }
 
 /* ---------- DARK THEME ---------- */
 [data-theme='dark'] {
   color-scheme: dark;
 
-  /* palette */
-  --bg-primary: hsl(220, 2%, 3%);
-  --bg-secondary: hsl(220, 5%, 5%);
-  --bg-tertiary: hsl(220, 5%, 12%);
-  --fg-primary: hsl(51, 66%, 92%);
-  --fg-secondary: hsl(53, 100%, 84%);
-  --fg-tertiary: hsl(55, 100%, 73%);
-  --acc-primary: hsl(23, 100%, 60%);
-  --acc-secondary: lch(81.14% 65.79 85.33);
-  --acc-tertiary: hsl(212, 98%, 48%);
-  --border-color: hsl(240, 2%, 10%);
+  /* --bg-primary: hsl(220, 8%, 8%); */
+  --bg-primary: hsl(150, 7%, 6%);
+  --bg-secondary: hsl(150, 5%, 12%);
+  --bg-tertiary: hsl(150, 5%, 16%);
+  --fg-primary: hsl(150, 15%, 95%);
+  --fg-secondary: hsl(150, 5%, 70%);
+  --fg-tertiary: hsl(150, 5%, 50%);
+  --acc-primary: hsl(143, 81%, 71%);
+  --acc-secondary: hsl(80, 100%, 45%);
+  --acc-tertiary: hsl(160, 40%, 55%);
+  --border-color: hsl(150, 5%, 20%);
 
   /* primitives */
-  --red: oklch(61.508% 0.11511 18.873);
-  --green: oklch(78.732% 0.08344 116.577);
-  --blue: oklch(69.77% 0.05046 242.865);
-  --yellow: oklch(78.973% 0.08626 88.701);
-  --purple: oklch(68.754% 0.03247 313.869);
-  --offwhite: oklch(99.849% 0.00215 200.033);
-  --gray: oklch(78% 0.00009 271.152);
+  --red: hsl(358, 65%, 65%);
+  --green: hsl(160, 40%, 55%);
+  --blue: hsl(205, 65%, 65%);
+  --yellow: hsl(43, 70%, 70%);
+  --purple: hsl(270, 40%, 65%);
+  --offwhite: hsl(210, 15%, 95%);
+  --gray: hsl(210, 8%, 65%);
 }
 
 /* ---------- TAILWIND CONFIG ---------- */
 @layer base {
-  /* h1 {
-    font-size: var(--text-4xl);
-  }
-  h2 {
-    font-size: var(--text-3xl);
-  }
-  h3 {
-    font-size: var(--text-2xl);
+  /* * {
+    transition-property: color, background-color, border-color, box-shadow;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: 150ms;
   } */
+  button {
+    cursor: pointer;
+  }
 }
 /* ---------- TAILWIND THEME TOKENS ---------- */
 @theme {
