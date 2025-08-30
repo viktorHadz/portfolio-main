@@ -16,7 +16,7 @@ onMounted(() => {
 
   tween = gsap.to(neutral.value, {
     morphSVG: smile.value,
-    duration: 1,
+    duration: 0.5,
     yoyo: true,
     repeat: 1,
     repeatDelay: 2,

@@ -1,7 +1,7 @@
 <script setup>
 import { RouterLink, RouterView } from 'vue-router'
 import { useColorMode } from '@vueuse/core'
-
+import { SunIcon, MoonIcon } from '@heroicons/vue/24/solid'
 const mode = useColorMode({
   attribute: 'data-theme',
   modes: {
@@ -18,26 +18,76 @@ const toggleMode = () => {
 
 <template>
   <nav
-    class="border-brdr absolute top-0 flex w-full justify-center gap-6 border-b"
+    class="border-brdr bg-bg-prim fixed top-0 z-50 w-full border-b backdrop-blur-md"
   >
-    <RouterLink to="/">Home</RouterLink>
-    <RouterLink to="/about">About</RouterLink>
-    <RouterLink to="/new">New</RouterLink>
-    <button @click="toggleMode()" class="cursor-pointer">
-      {{ mode }}
-    </button>
+    <div class="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
+      <!-- Logo -->
+      <RouterLink
+        to="/"
+        class="hover:text-acc-prim text-fg-prim text-xl font-semibold transition-colors"
+      >
+        VH
+      </RouterLink>
+
+      <!-- Navigation -->
+      <div class="flex items-center space-x-8">
+        <RouterLink
+          to="/"
+          class="hover:text-acc-prim text-fg-prim font-medium transition-colors"
+          activeClass="link-active"
+        >
+          Home
+        </RouterLink>
+        <RouterLink
+          to="/about"
+          class="hover:text-acc-prim text-fg-prim font-medium transition-colors"
+          activeClass="link-active"
+        >
+          About
+        </RouterLink>
+        <RouterLink
+          to="/new"
+          class="hover:text-acc-prim text-fg-prim font-medium transition-colors"
+          activeClass="link-active"
+        >
+          Work
+        </RouterLink>
+
+        <!-- Theme -->
+        <button
+          @click="toggleMode()"
+          class="bg-bg-sec hover:bg-bg-ter rounded-lg p-2 transition-colors"
+          :title="`Switch to ${mode === 'dark' ? 'light' : 'dark'} mode`"
+        >
+          <span v-if="mode === 'dark'" class="text-tiny rounded-full">
+            <SunIcon class="size-4 text-yellow-400" />
+          </span>
+          <span v-else class="text-tiny rounded-full"
+            ><MoonIcon class="size-4 text-yellow-300"
+          /></span>
+        </button>
+      </div>
+    </div>
   </nav>
 
-  <RouterView />
+  <!-- Add top padding to account for fixed nav -->
+  <div class="pt-20">
+    <RouterView />
+  </div>
 </template>
 
 <style scoped>
-/* go to base.css for globals */
 #app {
   min-height: 100%;
   min-width: 100%;
   display: flex;
-  justify-items: center;
+  flex-direction: column;
   color: var(--color-fg-prim);
+}
+.link-active {
+  color: var(--color-acc-prim);
+}
+.link-active {
+  color: var(--color-acc-prim);
 }
 </style>

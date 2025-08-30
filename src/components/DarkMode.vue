@@ -26,7 +26,10 @@ const toggleMode = () => {
   <button @click="toggleMode" class="theme-toggle-btn cursor-pointer">
     <transition name="rotate-element" mode="out-in">
       <div :key="mode" class="icon-wrapper">
-        <component :is="mode === 'dark' ? SunIcon : MoonIcon" :class="`size-${props.size} stroke-1`" />
+        <component
+          :is="mode === 'dark' ? SunIcon : MoonIcon"
+          :class="`size-${props.size} stroke-1`"
+        />
       </div>
     </transition>
   </button>

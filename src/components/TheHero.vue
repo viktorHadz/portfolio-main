@@ -8,17 +8,14 @@ import TheButton from '@/components/layout/TheButton.vue'
 import TheContainer from '@/components/layout/TheContainer.vue'
 import TheSvgHero from '@/components/svg/TheSvgHero.vue'
 
-// Register GSAP plugins
 gsap.registerPlugin(Draggable, InertiaPlugin, MorphSVGPlugin)
 
-// Template refs for GSAP animation
-const greeting = ref(null)
+// GSAP animation template refs
 const heroImage = ref(null)
 const nameTitle = ref(null)
 const description = ref(null)
 const buttonGroup = ref(null)
 
-// Reactive skill icons state
 const skillsData = [
   { name: 'Vue.js', icon: '⚡', color: '#4FC08D' },
   { name: 'Node.js', icon: '🟢', color: '#68A063' },
@@ -29,72 +26,128 @@ const skillsData = [
 ]
 
 onMounted(() => {
-  // Create animation timeline
-  const tl = gsap.timeline({ delay: 0.5 })
+  gsap.set(
+    [heroImage.value, nameTitle.value, description.value, buttonGroup.value],
+    {
+      opacity: 1,
+      y: 0,
+      scale: 1,
+      rotationX: 0,
+    },
+  )
 
-  // 1. greeting appears with fade up
-  tl.to(greeting.value, {
-    opacity: 1,
-    y: 0,
-    duration: 0.8,
-    ease: 'power2.out',
-  })
+  // Create floating particles effect
+  const createParticles = () => {
+    const particles = []
+    for (let i = 0; i < 12; i++) {
+      const particle = document.createElement('div')
+      particle.className = 'absolute size-2 bg-acc-prim rounded-full opacity-70'
+      particle.style.left = Math.random() * 100 + '%'
+      particle.style.top = Math.random() * 100 + '%'
+      heroImage.value.appendChild(particle)
+      particles.push(particle)
+    }
 
-    // 2. hero image scales in with bounce
-    .to(
-      heroImage.value,
-      {
-        opacity: 1,
-        scale: 1,
-        duration: 1,
-        ease: 'back.out(1.2)',
-      },
-      '-=0.3',
-    )
+    // Animate particles
+    gsap.to(particles, {
+      duration: 3,
+      x: () => (Math.random() - 0.5) * 200,
+      y: () => (Math.random() - 0.5) * 200,
+      opacity: 0,
+      scale: () => Math.random() * 2 + 0.5,
+      ease: 'power2.out',
+      stagger: 0.1,
+      onComplete: () => particles.forEach((p) => p.remove()),
+    })
+  }
 
-    // 3. Name appears with word animation
-    .to(
-      nameTitle.value,
-      {
-        opacity: 1,
-        duration: 0.1,
-      },
-      '-=0.2',
-    )
-    .from(
+  // Main animation sequence
+  const tl = gsap.timeline({ delay: 0.4 })
+
+  // 1. Greeting materializes
+  tl.fromTo(
+    heroImage.value,
+    { opacity: 0, scale: 0, rotation: -180 },
+    {
+      opacity: 1,
+      scale: 1,
+      rotation: 0,
+      duration: 1.4,
+      ease: 'elastic.out(1, 0.6)',
+      onStart: createParticles,
+    },
+    '-=0.2',
+  )
+
+    // 2. Hero image dramatic entrance with particles
+    // .fromTo(
+    //   heroImage.value,
+    //   { opacity: 0, scale: 0, rotation: -180 },
+    //   {
+    //     opacity: 1,
+    //     scale: 1,
+    //     rotation: 0,
+    //     duration: 1.4,
+    //     ease: 'elastic.out(1, 0.6)',
+    //     onStart: createParticles,
+    //     onComplete: () => {
+    //       // Trigger SVG smile + return to neutral
+    //       const svg = heroImage.value?.querySelector('svg')
+    //       if (svg) {
+    //         svg.dispatchEvent(new CustomEvent('smile'))
+    //         setTimeout(() => {
+    //           svg.dispatchEvent(new CustomEvent('neutral'))
+    //         }, 2000)
+    //       }
+    //     },
+    //   },
+    //   '-=0.2',
+    // )
+
+    // 3. Name letters cascade with morphing effect
+    .to(nameTitle.value, { opacity: 1, duration: 0.1 }, '-=0.8')
+    .fromTo(
       nameTitle.value.children,
+      { opacity: 0, y: 50, rotationY: -90, scale: 0.5 },
       {
-        y: 30,
-        opacity: 0,
-        duration: 0.8,
+        opacity: 1,
+        y: 0,
+        rotationY: 0,
+        scale: 1,
+        duration: 1.2,
         stagger: 0.15,
-        ease: 'power3.out',
+        ease: 'back.out(1.4)',
       },
       '-=0.1',
     )
 
-    // 4. Description slides up smoothly
-    .to(
+    // 4. Description slides with wave effect
+    .fromTo(
       description.value,
+      { opacity: 0, y: 30, skewX: -10 },
       {
         opacity: 1,
         y: 0,
+        skewX: 0,
         duration: 1,
-        ease: 'power2.out',
+        ease: 'power3.out',
       },
-      '-=0.4',
+
+      '-=0.6',
     )
 
-    // 5. Buttons fade in last
-    .to(
+    // 5. Buttons bounce in with hover preparation
+    .fromTo(
       buttonGroup.value,
+      { opacity: 0, y: 40, scale: 0.8 },
       {
         opacity: 1,
         y: 0,
+        scale: 1,
         duration: 0.8,
-        ease: 'power2.out',
+        ease: 'back.out(1.5)',
       },
-      '-=0.3',
+      '-=0.4',
     )
 })
 </script>
@@ -105,56 +158,43 @@ onMounted(() => {
     :center-mobile="true"
     class="relative flex min-h-[80vh] items-center justify-center overflow-hidden"
   >
-    <!-- Single Column Centered Layout -->
-    <div class="relative z-20 mx-auto w-full max-w-2xl space-y-12 text-center">
-      <!-- Animated Hero Section -->
-      <div class="space-y-8">
-        <!-- Animated greeting and name -->
-        <div class="space-y-4">
-          <p
-            ref="greeting"
-            class="text-fg-sec text-sm font-medium tracking-wide opacity-0 sm:text-base"
-          >
-            Hi, I'm
-          </p>
-
-          <!-- Hero Image with better sizing -->
-          <div
-            ref="heroImage"
-            class="mx-auto h-48 w-48 scale-95 opacity-0 sm:h-56 sm:w-56 lg:h-64 lg:w-64"
-          >
-            <TheSvgHero class="text-fg-prim h-full w-full" />
-          </div>
-
-          <!-- Name with character animation setup -->
-          <h1
-            ref="nameTitle"
-            class="text-fg-prim text-4xl font-light tracking-tight opacity-0 sm:text-5xl lg:text-6xl"
-          >
-            <span class="inline-block">Viktor</span>
-            <span class="ml-4 inline-block">Hadzhiyski</span>
-          </h1>
+    <div class="relative z-20 mx-auto w-full max-w-2xl text-center">
+      <!-- SVG HERO -->
+      <!-- Greeting -->
+      <div class="space-y-4">
+        <div
+          ref="heroImage"
+          class="mx-auto h-48 w-48 scale-95 opacity-0 sm:h-56 sm:w-56 lg:h-64 lg:w-64"
+        >
+          <TheSvgHero class="text-fg-prim h-full w-full" />
         </div>
 
-        <!-- Animated description -->
-        <div ref="description" class="translate-y-4 transform opacity-0">
-          <p
-            class="text-fg-sec mx-auto max-w-lg text-lg leading-relaxed font-light sm:text-xl lg:text-2xl"
+        <h1
+          ref="nameTitle"
+          class="text-fg-prim text-4xl font-light tracking-tight opacity-0 sm:text-5xl lg:text-6xl"
+        >
+          <div
+            class="grad-tr-prim-sec inline-block bg-clip-text pb-1 text-transparent"
           >
-            I love programming and building software
-          </p>
+            Hi, my name is Viktor
+          </div>
+        </h1>
+      </div>
+
+      <div ref="description" class="translate-y-4 transform opacity-0">
+        <div
+          class="mx-auto max-w-lg text-lg leading-relaxed font-light sm:text-xl lg:text-2xl"
+        >
+          ...and I love programming and building software
         </div>
       </div>
 
-      <!-- Clean Button Group -->
       <div
         ref="buttonGroup"
         class="flex translate-y-4 transform flex-col items-center justify-center gap-4 pt-8 opacity-0 sm:flex-row sm:gap-6"
       >
-        <TheButton class="min-w-[140px]"> View My Work </TheButton>
-        <TheButton variant="secondary" class="min-w-[140px]">
-          Get In Touch
-        </TheButton>
+        <TheButton variant="primary" class=""> View My Work </TheButton>
+        <TheButton variant="secondary" class=""> Get In Touch </TheButton>
       </div>
     </div>
   </TheContainer>
@@ -168,16 +208,6 @@ h1 {
 
 p {
   animation: fadeInUp 0.8s ease-out 0.2s both;
-}
-
-.space-y-12 > * + * {
-  margin-top: 3rem;
-}
-
-@media (min-width: 640px) {
-  .space-y-12 > * + * {
-    margin-top: 3rem;
-  }
 }
 
 @keyframes fadeInUp {

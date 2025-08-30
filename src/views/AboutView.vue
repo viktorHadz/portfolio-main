@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted, useTemplateRef } from 'vue'
+import { onMounted, useTemplateRef } from 'vue'
 import gsap from 'gsap'
 import Draggable from 'gsap/Draggable'
 import InertiaPlugin from 'gsap/InertiaPlugin'
@@ -7,6 +7,7 @@ import TheContainer from '@/components/layout/TheContainer.vue'
 import TheDialog from '@/components/layout/TheDialog.vue'
 // SVG Imports
 import svgVue from '@/assets/svgs/brandIcons/Vue.js.svg'
+import TheButton from '@/components/layout/TheButton.vue'
 gsap.registerPlugin(Draggable, InertiaPlugin)
 
 const box = useTemplateRef('box')
@@ -34,20 +35,76 @@ onMounted(() => {
 })
 </script>
 <template>
+  <div
+    class="border-brdr container flex place-content-center place-self-center border"
+  >
+    <div class="flex-flex-col">
+      <div class="flex gap-2">
+        <div
+          class="border-brdr text-fg-prim bg-bg-prim flex size-22 items-center justify-center border-4 text-center text-2xl"
+        >
+          Hello
+        </div>
+        <div
+          class="border-brdr text-fg-sec bg-bg-sec flex size-22 items-center justify-center border-4 text-center text-2xl"
+        >
+          Hello
+        </div>
+        <div
+          class="border-brdr text-fg-ter bg-bg-ter flex size-22 items-center justify-center border-4 text-center text-2xl"
+        >
+          Hello
+        </div>
+      </div>
+      <div class="mt-2 flex gap-2">
+        <div
+          class="text-fg-prim bg-acc-prim flex size-22 items-center justify-center text-center text-2xl"
+        ></div>
+        <div
+          class="text-fg-sec bg-acc-sec flex size-22 items-center justify-center text-center text-2xl"
+        ></div>
+        <div
+          class="text-fg-ter bg-acc-ter flex size-22 items-center justify-center text-center text-2xl"
+        ></div>
+      </div>
+      <div
+        class="border-brdr from-acc-prim via-acc-sec to-acc-ter mt-2 flex h-22 w-70 gap-2 border bg-gradient-to-r"
+      ></div>
+      <div
+        class="border-brdr grad-tr-prim-sec mt-2 flex h-22 w-70 gap-2 border text-black"
+      >
+        prim to sec
+      </div>
+      <div
+        class="border-brdr grad-tr-sec-ter mt-2 flex h-22 w-70 gap-2 border text-black"
+      >
+        sec to ter
+      </div>
+      <div
+        class="border-brdr grad-tr-prim-ter mt-2 flex h-22 w-70 gap-2 border text-black"
+      >
+        prim to ter
+      </div>
+    </div>
+    <div class="border-brdr container space-x-2 border">
+      <TheButton variant="primary">Button</TheButton>
+      <TheButton variant="secondary">Button</TheButton>
+      <TheButton variant="tertiary">Button</TheButton>
+    </div>
+  </div>
+
   <TheContainer>
     <div class="flex h-full w-full gap-6 p-8">
       <TheDialog
         open-dialog-button-title="quick view"
         openButtonVariant="tertiary"
-        open-button-classes="hover:text-green-300 border rounded"
+        open-button-classes="hover:text-acc-prim border rounded"
         close-button-variant="tertiary"
-        close-button-classes="p-0! -ml-2"
+        close-button-classes="-ml-2 self-start"
       >
         <template #diagTitle><h1>Skills Description</h1></template>
         <template #diagDesc>
-          <p class="text-fg-sec">
-            Here are my skills and my evaluation of them.
-          </p>
+          <p>Here are my skills and my evaluation of them.</p>
         </template>
         <template #diagContent>
           <ol class="list list-inside list-disc">

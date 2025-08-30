@@ -9,17 +9,19 @@
   color-scheme: light;
 
   /* palette */
-  /* --bg-primary: hsl(0, 0%, 95%); */
   --bg-primary: hsl(0, 0%, 99%);
   --bg-secondary: hsl(0, 0%, 96%);
   --bg-tertiary: hsl(210, 15%, 92%);
-  --fg-primary: hsl(210, 20%, 15%);
-  --fg-secondary: hsl(210, 15%, 35%);
-  --fg-tertiary: hsl(210, 10%, 55%);
-  --acc-primary: hsl(205, 70%, 55%);
-  --acc-secondary: hsl(205, 50%, 45%);
-  --acc-tertiary: hsl(160, 45%, 50%);
-  --border-color: hsl(210, 15%, 85%);
+
+  --fg-primary: hsl(209, 24%, 24%);
+  --fg-secondary: hsl(215, 8%, 50%);
+  --fg-tertiary: hsl(211, 42%, 60%);
+
+  --acc-primary: #1fa863;
+  --acc-secondary: #349db2;
+  --acc-tertiary: #ff6a4d;
+
+  --border-color: hsl(0, 0%, 67%);
 
   /* primitives */
   --red: hsl(358, 70%, 60%);
@@ -29,6 +31,25 @@
   --purple: hsl(270, 45%, 60%);
   --offwhite: hsl(0, 0%, 98%);
   --gray: hsl(210, 10%, 60%);
+
+  /* gradients */
+  --grad-stop-1: #1fa863;
+  --grad-stop-2: #00a881;
+  --grad-stop-3: #00a398;
+  --grad-stop-4: #00a0a8;
+  --grad-stop-5: #349db2;
+
+  --grad-stop-6: #349db2;
+  --grad-stop-7: #4d98d9;
+  --grad-stop-8: #ab83da;
+  --grad-stop-9: #f365a4;
+  --grad-stop-10: #ff6a4d;
+
+  --grad-stop-11: #1fa863;
+  --grad-stop-12: #71a335;
+  --grad-stop-13: #a8970e;
+  --grad-stop-14: #d9841f;
+  --grad-stop-15: #ff6a4d;
 }
 
 /* ---------- DARK THEME ---------- */
@@ -36,16 +57,19 @@
   color-scheme: dark;
 
   /* --bg-primary: hsl(220, 8%, 8%); */
-  --bg-primary: hsl(150, 7%, 6%);
-  --bg-secondary: hsl(150, 5%, 12%);
-  --bg-tertiary: hsl(150, 5%, 16%);
-  --fg-primary: hsl(150, 15%, 95%);
-  --fg-secondary: hsl(150, 5%, 70%);
-  --fg-tertiary: hsl(150, 5%, 50%);
-  --acc-primary: hsl(143, 81%, 71%);
-  --acc-secondary: hsl(80, 100%, 45%);
-  --acc-tertiary: hsl(160, 40%, 55%);
-  --border-color: hsl(150, 5%, 20%);
+  --bg-primary: hsl(0, 0%, 10%);
+  --bg-secondary: hsl(0, 0%, 15%);
+  --bg-tertiary: hsl(150, 0%, 23%);
+
+  --fg-primary: hsl(0, 0%, 88%);
+  --fg-secondary: hsl(154, 5%, 70%);
+  --fg-tertiary: hsl(152, 5%, 50%);
+
+  --acc-primary: #37e67a;
+  --acc-secondary: #ff8c00;
+  --acc-tertiary: #0072ff;
+
+  --border-color: hsl(0, 0%, 25%);
 
   /* primitives */
   --red: hsl(358, 65%, 65%);
@@ -55,6 +79,25 @@
   --purple: hsl(270, 40%, 65%);
   --offwhite: hsl(210, 15%, 95%);
   --gray: hsl(210, 8%, 65%);
+
+  /* Gradients */
+  --grad-stop-1: #37e67a;
+  --grad-stop-2: #86d641;
+  --grad-stop-3: #b7c300;
+  --grad-stop-4: #dfab00;
+  --grad-stop-5: #ff8d00;
+
+  --grad-stop-6: #ff8c00;
+  --grad-stop-7: #ff5657;
+  --grad-stop-8: #ff349c;
+  --grad-stop-9: #c951dc;
+  --grad-stop-10: #0072ff;
+
+  --grad-stop-11: #37e67a;
+  --grad-stop-12: #00d6bd;
+  --grad-stop-13: #00bffa;
+  --grad-stop-14: #009fff;
+  --grad-stop-15: #0072ff;
 }
 
 /* ---------- TAILWIND CONFIG ---------- */
@@ -68,6 +111,71 @@
     cursor: pointer;
   }
 }
+
+@layer components {
+  .grad-tr-prim-sec {
+    background-image: linear-gradient(
+      to right,
+      var(--grad-stop-1),
+      var(--grad-stop-2),
+      var(--grad-stop-3),
+      var(--grad-stop-4),
+      var(--grad-stop-5)
+    );
+  }
+  .dark .grad-tr-prim-sec {
+    background-image: linear-gradient(
+      to right,
+      var(--grad-stop-1),
+      var(--grad-stop-2),
+      var(--grad-stop-3),
+      var(--grad-stop-4),
+      var(--grad-stop-5)
+    );
+  }
+
+  .grad-tr-sec-ter {
+    background-image: linear-gradient(
+      to right,
+      var(--grad-stop-6),
+      var(--grad-stop-7),
+      var(--grad-stop-8),
+      var(--grad-stop-9),
+      var(--grad-stop-10)
+    );
+  }
+  .dark .grad-tr-sec-ter {
+    background-image: linear-gradient(
+      to right,
+      var(--grad-stop-6),
+      var(--grad-stop-7),
+      var(--grad-stop-8),
+      var(--grad-stop-9),
+      var(--grad-stop-10)
+    );
+  }
+
+  .grad-tr-prim-ter {
+    background-image: linear-gradient(
+      to right,
+      var(--grad-stop-11),
+      var(--grad-stop-12),
+      var(--grad-stop-13),
+      var(--grad-stop-14),
+      var(--grad-stop-15)
+    );
+  }
+  .dark .grad-tr-prim-ter {
+    background-image: linear-gradient(
+      to right,
+      var(--grad-stop-11),
+      var(--grad-stop-12),
+      var(--grad-stop-13),
+      var(--grad-stop-14),
+      var(--grad-stop-15)
+    );
+  }
+}
 /* ---------- TAILWIND THEME TOKENS ---------- */
 @theme {
   /* typography */
@@ -77,9 +185,9 @@
     'Roboto', 'Helvetica Neue', 'Liberation Sans', 'Noto Sans', 'DejaVu Sans',
     'Arial', sans-serif;
 
-  /* --font-mono:
-    'JetBrains Mono', 'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, Consolas,
-    'Liberation Mono', 'DejaVu Sans Mono', 'Courier New', monospace; */
+  --font-mono:
+    'IBM Plex Mono', 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo,
+    Consolas, 'Liberation Mono', 'DejaVu Sans Mono', 'Courier New', monospace;
 
   --default-font-family: var(--font-sans);
   --text-mini: 0.725rem;
