@@ -87,11 +87,11 @@
   --grad-stop-4: #dfab00;
   --grad-stop-5: #ff8d00;
 
-  --grad-stop-6: #ff8c00;
-  --grad-stop-7: #ff5657;
-  --grad-stop-8: #ff349c;
-  --grad-stop-9: #c951dc;
-  --grad-stop-10: #0072ff;
+  --grad-stop-6: #4493f3;
+  --grad-stop-7: #c59ee5;
+  --grad-stop-8: #e286b1;
+  --grad-stop-9: #f7776d;
+  --grad-stop-10: #ff981a;
 
   --grad-stop-11: #37e67a;
   --grad-stop-12: #00d6bd;
@@ -123,28 +123,8 @@
       var(--grad-stop-5)
     );
   }
-  .dark .grad-tr-prim-sec {
-    background-image: linear-gradient(
-      to right,
-      var(--grad-stop-1),
-      var(--grad-stop-2),
-      var(--grad-stop-3),
-      var(--grad-stop-4),
-      var(--grad-stop-5)
-    );
-  }
 
   .grad-tr-sec-ter {
-    background-image: linear-gradient(
-      to right,
-      var(--grad-stop-6),
-      var(--grad-stop-7),
-      var(--grad-stop-8),
-      var(--grad-stop-9),
-      var(--grad-stop-10)
-    );
-  }
-  .dark .grad-tr-sec-ter {
     background-image: linear-gradient(
       to right,
       var(--grad-stop-6),
@@ -165,29 +145,18 @@
       var(--grad-stop-15)
     );
   }
-  .dark .grad-tr-prim-ter {
-    background-image: linear-gradient(
-      to right,
-      var(--grad-stop-11),
-      var(--grad-stop-12),
-      var(--grad-stop-13),
-      var(--grad-stop-14),
-      var(--grad-stop-15)
-    );
-  }
 }
 /* ---------- TAILWIND THEME TOKENS ---------- */
 @theme {
   /* typography */
   --font-*: initial;
   --font-sans:
-    'Ubuntu', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI',
-    'Roboto', 'Helvetica Neue', 'Liberation Sans', 'Noto Sans', 'DejaVu Sans',
-    'Arial', sans-serif;
+    'Ubuntu', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Helvetica Neue',
+    'Liberation Sans', 'Noto Sans', 'DejaVu Sans', 'Arial', sans-serif;
 
   --font-mono:
-    'IBM Plex Mono', 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo,
-    Consolas, 'Liberation Mono', 'DejaVu Sans Mono', 'Courier New', monospace;
+    'IBM Plex Mono', 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Consolas,
+    'Liberation Mono', 'DejaVu Sans Mono', 'Courier New', monospace;
 
   --default-font-family: var(--font-sans);
   --text-mini: 0.725rem;

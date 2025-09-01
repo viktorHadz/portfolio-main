@@ -1,5 +1,5 @@
 <script setup>
-import { onMounted, useTemplateRef } from 'vue'
+import { onBeforeUnmount, onMounted, useTemplateRef } from 'vue'
 import gsap from 'gsap'
 import Draggable from 'gsap/Draggable'
 import InertiaPlugin from 'gsap/InertiaPlugin'
@@ -8,15 +8,26 @@ import TheDialog from '@/components/layout/TheDialog.vue'
 // SVG Imports
 import svgVue from '@/assets/svgs/brandIcons/Vue.js.svg'
 import TheButton from '@/components/layout/TheButton.vue'
+import { useMouse, useRafFn } from '@vueuse/core'
 gsap.registerPlugin(Draggable, InertiaPlugin)
+
+const { x: mouseX, y: mouseY } = useMouse()
 
 const box = useTemplateRef('box')
 const svgVueRef = useTemplateRef('svgVueRef')
-// const skillIcons = ref({
 
-// })
+let boxX, boxY
+let stop
 
 onMounted(() => {
+  gsap.set('.follow-box', { xPercent: -50, yPercent: -50 })
+  boxX = gsap.quickTo('.follow-box', 'x', { duration: 0.8, ease: 'power3' })
+  boxY = gsap.quickTo('.follow-box', 'y', { duration: 0.8, ease: 'power3' })
+  const { pause } = useRafFn(() => {
+    boxX(mouseX.value)
+    boxY(mouseY.value)
+  })
+  stop = pause
   gsap.fromTo(
     box.value,
     { x: -200, y: 0 },
@@ -33,11 +44,12 @@ onMounted(() => {
     bounds: document.getElementById('boundary'),
   })
 })
+onBeforeUnmount(() => {
+  stop?.()
+})
 </script>
 <template>
-  <div
-    class="border-brdr container flex place-content-center place-self-center border"
-  >
+  <div class="border-brdr container flex place-content-center place-self-center border">
     <div class="flex-flex-col">
       <div class="flex gap-2">
         <div
@@ -70,19 +82,13 @@ onMounted(() => {
       <div
         class="border-brdr from-acc-prim via-acc-sec to-acc-ter mt-2 flex h-22 w-70 gap-2 border bg-gradient-to-r"
       ></div>
-      <div
-        class="border-brdr grad-tr-prim-sec mt-2 flex h-22 w-70 gap-2 border text-black"
-      >
+      <div class="border-brdr grad-tr-prim-sec mt-2 flex h-22 w-70 gap-2 border text-black">
         prim to sec
       </div>
-      <div
-        class="border-brdr grad-tr-sec-ter mt-2 flex h-22 w-70 gap-2 border text-black"
-      >
+      <div class="border-brdr grad-tr-sec-ter mt-2 flex h-22 w-70 gap-2 border text-black">
         sec to ter
       </div>
-      <div
-        class="border-brdr grad-tr-prim-ter mt-2 flex h-22 w-70 gap-2 border text-black"
-      >
+      <div class="border-brdr grad-tr-prim-ter mt-2 flex h-22 w-70 gap-2 border text-black">
         prim to ter
       </div>
     </div>
@@ -119,10 +125,8 @@ onMounted(() => {
 
     <div id="boundary" class="h-[600px] max-w-full">
       <img :src="svgVue" alt="svg-vue" ref="svgVueRef" class="size-24" />
-      <div
-        ref="box"
-        class="size-24 bg-gradient-to-br from-lime-400 to-green-300 p-2"
-      ></div>
+      <div ref="box" class="size-24 bg-gradient-to-br from-lime-400 to-green-300 p-2"></div>
+      <div class="grad-tr-prim-sec follow-box size-24 p-2"></div>
     </div>
   </TheContainer>
 </template>

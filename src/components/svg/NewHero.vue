@@ -1,139 +1,153 @@
 <script setup>
-import { useTemplateRef, ref, onMounted } from 'vue'
-import { debouncedWatch, throttledWatch, useMouse, useWindowSize } from '@vueuse/core'
+import { useTemplateRef, ref, onMounted, computed, reactive, onBeforeUnmount } from 'vue'
+import { debouncedWatch, throttledWatch, useMouse, useWindowSize, useRafFn } from '@vueuse/core'
 import gsap from 'gsap'
-
+import ThePortal from './ThePortal.vue'
 const { width, height } = useWindowSize()
 const { x: mouseX, y: mouseY } = useMouse()
 
-// center of screen
-const centerX = ref(width.value / 2)
-const centerY = ref(height.value / 2)
+// current screen values
+const centerX = computed(() => width.value / 2)
+const centerY = computed(() => height.value / 2)
+// mouse from center
+const deltaX = computed(() => mouseX.value - centerX.value)
+const deltaY = computed(() => mouseY.value - centerY.value)
+// normalized range between -1 left and +1 right
+const mouseOffsetX = computed(() => {
+  const normalized = (mouseX.value - centerX.value) / (width.value / 2)
+  // clamped to not go past -1 to 1
+  return Math.max(-1, Math.min(1, normalized))
+})
+const mouseOffsetY = computed(() => {
+  const normalized = (mouseY.value - centerY.value) / (height.value / 2)
+  return Math.max(-1, Math.min(1, normalized))
+})
 
-// eye translate
-const eyeLeft = ref({ x: 0, y: 0 })
-const eyeRight = ref({ x: 0, y: 0 })
-const browLeft = ref({ x: 0, y: 0 })
-const browRight = ref({ x: 0, y: 0 })
-const head = ref({ rotateX: 0, rotateY: 0 })
+const headEl = useTemplateRef('head-el')
+const browLeftEl = useTemplateRef('brow-left-el')
+const browRightEl = useTemplateRef('brow-right-el')
 
-debouncedWatch(
-  [width, height],
-  () => {
-    centerX.value = width.value / 2
-    centerY.value = height.value / 2
+const eyeLeftEl = useTemplateRef('eye-left-el')
+const eyeRightEl = useTemplateRef('eye-right-el')
+
+const mouthEl = useTemplateRef('mouth-el')
+const portalEl = useTemplateRef('portal-el')
+
+// GSAP transform setters
+let setHeadRotX, setHeadRotY, setHeadRotZ
+let setEyeLx, setEyeLy, setEyeRx, setEyeRy
+let setBrowLy, setBrowRy
+let setMouthSkewX, setMouthScaleY, setMouthY
+
+let stop // raf stop handle
+
+const MAX = {
+  brow: {
+    offsetY: 10,
   },
-  { debounce: 200 },
-)
-
-throttledWatch(
-  [mouseX, mouseY],
-  ([x, y]) => {
-    const deltaX = x - centerX.value
-    const deltaY = y - centerY.value
-
-    const eyeMaxMoveX = 15
-    const eyeMaxMoveYTop = 5
-    const eyeMaxMoveYBottom = 15
-
-    const browMaxMoveYTop = 7
-    const browMaxMoveYBottom = 0
-
-    const headMaxRotateX = 5 // Up/down tilt
-    const headMaxRotateY = 5 // Left/right turn
-    // const headMaxMoveY = 5
-
-    let moveEyeY
-    let moveLeftBrowY
-    let moveRightBrowY
-
-    const rotateY = Math.max(-headMaxRotateY, Math.min(headMaxRotateY, deltaX * 0.03))
-    const rotateX = Math.max(-headMaxRotateX, Math.min(headMaxRotateX, -deltaY * 0.02))
-
-    if (deltaY > 0) {
-      // mouse above center Y? Looking up
-      moveEyeY = Math.max(-eyeMaxMoveYBottom, Math.min(eyeMaxMoveYBottom, deltaY * 0.02))
-    } else {
-      // mouse below center Y? looking down
-      moveEyeY = Math.max(-eyeMaxMoveYTop, Math.min(eyeMaxMoveYTop, deltaY * 0.02))
-    }
-    if (deltaX > 0) {
-      moveRightBrowY = Math.max(browMaxMoveYBottom, Math.min(browMaxMoveYTop, deltaX * 0.02))
-    } else if (deltaX < 0) {
-      moveLeftBrowY = Math.max(browMaxMoveYBottom, Math.min(browMaxMoveYTop, -deltaX * 0.02))
-    }
-
-    const moveX = Math.max(-eyeMaxMoveX, Math.min(eyeMaxMoveX, deltaX * 0.02))
-
-    head.value = {
-      rotateX,
-      rotateY,
-      translateX: deltaX * 0.01, // Store delta-based translation
-      translateY: deltaY * 0.01,
-    }
-    eyeLeft.value = { x: moveX, y: moveEyeY }
-    eyeRight.value = { x: moveX, y: moveEyeY }
-    browLeft.value = { x: 0, y: moveLeftBrowY }
-    browRight.value = { x: 0, y: moveRightBrowY }
+  eye: {
+    offsetX: 10,
+    yTop: 3,
+    yBottom: 10,
   },
-  { throttle: 1000 / 60 },
-)
-// const headRef = useTemplateRef('head-ref')
-// onMounted(() => {
+}
 
-// })
-// const elMoveBy = (element, moveBy) => {
-//   return  element.value = {x: moveBy, y: moveBy}
+onMounted(() => {
+  // assign GSAP setters
+  setBrowLy = gsap.quickTo(browLeftEl.value, 'y', { ease: 'power3' })
+  setBrowRy = gsap.quickTo(browRightEl.value, 'y', { ease: 'power3' })
 
-// }
+  setEyeLx = gsap.quickTo(eyeLeftEl.value, 'x', { ease: 'power3' })
+  setEyeLy = gsap.quickTo(eyeLeftEl.value, 'y', { ease: 'power3' })
+  setEyeRx = gsap.quickTo(eyeRightEl.value, 'x', { ease: 'power3' })
+  setEyeRy = gsap.quickTo(eyeRightEl.value, 'y', { ease: 'power3' })
+
+  setHeadRotZ = gsap.quickTo(headEl.value, 'rotation', { ease: 'power3' })
+  setHeadRotX = gsap.quickTo(headEl.value, 'rotationX', { ease: 'power3' })
+  setHeadRotY = gsap.quickTo(headEl.value, 'rotationY', { ease: 'power3' })
+
+  gsap.set(mouthEl.value, { transformOrigin: '50% 50%' })
+  setMouthSkewX = gsap.quickTo(mouthEl.value, 'skewX', { duration: 0.18, ease: 'power2' })
+  setMouthScaleY = gsap.quickTo(mouthEl.value, 'scaleY', { duration: 0.18, ease: 'power2' })
+  setMouthY = gsap.quickTo(mouthEl.value, 'y', { duration: 0.18, ease: 'power2' })
+
+  const { pause } = useRafFn(() => {
+    if (mouseOffsetX.value < 0) {
+      setBrowLy(mouseOffsetX.value * MAX.brow.offsetY)
+      setBrowRy(0)
+    } else if (mouseOffsetX.value > 0) {
+      setBrowRy(mouseOffsetX.value * -MAX.brow.offsetY)
+      setBrowLy(0)
+    }
+
+    const eyeX = mouseOffsetX.value * MAX.eye.offsetX
+    const eyeY =
+      mouseOffsetY.value < 0
+        ? mouseOffsetY.value * MAX.eye.yTop // looking up
+        : mouseOffsetY.value * MAX.eye.yBottom // looking down
+
+    setEyeLx(eyeX)
+    setEyeLy(eyeY)
+
+    setEyeRx(eyeX)
+    setEyeRy(eyeY)
+
+    setHeadRotZ(mouseOffsetX.value * 2)
+    const tiltX = mouseOffsetY.value * -3 // nod up/down
+    const tiltY = mouseOffsetX.value * -3 // tilt side
+    setHeadRotX(tiltX)
+    setHeadRotY(tiltY)
+
+    const smile = Math.max(0, -mouseOffsetY.value)
+
+    setMouthSkewX(mouseOffsetX.value * 4)
+    setMouthScaleY(1 + smile * 0.05)
+    setMouthY(smile * 1)
+  })
+
+  stop = pause
+})
+
+onBeforeUnmount(() => {
+  stop?.()
+})
 </script>
-
 <template>
   <div class="w-full">
-    <div class="w-full">
-      <div class="flex w-full gap-6">
-        <div>
-          <p>
-            {{ `Value of mouse X: ${mouseX}` }}
-          </p>
-          <p>
-            {{ `Value of mouse Y: ${mouseY}` }}
-          </p>
-        </div>
-        <div>
-          <p>
-            {{ `Window Width: ${width}` }}
-          </p>
-          <p>
-            {{ `Window Height: ${height}` }}
-          </p>
-        </div>
-        <div>
-          <p>
-            {{ `CenterX: ${centerX}` }}
-          </p>
-          <p>
-            {{ `CenterY: ${centerY}` }}
-          </p>
-        </div>
+    <div class="mb-4 grid grid-cols-3 gap-6 text-sm opacity-70">
+      <div>
+        <p>{{ `mouseX: ${mouseX} ` }}</p>
+        <p>{{ `mouseY: ${mouseY} ` }}</p>
+      </div>
+      <div>
+        <p>{{ `width: ${width} ` }}</p>
+        <p>{{ `height: ${height} ` }}</p>
+      </div>
+      <div>
+        <p>{{ `centerX: ${centerX} ` }}</p>
+        <p>{{ `centerY: ${centerY} ` }}</p>
+      </div>
+      <div>
+        <p>{{ `centerX: ${deltaX} ` }}</p>
+        <p>{{ `centerY: ${deltaY} ` }}</p>
       </div>
     </div>
 
     <div class="avatar-wrapper relative">
       <div class="avatar-hero relative">
-        <!-- face - nose - glasses - ears - jaw - soulpatch - beard - hair -->
-        <div class="head-wrapper absolute">
-          <svg
-            ref="head-ref"
-            class="h-full w-full"
-            viewBox="0 0 201 258"
-            :style="`transform: perspective(1000px) translate3d(${head.translateX}px, ${head.translateY}px, 0) rotateY(${head.rotateY}deg) rotateX(${head.rotateX}deg)`"
-          >
+        <!-- HEAD -->
+        <div
+          class="head-wrapper absolute"
+          style="perspective: 1000px; transform-style: preserve-3d"
+        >
+          <svg ref="head-el" class="h-full w-full will-change-transform" viewBox="0 0 201 258">
             <g id="ears-jaw-hair" fill="currentColor">
               <path
+                id="soul-patch"
                 d="M105.36 145.66c1.5-.26 4.45 1.16 2.53 2.31-1.61.8-10.25 1.33-10.25.64 0-.34-1.9-.82-3.26-.82-1.16 0-1.52.19-1.43-.84.1-.97.47-1.03 6.83-1.08 2.77-.02 5.28-.11 5.58-.2Z"
               />
               <path
+                id="hair-glasses-jaw-ears"
                 fill-rule="evenodd"
                 d="M101.12.95c1.4-.59 5.17.89 8.42 3.3.94.7 1.9 1.26 2.14 1.25l3.36-.17c4.45-.22 7.18.54 9.78 2.73.65.54 1.72 1.32 2.39 1.73a22.45 22.45 0 0 1 2.38 1.75c1.17 1 1.52 1.1 1.52.4 0-2.96 1.76-3 3.97-.1 2 2.64 2.57 4.09 2.57 6.56 0 3.2 2.06 2.99 3.21-.31.75-2.14 1.3-1.5 3.99 4.68.49 1.12.68 1.3 2.5 2.44 4.5 2.77 5.35 4.41 5.67 10.86.2 4.03.2 4.11.94 5.65 2.26 4.78 2.39 12.47.53 34.03a77.56 77.56 0 0 1-1.89 11.86c7.81-2.05 8.5 1.21 8.25 9.37-.5 15.88-11.73 20.03-12.58 20.03-.02.24-.92.7-1.27 1.66-2.4 17.92-9.83 32.8-12.36 36.37-19.73 27.82-48.42 25.55-66.36-1-10.56-20.9-6.04-13.03-12.37-29.06-1-5.71-2.13-7.65-3.36-7.97-4.36.44-10.67-2.3-12.4-17.12-.47-9.84 1.57-11.9 7.92-11.7 2.71-.14 1.22 3.38.27-11.85l-.27-3.44a303.3 303.3 0 0 1-.65-11.2c-.21-5.9-.56-13.52-.8-17.65-.2-3.58 1.31-7.67 3.67-9.9 1.49-1.4 1.95-2.16 2.17-3.52.76-4.86 2.8-7.92 6.55-9.87 1.6-.84 2.3-1.49 2.58-2.37.65-2.15 2.2-3.79 5.25-5.49 2.23-1.24 3.06-2.02 4.3-4 3-4.8 7.43-6.6 12.8-5.17 1.85.49 1.85.5 3.96-.32 5.48-2.1 9.08-1.9 12.63.75 1.2.89 1.26.83.74-.9-.49-1.62-.52-2.16-.15-2.31Zm.16 86.2c-4.25-.1-4.46.1-5.05 4.94-.5 4.1-1.62 9.77-3.24 16.3-1.87 7.55-1.83 7.31-1.46 8.62 1.68 5.84 12.37 6.49 17.15 1.05 2.7-3.07 4.77-1.65 3 2.05-3.69 7.63-18.98 7.58-22.8-.07-1.15-2.32-.2-10.19 1.6-13.15.43-.72.14-.6-.84.31-4.66 4.35-19.42 4.58-27.4.42-4.59-2.39-6.02-5.1-7.26-15.94-.2-1.72-1.98-1.35-2-1.34v4.59c0 4.97 0 9.98.9 14.5.68 3.35 1.35 5.28 2.03 8.63 2.8 13.88 8.93 28.2 12.75 33.85 4.97 7.36 9.82 12.74 15.03 15.34 4 2 6.96 5.13 17.74 5.39 7.85.19 11.3-1.57 18.05-5.39 2.52-1.42 3.68-1.83 10.45-8.87 6.76-7.04 14.95-30.09 15.9-41.37.62-2.35.49-2.4.71-3.24 2.2-8.25 2.58-12.29 2.58-16.8 0-9.76.87-10.1-.94-8.68-.98.78-.9.52-1.18 4.27-.78 10.75-4.96 16-13.85 17.39-13.77 2.15-23.75-2.05-25.3-10.65-.2-1.04-.5-2.41-.68-3.05-.18-.64-.47-2.42-.64-3.95-.55-4.8-.8-5.05-5.25-5.15Zm-55.4 2.42c-3.49.35-9.7 14.27 2.31 25.78.95 1.23 4.42 0 4.88 0 .45 0-.9-10.18-1.5-12.06-.17-.55-.53 1.66-1.33 2.22-.8.56-1.64 0-1.64-3.56 0-2.18.6 1.67 2.06 0 .95-1.08.6-2.4-2.47-4.3-1.77-1.32-3.04-2.32-2.31-4.28.32-.87 1.24 1.13 2.72 3.33.99.97 2.68.8 2.69.7 0-1.75-1.26-7.42-1.63-7.43-.38 0-1.26-.4-3.78-.4Zm103.24 24.7c12.35-.91 13.92-30.28 3.9-25.15 0 0-.6 1.03-.86 1.22 0 .3-.74 3.81-.74 6.64.56.07-.84.44 1.26-.88 3.82-3.61 3.88-4.84 4.24-3.36.38 1.56-1.33 3.79-3.32 5.5-.98.16-4.9 3.07-1.09 3.59 1.8-4.43.86 5.08-.66 2.55-1.27-3.33-1.9-1.95-2.12 1.45-1.8 8.14-1.7 8.52-.61 8.44ZM80.15 81.55c-20.27-.76-22.44-.1-22.14 6.65.67 14.78 3.38 18.05 15.46 18.63 12.27.58 15.91-1.55 17.3-10.13 2.31-14.32 2.06-14.68-10.62-15.15Zm57.23.23c-7.2-.5-20.43-.33-23.47.3-3.88.79-4.4 1.8-4.2 8.26.34 11.77 4.34 16.1 15.18 16.44 15.14.47 18.68-3.14 18.76-19.17.02-5.14-.28-5.42-6.27-5.83ZM78.67 38c-.34-1.22-.52-1.21-1.74.06-2.02 2.13-4.42 2.61-8.19 1.65-.36-.1-.48 0-.6.5-.4 1.74-4.09 6.36-5.34 6.7-.59.15-.7.3-.84 1.16a30.3 30.3 0 0 1-1.76 4.42 176.7 176.7 0 0 0-2.03 4.52c-.4.96-.5 1.06-.97.94-.57-.15-.54-.24-1.61 3.86a99.54 99.54 0 0 0-2.13 14.38c-.01 10.08-.57 2.63 5.62 2.04a326.5 326.5 0 0 1 23.32-.6c7.43.15 9.5.6 11.97 2.54 2.28 1.8 8.89 1.53 13.2-.54 3.68-1.77 2.97-1.69 15.92-1.8 10.49-.08 14.86.03 22.02.54 2.43.17 2.73-.08 2.76-2.66-.01-7.27-1.2-13.93-3.32-17.56a46.9 46.9 0 0 1-3.2-7.21c-.83-2.36-1.28-3.09-4.02-6.33a269.53 269.53 0 0 1-3.12-3.75c-.67-.84-.72-.86-2-.82a8.18 8.18 0 0 1-2.81-.45c-1.5-.5-1.5-.5-3.26.43-2.48 1.31-4.32 1.57-7.44 1.06-2.3-.38-2.3-.38-4.97.28-7.11 1.79-10.16 1.6-13.8-.85-1.97-1.33-1.67-1.34-3.23.02-6.07 5.24-16.66 3.78-18.43-2.53Zm4.81-1.8c-1.43-1.1-1.3-.34.16 1.03 2.2 2.05 5.8 2.3 8.01.56 1.7-1.34 1.25-1.65-.95-.68a6.65 6.65 0 0 1-7.22-.9Zm28.54-2.92c.92-1.37.73-1.4-.83-.1-2 1.66-5 3.02-7.23 3.27-1.52.18-1.9.44-.9.63 2.52.49 7.52-1.63 8.96-3.8Zm-40.96-.53c-1.59-.78-1.54-.77-1.54-.32 0 1.6 3.62 2.65 5.13 1.47.83-.63.82-.95-.02-.7-1.2.36-2.16.24-3.57-.45Zm62.84-2.67c0-.33-.2-.26-1.83.62-.83.46-1.85.97-2.26 1.14-.74.31-.74.32-.12.4 1.06.17 4.2-1.45 4.2-2.16Zm-59.57 1.04c.83-.85.72-1.1-.36-.89-.5.1-1.44.19-2.09.18-.65 0-1.37-.09-1.6-.2-.3-.13-.23.03.25.55.98 1.05 2.96 1.23 3.8.36Zm35.92-5.62c.16-1.93-.36-1.58-1.24.86a19.9 19.9 0 0 1-1.73 3.16c-1.44 2.19-1.48 2.48-.22 1.52a8.33 8.33 0 0 0 3.2-5.54ZM75.94 25c-1.33-.97-1.34-.97-1.2-.13.36 2.29 3.62 2.81 6.9 1.11 3.16-1.63 3.29-2.37.18-.99-1.6.72-2.4.95-3.33.96-1.1.02-1.34-.06-2.55-.95Zm19.33-5.82c-1.84-.73-3.6-.52-2.14.26a14 14 0 0 1 4.5 4.71c.75 1.56.85 1.1.22-.97-.75-2.44-1.47-3.56-2.58-4Zm30.04 1.17a3.6 3.6 0 0 0-3.57.35c-.83.56-.58.68.8.38 1.43-.3 2.13-.18 3.33.59.41.26.8.44.84.39.2-.2-.88-1.5-1.4-1.71Zm-10.06-5.82c-.41-.52-.41-.52-.3.08.13.7.7 1.33.7.77 0-.18-.18-.57-.4-.85Z"
                 clip-rule="evenodd"
@@ -151,46 +165,44 @@ throttledWatch(
             </g>
           </svg>
         </div>
-
-        <!-- brow-left -->
+        <!-- BROW LEFT -->
         <div class="brow-left-wrapper absolute">
-          <svg class="h-full w-full" viewBox="0 0 201 258">
+          <svg class="h-full w-full will-change-transform" viewBox="0 0 201 258" ref="brow-left-el">
             <path
-              :style="`transform: translate3d(0px, -${browLeft.y}px, 0)`"
               id="eyebrow-left"
               fill="currentColor"
               d="m74.03 65.39 2.15-.35c2.98-.53 8.73.33 11.2 1.7 4.7 2.59 6.3 8.66 2.17 8.3-3.6-.33-17.98-.4-21.8-.12-5.79.43-6.7.41-7.25-.16-2.14-2.22 6.68-8.33 13.54-9.37Z"
             />
           </svg>
         </div>
-
-        <!-- brow-right -->
+        <!-- BROW RIGHT (y translate) -->
         <div class="brow-right-wrapper absolute">
-          <svg class="h-full w-full" viewBox="0 0 201 258">
+          <svg
+            class="h-full w-full will-change-transform"
+            viewBox="0 0 201 258"
+            ref="brow-right-el"
+          >
             <path
               id="eyebrow-right"
               fill="currentColor"
-              :style="`transform: translate3d(0px, -${browRight.y}px, 0)`"
               d="M109.73 72.3c.4-3.48 2.64-5.3 8.07-6.58 9.22-2.17 23.39 3 23.39 8.53 0 1.13-1.37 1.37-4.94.86-.88-.13-7.05-.3-13.7-.38-13.91-.17-13.1-.02-12.82-2.43Z"
             />
           </svg>
         </div>
-
-        <!-- eye-left -->
+        <!-- EYE LEFT -->
         <div class="eye-left-wrapper absolute">
           <svg
-            class="relative h-full max-h-full w-full max-w-full will-change-transform"
-            :style="`transform: translate3d(${eyeLeft.x}px, ${eyeLeft.y}px, 0)`"
+            class="relative h-full w-full will-change-transform"
             viewBox="0 0 201 258"
             fill="currentColor"
           >
-            <g id="eye-left">
+            <g ref="eye-left-el" id="eye-left">
               <path
-                id="Ellipse 43"
+                id="pupil-left"
                 d="M79.604 87.695c0 2.031-1.594 3.678-3.56 3.678s-3.56-1.647-3.56-3.678c0-2.032 1.594-3.68 3.56-3.68s3.56 1.648 3.56 3.68Zm-4.984 0c0 .812.638 1.471 1.424 1.471.787 0 1.424-.659 1.424-1.471 0-.813-.637-1.472-1.424-1.472-.786 0-1.424.659-1.424 1.472Z"
               />
               <path
-                id="Line 13"
+                id="pupil-line-left"
                 fill="currentColor"
                 stroke="currentColor"
                 stroke-linecap="round"
@@ -201,21 +213,20 @@ throttledWatch(
             </g>
           </svg>
         </div>
-        <!-- eye-right -->
+        <!-- EYE RIGHT -->
         <div class="eye-right-wrapper absolute">
           <svg
             class="relative h-full w-full will-change-transform"
-            :style="` transform: translate3d(${eyeRight.x}px, ${eyeRight.y}px, 0) `"
             viewBox="0 0 201 258"
             fill="currentColor"
           >
-            <g id="eye-right">
+            <g ref="eye-right-el" id="eye-right">
               <path
-                id="Ellipse 44"
+                id="pupil-right"
                 d="M128.963 87.695c0 2.031-1.593 3.678-3.559 3.678-1.966 0-3.56-1.647-3.56-3.678 0-2.032 1.594-3.68 3.56-3.68s3.559 1.648 3.559 3.68Zm-4.983 0c0 .812.637 1.471 1.424 1.471.786 0 1.424-.659 1.424-1.471 0-.813-.638-1.472-1.424-1.472-.787 0-1.424.659-1.424 1.472Z"
               />
               <path
-                id="Line 14"
+                id="pupil-line-right"
                 stroke="currentColor"
                 stroke-linecap="round"
                 stroke-opacity="1"
@@ -225,34 +236,119 @@ throttledWatch(
             </g>
           </svg>
         </div>
-
-        <!-- mouth -->
+        <!-- MOUTH  -->
         <div class="mouth-wrapper absolute">
           <svg class="h-full w-full" viewBox="0 0 201 258" fill="currentColor">
-            <path
-              id="smile"
-              d="m118.4 133.86 3.03-1.23c5.06-2.21 5.38 1.07.36 3.73-12.2 6.48-35.7 5.88-43.08-1.1-2.17-2.05-.38-2.45 4.38-.97 10.26 3.19 21.28 3.48 31.15.83 2.32-.62 3.33-1.01 4.17-1.26Z"
-            />
+            <g ref="mouth-el">
+              <path
+                id="smile"
+                d="m118.4 133.86 3.03-1.23c5.06-2.21 5.38 1.07.36 3.73-12.2 6.48-35.7 5.88-43.08-1.1-2.17-2.05-.38-2.45 4.38-.97 10.26 3.19 21.28 3.48 31.15.83 2.32-.62 3.33-1.01 4.17-1.26Z"
+              />
+            </g>
           </svg>
         </div>
-
-        <!-- body - static -->
+        <!-- BODY  -->
         <div class="body-wrapper absolute">
-          <svg class="h-full w-full" fill="currentColor" viewBox="0 0 201 258">
+          <svg class="h-full w-full" viewBox="0 0 201 258" fill="currentColor">
             <path
               id="torso"
               fill-rule="evenodd"
-              d="M75.943 162.42c-.918 6.574-1.574 7.145-1.909 13.634 5.017 21.435 51.082 20.98 54.117 0-.66-7.46-1.012-13.634-1.012-13.634l1.012-1.388c.602 6.903.975 6.246 1.512 12.22 36.336 9.344 54.983 21.882 58.955 26.731 15.403 18.803 10.903 47.056 10.903 47.056-.322-.084-1.73 0-1.912 0 0 2.075-1.241 13.223-2.307 8.367-1.065-4.855-17.739-13.194-23.638-8.13-5.9 5.065-43.006 11.462-69.243 9.29-26.237-2.172-59.48-11.054-65.1-11.054-5.438 0-14.929-2.856-14.929-2.856-2.357-4.495-16.865 2.603-18.593 12.75-.172-1.398-1.581-15.469-.851-17.588-1.362-.62-2.936-1.329-2.808-1.946 3.034-14.577 6.27-25.997 13.508-35.889 3.387-4.628 14.35-9.884 24.49-14.694 12.621-5.988 25.625-10.308 34.15-12.037.773-6.231 2.146-7.808 2.518-12.221 0 0 1.204.91 1.137 1.389Z"
               clip-rule="evenodd"
+              d="M77.22 162.633c-.929 6.583-1.594 7.155-1.932 13.652 5.078 21.464 51.706 21.009 54.778 0a481.26 481.26 0 0 1-1.025-13.652l1.025-1.39c.61 6.912.986 6.254 1.53 12.236 36.781 9.357 53.461 21.913 57.482 26.768 10.638 20.627 11.406 34.041 11.406 34.041l-4.151 1.948c-4.221 7.045-14.164 14.856-24.692 14.856-18.362 4.407-41.156 5.907-67.969 5.907-26.813 0-43.273 0-85.151-8.637-7.433-1.533-15.926-10.004-15.187-12.126-1.378-.621-2.972-1.331-2.842-1.948 3.07-14.598 6.345-24.136 13.672-34.041 3.428-4.635 14.525-9.897 24.79-14.715 12.774-5.995 25.937-10.321 34.566-12.053.783-6.239 2.172-7.818 2.549-12.237 0 0 1.219.911 1.15 1.391Z"
             />
-            <!-- TO MORPH ANIMATE  -->
-            <!-- 
-            d="M76.3 162.58c-.92 6.58-1.58 7.15-1.91 13.64 5.01 21.43 51.08 20.98 54.11 0a485.87 485.87 0 0 1-1-13.64l1-1.38c.6 6.9.98 6.24 1.51 12.22 34.9 16.64 54.99 21.88 58.96 26.73 15.4 18.8 10.9 47.05 10.9 47.05-.32-.08-1.73 0-1.91 0 0 2.08-1.24 13.23-2.3 8.37-1.07-4.86-17.75-13.2-23.65-8.13-5.9 5.06-43 11.46-69.24 9.29-26.23-2.17-59.48-11.05-65.1-11.05-5.44 0-14.93-2.86-14.93-2.86s-16.86-1.75-20.55 4.62c-.17-1.4.38-7.34 1.1-9.46-1.35-.62-2.93-1.33-2.8-1.94 3.04-14.58 6.27-26 13.51-35.9 3.39-4.62 14.35-9.88 24.49-14.69 12.62-5.99 25.62-10.3 34.15-12.03.77-6.24 2.14-7.81 2.52-12.23 0 0 1.2.91 1.13 1.4Z"
-
-             clip-rule="evenodd" -->
           </svg>
+        </div>
+        <!-- PORTAL -->
+        <div class="pointer-events-none absolute inset-0 -z-10 flex items-center justify-center">
+          <ThePortal></ThePortal>
         </div>
       </div>
     </div>
   </div>
 </template>
+
+<!-- 
+
+// Min max values util
+const minMaxClamp = (min, max, valDelta) => Math.max(max, Math.max(min, valDelta))
+const MAX = {
+  eye: { x: 15, yTop: 5, yBottom: 15 },
+  brow: { top: 7, bottom: 0 },
+  head: { rotX: 5, rotY: 5 },
+}
+
+// for template refs set via callback refs (avoids using reactive refs for DOM nodes only)
+// :ref="el=> headEl="el""
+const headEl = useTemplateRef('head-el')
+const eyeLeftEl = useTemplateRef('eye-left-el')
+const eyeRightEl = useTemplateRef('eye-right-el')
+const browLeftEl = useTemplateRef('brow-left-el')
+const browRightEl = useTemplateRef('brow-right-el')
+const boxRef = useTemplateRef('follow-box')
+
+// declare GSAP transform setters
+let setHeadRotX, setHeadRotY, setHeadX, setHeadY
+let setEyeLx, setEyeLy, setEyeRx, setEyeRy
+let setBrowLy, setBrowRy
+
+let stop // raf stop handle
+
+onMounted(() => {
+  let setBoxX = gsap.quickTo(boxRef.value, 'x', { duration: 0.6, ease: 'power3' }),
+    setBoxY = gsap.quickTo(boxRef.value, 'y', { duration: 0.6, ease: 'power3' })
+
+  // assign GSAP setters
+  setHeadRotX = gsap.quickSetter(headEl.value, 'rotationX') // degrees
+  setHeadRotY = gsap.quickSetter(headEl.value, 'rotationY')
+  setHeadX = gsap.quickSetter(headEl.value, 'x', 'px') // translate
+  setHeadY = gsap.quickSetter(headEl.value, 'y', 'px')
+
+  setEyeLx = gsap.quickSetter(eyeLeftEl.value, 'x', 'px')
+  setEyeLy = gsap.quickSetter(eyeLeftEl.value, 'y', 'px')
+  setEyeRx = gsap.quickSetter(eyeRightEl.value, 'x', 'px')
+  setEyeRy = gsap.quickSetter(eyeRightEl.value, 'y', 'px')
+
+  setBrowLy = gsap.quickSetter(browLeftEl.value, 'y', 'px')
+  setBrowRy = gsap.quickSetter(browRightEl.value, 'y', 'px')
+
+  const { pause } = useRafFn(() => {
+    const dx = mouseX.value - centerX.value
+    const dy = mouseY.value - centerY.value
+
+    // box
+    setBoxX(mouseX.value)
+    setBoxY(mouseY.value)
+
+    // head
+    setHeadRotY(minMaxClamp(dx * 0.03, -MAX.head.rotY, MAX.head.rotY))
+    setHeadRotX(minMaxClamp(-dy * 0.02, -MAX.head.rotX, MAX.head.rotX))
+    setHeadX(dx * 0.01)
+    setHeadY(dy * 0.01)
+
+    // eyes
+    const eyeYMax = dy > 0 ? MAX.eye.yBottom : MAX.eye.yTop
+    const eyeY = minMaxClamp(-eyeYMax, eyeYMax, dy * 0.02)
+    const eyeX = minMaxClamp(-MAX.eye.x, MAX.eye.x, dx * 0.02)
+    setEyeLx(eyeX)
+    setEyeLy(eyeY)
+    setEyeRx(eyeX)
+    setEyeRy(eyeY)
+    // brows
+    if (dx > 0) {
+      setBrowLy(0)
+      setBrowRy(minMaxClamp(dx * 0.02, MAX.brow.bottom, MAX.brow.top))
+    } else if (dx < 0) {
+      setBrowRy(0)
+      setBrowLy(minMaxClamp(-dx * 0.02, MAX.brow.bottom, MAX.brow.top))
+    } else {
+      setBrowLy(0)
+      setBrowRy(0)
+    }
+  })
+  stop = pause
+})
+
+onBeforeUnmount(() => {
+  stop?.()
+})
+-->

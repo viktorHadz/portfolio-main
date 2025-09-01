@@ -43,13 +43,9 @@ const wrapperClass = computed(() => [
           'transition-all duration-400 ease-out motion-reduce:duration-0',
         ]"
       >
-        <div
-          class="from-acc-prim via-green to-acc-ter h-2 w-[30%] bg-gradient-to-r"
-        ></div>
+        <div class="from-acc-prim via-green to-acc-ter h-2 w-[30%] bg-gradient-to-r"></div>
         <div class="bg-gray h-2 w-[10%]"></div>
-        <div
-          class="from-purple via-blue to-acc-prim h-2 w-[50%] bg-gradient-to-r"
-        ></div>
+        <div class="from-purple via-blue to-acc-prim h-2 w-[50%] bg-gradient-to-r"></div>
       </div>
       <div class="flex gap-2">
         <div class="from-blue to-acc-prim h-2 w-[80%] bg-gradient-to-r"></div>
@@ -58,9 +54,7 @@ const wrapperClass = computed(() => [
       <div class="flex gap-2">
         <div class="bg-gray h-2 w-[10%]"></div>
         <div class="from-orange to-yellow h-2 w-[46%] bg-gradient-to-r"></div>
-        <div
-          class="from-acc-ter to-acc-prim h-2 w-[36%] bg-gradient-to-r"
-        ></div>
+        <div class="from-acc-ter to-acc-prim h-2 w-[36%] bg-gradient-to-r"></div>
       </div>
     </div>
   </div>

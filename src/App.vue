@@ -17,9 +17,7 @@ const toggleMode = () => {
 </script>
 
 <template>
-  <nav
-    class="border-brdr bg-bg-prim fixed top-0 z-50 w-full border-b backdrop-blur-md"
-  >
+  <nav class="border-brdr bg-bg-prim fixed top-0 z-50 w-full border-b backdrop-blur-md">
     <div class="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
       <!-- Logo -->
       <RouterLink

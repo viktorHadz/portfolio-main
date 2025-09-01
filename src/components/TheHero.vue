@@ -26,15 +26,12 @@ const skillsData = [
 ]
 
 onMounted(() => {
-  gsap.set(
-    [heroImage.value, nameTitle.value, description.value, buttonGroup.value],
-    {
-      opacity: 1,
-      y: 0,
-      scale: 1,
-      rotationX: 0,
-    },
-  )
+  gsap.set([heroImage.value, nameTitle.value, description.value, buttonGroup.value], {
+    opacity: 1,
+    y: 0,
+    scale: 1,
+    rotationX: 0,
+  })
 
   // Create floating particles effect
   const createParticles = () => {
@@ -173,18 +170,14 @@ onMounted(() => {
           ref="nameTitle"
           class="text-fg-prim text-4xl font-light tracking-tight opacity-0 sm:text-5xl lg:text-6xl"
         >
-          <div
-            class="grad-tr-prim-sec inline-block bg-clip-text pb-1 text-transparent"
-          >
+          <div class="grad-tr-prim-sec inline-block bg-clip-text pb-1 text-transparent">
             Hi, my name is Viktor
           </div>
         </h1>
       </div>
 
       <div ref="description" class="translate-y-4 transform opacity-0">
-        <div
-          class="mx-auto max-w-lg text-lg leading-relaxed font-light sm:text-xl lg:text-2xl"
-        >
+        <div class="mx-auto max-w-lg text-lg leading-relaxed font-light sm:text-xl lg:text-2xl">
           ...and I love programming and building software
         </div>
       </div>
