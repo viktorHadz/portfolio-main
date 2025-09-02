@@ -1,37 +1,34 @@
 <script setup>
+import TheButton from '@/components/layout/TheButton.vue'
 import NewHero from '@/components/svg/NewHero.vue'
 </script>
 <template>
-  <div class="space-y-12">
-    <div class="container flex max-h-[90vh] place-self-center border">
-      <!-- text -->
-      <div>
-        <div class="">
-          <div
-            class="grad-tr-prim-sec letter inline-block bg-clip-text font-mono text-6xl leading-tight font-bold tracking-tighter text-transparent"
-          >
-            Hi I'm, Vik!
-          </div>
-        </div>
-        <div class="text-lg font-light">
-          and I love building
+  <div class="container flex max-h-[90vh] place-content-center gap-6 place-self-center">
+    <!-- text -->
+    <div class="flex flex-col justify-center gap-4">
+      <div class="text-8xl font-bold tracking-tight">Hi I'm, Vik!</div>
+      <div class="font-ligh p-1 text-lg leading-tight">
+        and I love building
 
-          <div class="grad-tr-prim-sec inline-block bg-clip-text font-bold text-transparent">
-            software
-          </div>
-          that
-          <div class="grad-tr-prim-sec clamp inline-block bg-clip-text font-bold text-transparent">
-            solves
-          </div>
-          <span> real world </span>
-          <div class="grad-tr-prim-sec clamp inline-block bg-clip-text font-bold text-transparent">
-            problems
-          </div>
+        <div class="grad-tr-prim-sec inline-block bg-clip-text font-bold text-transparent">
+          software
+        </div>
+        that
+        <div class="grad-tr-prim-sec clamp inline-block bg-clip-text font-bold text-transparent">
+          solves
+        </div>
+        <span> real world </span>
+        <div class="grad-tr-prim-sec clamp inline-block bg-clip-text font-bold text-transparent">
+          problems
         </div>
       </div>
-      <div>
-        <NewHero class="text-fg-sec fill-fg-sec size-96"></NewHero>
+      <div class="around mt-6 flex gap-6">
+        <TheButton variant="primary">View My Work</TheButton>
+        <TheButton variant="secondary">Get in touch</TheButton>
       </div>
+    </div>
+    <div class="w-96 max-w-full">
+      <NewHero class="text-fg-prim relative size-96"></NewHero>
     </div>
   </div>
 </template>

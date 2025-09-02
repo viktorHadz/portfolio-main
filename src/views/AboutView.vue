@@ -1,5 +1,5 @@
 <script setup>
-import { onBeforeUnmount, onMounted, useTemplateRef } from 'vue'
+import { computed, onBeforeUnmount, onMounted, useTemplateRef } from 'vue'
 import gsap from 'gsap'
 import Draggable from 'gsap/Draggable'
 import InertiaPlugin from 'gsap/InertiaPlugin'
@@ -8,10 +8,17 @@ import TheDialog from '@/components/layout/TheDialog.vue'
 // SVG Imports
 import svgVue from '@/assets/svgs/brandIcons/Vue.js.svg'
 import TheButton from '@/components/layout/TheButton.vue'
-import { useMouse, useRafFn } from '@vueuse/core'
+import { useMouse, useRafFn, useWindowSize } from '@vueuse/core'
 gsap.registerPlugin(Draggable, InertiaPlugin)
 
 const { x: mouseX, y: mouseY } = useMouse()
+const { width, height } = useWindowSize()
+
+const centerX = computed(() => width.value / 2)
+const centerY = computed(() => height.value / 2)
+
+const deltaX = computed(() => mouseX.value - centerX.value)
+const deltaY = computed(() => mouseY.value - centerY.value)
 
 const box = useTemplateRef('box')
 const svgVueRef = useTemplateRef('svgVueRef')
@@ -20,12 +27,11 @@ let boxX, boxY
 let stop
 
 onMounted(() => {
-  gsap.set('.follow-box', { xPercent: -50, yPercent: -50 })
   boxX = gsap.quickTo('.follow-box', 'x', { duration: 0.8, ease: 'power3' })
   boxY = gsap.quickTo('.follow-box', 'y', { duration: 0.8, ease: 'power3' })
   const { pause } = useRafFn(() => {
-    boxX(mouseX.value)
-    boxY(mouseY.value)
+    boxX(deltaX)
+    boxY(deltaY)
   })
   stop = pause
   gsap.fromTo(

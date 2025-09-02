@@ -8,6 +8,9 @@ defineProps({
     type: Boolean,
     default: false,
   },
+  bold: {
+    type: String,
+  },
 })
 </script>
 
@@ -16,7 +19,7 @@ defineProps({
   <button
     v-if="variant === 'primary'"
     :disabled="disabled"
-    class="group bg-acc-prim hover:bg-acc-sec border-brdr relative overflow-hidden rounded border px-8 py-3 text-sm font-medium tracking-wide text-white uppercase transition-all duration-200 ease-out hover:shadow-lg disabled:cursor-not-allowed disabled:opacity-50 dark:text-black"
+    class="group bg-acc-prim hover:bg-acc-sec border-brdr relative overflow-hidden rounded border px-8 py-3 text-sm font-bold tracking-wide text-white uppercase transition-all duration-200 ease-out hover:shadow-lg disabled:cursor-not-allowed disabled:opacity-50 dark:text-black"
   >
     <!-- hover effect -->
     <div
@@ -32,7 +35,7 @@ defineProps({
   <button
     v-else-if="variant === 'secondary'"
     :disabled="disabled"
-    class="group border-fg-sec hover:border-acc-prim text-fg-sec hover:text-acc-prim relative rounded border bg-transparent px-8 py-3 text-sm font-medium tracking-wide uppercase transition-all duration-200 ease-out hover:shadow-md disabled:cursor-not-allowed disabled:opacity-50"
+    class="group border-fg-sec hover:border-acc-prim text-fg-sec hover:text-acc-prim relative rounded border bg-transparent px-8 py-3 text-sm font-bold tracking-wide uppercase transition-all duration-200 ease-out hover:shadow-md disabled:cursor-not-allowed disabled:opacity-50"
   >
     <span class="relative z-10">
       <slot></slot>

@@ -13,8 +13,8 @@
   --bg-secondary: hsl(0, 0%, 96%);
   --bg-tertiary: hsl(210, 15%, 92%);
 
-  --fg-primary: hsl(209, 24%, 24%);
-  --fg-secondary: hsl(215, 8%, 50%);
+  --fg-primary: hsl(209, 24%, 20%);
+  --fg-secondary: hsl(215, 20%, 40%);
   --fg-tertiary: hsl(211, 42%, 60%);
 
   --acc-primary: #1fa863;
@@ -84,8 +84,8 @@
   --grad-stop-1: #37e67a;
   --grad-stop-2: #86d641;
   --grad-stop-3: #b7c300;
-  --grad-stop-4: #dfab00;
-  --grad-stop-5: #ff8d00;
+  --grad-stop-4: #dfdb00;
+  --grad-stop-5: #dfbe00;
 
   --grad-stop-6: #4493f3;
   --grad-stop-7: #c59ee5;

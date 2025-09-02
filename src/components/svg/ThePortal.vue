@@ -1,88 +1,25 @@
+<script setup></script>
 <template>
-  <div class="bg-bg-prim flex min-h-screen items-center justify-center p-8">
-    <div class="blob grad-tr-prim-sec relative"></div>
+  <div class="absolute rotate-x-70">
+    <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" class="">
+      <defs></defs>
+
+      <path id="blob" class="fill-acc-prim" transform="translate(100 100)" filter="url(#glow)">
+        <animate
+          attributeName="d"
+          dur="5s"
+          repeatCount="indefinite"
+          values="M70.6,-22.2C80,6,68.2,41.8,45.2,57.3C22.2,72.9,-12,68.3,-36.7,50.4C-61.4,32.5,-76.5,1.3,-68.8,-24.5C-61.1,-50.4,-30.6,-70.9,0,-70.9C30.6,-70.9,61.3,-50.4,70.6,-22.2Z;
+
+           M60.9,-18.7C70.7,10.3,64.7,45.5,44.3,60.1C23.9,74.7,-10.8,68.7,-36.1,50.2C-61.3,31.7,-77.1,0.8,-69.5,-25.2C-61.9,-51.3,-31,-72.4,-2.7,-71.5C25.6,-70.6,51.1,-47.8,60.9,-18.7Z;
+           
+           M72.3,-22.3C81.7,5.2,68.9,41.2,44.9,57.6C21,74,-14.1,70.8,-38.7,53C-63.3,35.2,-77.5,2.7,-69.3,-23.3C-61.1,-49.3,-30.5,-68.9,0.5,-69C31.5,-69.2,63,-49.9,72.3,-22.3Z;
+
+           M64.3,-20.1C72.3,3.5,60,34.5,38.4,49.4C16.9,64.2,-13.9,62.9,-34.9,47.7C-55.9,32.5,-67.1,3.5,-59.7,-19.4C-52.2,-42.4,-26.1,-59.3,1,-59.6C28.2,-60,56.4,-43.7,64.3,-20.1Z;
+           
+           M70.6,-22.2C80,6,68.2,41.8,45.2,57.3C22.2,72.9,-12,68.3,-36.7,50.4C-61.4,32.5,-76.5,1.3,-68.8,-24.5C-61.1,-50.4,-30.6,-70.9,0,-70.9C30.6,-70.9,61.3,-50.4,70.6,-22.2Z;"
+        />
+      </path>
+    </svg>
   </div>
 </template>
-
-<style scoped>
-.blob {
-  --size: ;
-  --glow-spread: 22px;
-  --inner-bloom: 18px;
-
-  width: 13rem;
-  height: 13rem;
-  border-radius: 50%;
-
-  will-change: border-radius, transform, filter;
-  transform: translateZ(0);
-
-  /* morph and wobble */
-  animation:
-    blob-morph 10s ease-in-out infinite alternate,
-    blob-wobble 9s ease-in-out infinite;
-
-  filter: drop-shadow(0 0 calc(var(--glow-spread) * 0.6) var(--color-acc-prim));
-
-  /* Crisp edges and nicer color bleed on high-DPI */
-  backface-visibility: hidden;
-}
-
-@keyframes blob-morph {
-  0% {
-    border-radius: 51% 49% 48% 52% / 62% 44% 56% 38%;
-  }
-  12.5% {
-    border-radius: 46% 54% 66% 34% / 53% 67% 33% 47%;
-  }
-  25% {
-    border-radius: 36% 64% 35% 65% / 43% 72% 28% 57%;
-  }
-  37.5% {
-    border-radius: 76% 24% 47% 53% / 68% 29% 71% 32%;
-  }
-  50% {
-    border-radius: 47% 53% 29% 71% / 73% 36% 64% 27%;
-  }
-  62.5% {
-    border-radius: 88% 12% 49% 51% / 42% 78% 22% 58%;
-  }
-  75% {
-    border-radius: 40% 60% 74% 26% / 64% 35% 65% 36%;
-  }
-  87.5% {
-    border-radius: 35% 65% 27% 73% / 49% 81% 19% 51%;
-  }
-  100% {
-    border-radius: 51% 49% 48% 52% / 62% 44% 56% 38%;
-  }
-}
-
-@keyframes blob-wobble {
-  0% {
-    transform: translateZ(0) rotate(0deg) scale(1);
-  }
-  25% {
-    transform: translateZ(0) rotate(2deg) scale(1.015);
-  }
-  50% {
-    transform: translateZ(0) rotate(0deg) scale(1);
-  }
-  75% {
-    transform: translateZ(0) rotate(-2deg) scale(0.985);
-  }
-  100% {
-    transform: translateZ(0) rotate(0deg) scale(1);
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .blob {
-    animation: blob-morph 16s ease-in-out infinite paused;
-  }
-  .blob::before,
-  .blob::after {
-    filter: none;
-  }
-}
-</style>
