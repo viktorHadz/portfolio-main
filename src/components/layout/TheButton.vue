@@ -19,7 +19,7 @@ defineProps({
   <button
     v-if="variant === 'primary'"
     :disabled="disabled"
-    class="group bg-acc-prim hover:bg-acc-sec border-brdr relative overflow-hidden rounded border px-8 py-3 text-sm font-bold tracking-wide text-white uppercase transition-all duration-200 ease-out hover:shadow-lg disabled:cursor-not-allowed disabled:opacity-50 dark:text-black"
+    class="group bg-acc-prim hover:bg-acc-sec border-brdr relative overflow-hidden rounded-xl border-2 px-4 py-3 text-sm font-bold tracking-wide text-white uppercase shadow-[0_4px_0_rgba(0,0,0,0.2)] transition-all duration-200 ease-out hover:-translate-y-0.5 hover:shadow-[0_6px_0_rgba(0,0,0,0.2)] active:translate-y-0.5 active:shadow-[0_2px_0_rgba(0,0,0,0.2)] disabled:cursor-not-allowed disabled:opacity-50"
   >
     <!-- hover effect -->
     <div
@@ -35,20 +35,22 @@ defineProps({
   <button
     v-else-if="variant === 'secondary'"
     :disabled="disabled"
-    class="group border-fg-sec hover:border-acc-prim text-fg-sec hover:text-acc-prim relative rounded border bg-transparent px-8 py-3 text-sm font-bold tracking-wide uppercase transition-all duration-200 ease-out hover:shadow-md disabled:cursor-not-allowed disabled:opacity-50"
+    class="group border-brdr hover:border-acc-ter text-fg-prim hover:text-acc-ter relative rounded-xl border-2 bg-transparent px-4 py-3 text-sm font-bold tracking-wide uppercase shadow-[0_4px_0_rgba(0,0,0,0.2)] transition-all duration-200 ease-out hover:-translate-y-0.5 hover:shadow-[0_6px_0_rgba(0,0,0,0.2)] active:translate-y-0.5 active:shadow-[0_2px_0_rgba(0,0,0,0.2)] disabled:cursor-not-allowed disabled:opacity-50"
   >
     <span class="relative z-10">
       <slot></slot>
     </span>
   </button>
-  <!-- tertiay -->
+
+  <!-- tertiary -->
   <button
     v-else-if="variant === 'tertiary'"
     :disabled="disabled"
-    class="text-fg-prim hover:text-acc-prim cursor-pointer p-2 capitalize drop-shadow-lg disabled:cursor-not-allowed disabled:opacity-50"
+    class="text-fg-prim hover:text-acc-prim cursor-pointer rounded-lg p-2 capitalize drop-shadow-lg transition-all duration-150 hover:scale-105 active:scale-95 disabled:cursor-not-allowed disabled:opacity-50"
   >
     <slot></slot>
   </button>
+
   <button v-else :disabled="disabled">
     <slot></slot>
   </button>

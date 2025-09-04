@@ -13,13 +13,13 @@
   --bg-secondary: hsl(0, 0%, 96%);
   --bg-tertiary: hsl(210, 15%, 92%);
 
-  --fg-primary: hsl(209, 24%, 20%);
-  --fg-secondary: hsl(215, 20%, 40%);
-  --fg-tertiary: hsl(211, 42%, 60%);
+  --fg-primary: hsl(215, 24%, 10%);
+  --fg-secondary: hsl(215, 24%, 20%);
+  --fg-tertiary: hsl(215, 24%, 30%);
 
-  --acc-primary: #1fa863;
-  --acc-secondary: #349db2;
-  --acc-tertiary: #ff6a4d;
+  --acc-primary: #58bb11;
+  --acc-secondary: #0073be;
+  --acc-tertiary: #f04d1c;
 
   --border-color: hsl(0, 0%, 67%);
 
@@ -33,11 +33,11 @@
   --gray: hsl(210, 10%, 60%);
 
   /* gradients */
-  --grad-stop-1: #1fa863;
-  --grad-stop-2: #00a881;
-  --grad-stop-3: #00a398;
-  --grad-stop-4: #00a0a8;
-  --grad-stop-5: #349db2;
+  --grad-stop-1: #58bb11;
+  --grad-stop-2: #00b24a;
+  --grad-stop-3: #009697;
+  --grad-stop-4: #0085b1;
+  --grad-stop-5: #0073be;
 
   --grad-stop-6: #349db2;
   --grad-stop-7: #4d98d9;
@@ -65,7 +65,7 @@
   --fg-secondary: hsl(154, 5%, 70%);
   --fg-tertiary: hsl(152, 5%, 50%);
 
-  --acc-primary: #37e67a;
+  --acc-primary: #58ba11;
   --acc-secondary: #ff8c00;
   --acc-tertiary: #0072ff;
 
@@ -79,13 +79,12 @@
   --purple: hsl(270, 40%, 65%);
   --offwhite: hsl(210, 15%, 95%);
   --gray: hsl(210, 8%, 65%);
-
   /* Gradients */
-  --grad-stop-1: #37e67a;
-  --grad-stop-2: #86d641;
-  --grad-stop-3: #b7c300;
-  --grad-stop-4: #dfdb00;
-  --grad-stop-5: #dfbe00;
+  --grad-stop-1: var(--acc-primary);
+  --grad-stop-2: #79ba11;
+  --grad-stop-3: #bab711;
+  --grad-stop-4: #d4b400;
+  --grad-stop-5: var(--acc-secondary);
 
   --grad-stop-6: #4493f3;
   --grad-stop-7: #c59ee5;
