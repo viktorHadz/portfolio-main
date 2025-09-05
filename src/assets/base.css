@@ -21,7 +21,8 @@
   --acc-secondary: #0073be;
   --acc-tertiary: #f04d1c;
 
-  --border-color: hsl(0, 0%, 67%);
+  --border-color: hsl(0, 0%, 70%);
+  --border-color-secondary: hsl(0, 0%, 40%);
 
   /* primitives */
   --red: hsl(358, 70%, 60%);
@@ -70,6 +71,7 @@
   --acc-tertiary: #0072ff;
 
   --border-color: hsl(0, 0%, 25%);
+  --border-color-secondary: hsl(0, 0%, 40%);
 
   /* primitives */
   --red: hsl(358, 65%, 65%);
@@ -101,11 +103,11 @@
 
 /* ---------- TAILWIND CONFIG ---------- */
 @layer base {
-  /* * {
-    transition-property: color, background-color, border-color, box-shadow;
-    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-    transition-duration: 150ms;
-  } */
+  * {
+    transition-property: background-color, border-color, box-shadow;
+    /* transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1); */
+    transition-duration: 500ms;
+  }
   button {
     cursor: pointer;
   }
@@ -171,6 +173,7 @@
   --color-acc-sec: var(--acc-secondary);
   --color-acc-ter: var(--acc-tertiary);
   --color-brdr: var(--border-color);
+  --color-brdr-sec: var(--border-color-secondary);
 
   /* primitives */
   --color-red: var(--red);

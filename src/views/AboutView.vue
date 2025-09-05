@@ -98,10 +98,14 @@ onBeforeUnmount(() => {
         prim to ter
       </div>
     </div>
-    <div class="border-brdr container space-x-2 border">
+    <div class="border-brdr container space-x-2 border p-12">
       <TheButton variant="primary">Button</TheButton>
       <TheButton variant="secondary">Button</TheButton>
       <TheButton variant="tertiary">Button</TheButton>
+      <div class="flex gap-6 p-4">
+        <TheButton variant="neu">My Work</TheButton>
+        <TheButton variant="neu">Contact</TheButton>
+      </div>
     </div>
   </div>
 

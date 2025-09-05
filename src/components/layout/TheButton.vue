@@ -2,7 +2,7 @@
 defineProps({
   variant: {
     type: String,
-    validator: (value) => ['primary', 'secondary', 'tertiary'].includes(value),
+    validator: (value) => ['primary', 'secondary', 'tertiary', 'neu', 'neu-sec'].includes(value),
   },
   disabled: {
     type: Boolean,
@@ -47,6 +47,20 @@ defineProps({
     v-else-if="variant === 'tertiary'"
     :disabled="disabled"
     class="text-fg-prim hover:text-acc-prim cursor-pointer rounded-lg p-2 capitalize drop-shadow-lg transition-all duration-150 hover:scale-105 active:scale-95 disabled:cursor-not-allowed disabled:opacity-50"
+  >
+    <slot></slot>
+  </button>
+  <button
+    v-else-if="variant === 'neu'"
+    :disabled="disabled"
+    class="bg-bg-sec border-brdr-sec shadow-fg-ter/50 text-fg-prim rounded-full border px-6 py-3 font-bold shadow-sm transition-shadow hover:shadow-md active:scale-90 dark:hover:text-white"
+  >
+    <slot></slot>
+  </button>
+  <button
+    v-else-if="variant === 'neu-sec'"
+    :disabled="disabled"
+    class="bg-bg-sec border-brdr-sec shadow-fg-ter/50 text-fg-prim rounded-full border px-6 py-3 font-bold shadow-sm transition-shadow hover:shadow-md active:scale-90 dark:hover:text-white"
   >
     <slot></slot>
   </button>
