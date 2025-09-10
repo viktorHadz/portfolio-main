@@ -3,12 +3,11 @@ import TheButton from '@/components/layout/TheButton.vue'
 import PostMench from '@/components/svg/PostMench.vue'
 </script>
 <template>
-  <div class="flex h-[100vh] justify-center">
+  <div class="mt-20 flex justify-center">
     <div
       class="container flex flex-col place-content-center place-self-center self-center sm:flex-row"
     >
-      <!-- text -->
-      <div class="flex flex-col justify-start text-center sm:text-start">
+      <div class="mb-24 flex flex-col justify-center text-center sm:text-start">
         <div
           class="text-fg-prim overflow-visible text-5xl font-bold tracking-tighter text-nowrap sm:text-6xl 2xl:text-8xl"
         >

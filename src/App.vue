@@ -2,6 +2,7 @@
 import { RouterLink, RouterView } from 'vue-router'
 import { useColorMode } from '@vueuse/core'
 import { SunIcon, MoonIcon } from '@heroicons/vue/24/solid'
+
 const mode = useColorMode({
   attribute: 'data-theme',
   modes: {
@@ -17,8 +18,8 @@ const toggleMode = () => {
 </script>
 
 <template>
-  <div class="selection:bg-acc-prim select-text: selection:text-fg-sec dark:selection:text-white">
-    <nav class="border-brdr bg-bg-prim fixed top-0 z-50 w-full border-b">
+  <div class="selection:bg-acc-prim selection:text-fg-sec dark:selection:text-white">
+    <nav class="border-brdr bg-bg-prim sticky top-0 z-50 w-full border-b">
       <div class="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
         <!-- Logo -->
         <RouterLink
@@ -37,6 +38,7 @@ const toggleMode = () => {
           >
             Home
           </RouterLink>
+
           <RouterLink
             to="/about"
             class="hover:text-acc-prim text-fg-prim font-medium transition-colors"
@@ -44,6 +46,7 @@ const toggleMode = () => {
           >
             About
           </RouterLink>
+
           <RouterLink
             to="/new"
             class="hover:text-acc-prim text-fg-prim font-medium transition-colors"
@@ -69,10 +72,7 @@ const toggleMode = () => {
       </div>
     </nav>
 
-    <!-- Add top padding to account for fixed nav -->
-    <div class="pt-20">
-      <RouterView />
-    </div>
+    <RouterView />
   </div>
 </template>
 

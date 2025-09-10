@@ -1,20 +1,38 @@
-<script setup></script>
+<script setup>
+import MenchDontKnow from '../svg/MenchDontKnow.vue'
+defineProps({
+  title: {
+    type: String,
+  },
+  text: {
+    type: String,
+  },
+})
+</script>
 <template>
-  <div class="card max-w-3xs p-4">
-    <h2 class="text-2xl font-bold tracking-tight">Animate Borders</h2>
-    <p class="mt-2">
-      Lorem ipsum dolor sit amet, consectetur adipisicing elit. Atque ad exercitationem voluptatem
-      ullam et, natus impedit quae veniam optio a doloremque officiis beatae, itaque nesciunt
-      nostrum quasi molestiae laudantium dolor asperiores soluta sint sed ratione cupiditate.
-      Laudantium earum reiciendis enim.
-    </p>
+  <div class="group">
+    <div
+      class="bg-bg-prim border-brdr group-hover:border-acc-prim flex h-full w-full items-center rounded-2xl border p-4 text-center group-hover:scale-105 md:flex-col"
+    >
+      <div class="select-none group-hover:opacity-100 md:opacity-70">
+        <slot name="graphic">
+          <div>
+            <MenchDontKnow></MenchDontKnow>
+          </div>
+        </slot>
+        <h2 class="mt-8 text-3xl font-bold tracking-tight">{{ title ? title : 'Card Title' }}</h2>
+        <hr class="group-hover:text-acc-prim mx-auto w-1/2 border-1" />
+        <p class="text-fg-sec mt-2">
+          {{ text ? text : 'Card body placeholder.' }}
+        </p>
+      </div>
+    </div>
   </div>
 </template>
 
 <style scoped>
 .card {
   margin: 0 auto;
-  width: 300px;
   background: var(--color-bg-prim);
   text-align: center;
   border-radius: 10px;
@@ -26,11 +44,10 @@
   initial-value: 0deg;
   inherits: false;
 }
-.card::after,
-.card::before {
+.card::after {
   content: '';
   position: absolute;
-  inset: -2px; /* expands outward evenly */
+  inset: -12px;
   background-image: conic-gradient(
     from var(--angle),
     var(--color-acc-prim) 0%,
@@ -41,13 +58,9 @@
     var(--color-bg-ter) 70%
   );
   z-index: -1;
-  border-radius: 12px; /* slightly larger to match expansion */
+  border-radius: 12px; /* must match inset */
   animation: 5s spin linear infinite;
 }
-/* .card::before {
-  filter: blur(1.5rem);
-  opacity: 0.5;
-} */
 @keyframes spin {
   from {
     --angle: 0deg;
