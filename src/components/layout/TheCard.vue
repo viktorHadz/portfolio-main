@@ -12,7 +12,7 @@ defineProps({
 <template>
   <div class="group">
     <div
-      class="bg-bg-prim border-brdr group-hover:border-acc-prim flex h-full w-full items-center rounded-2xl border p-4 text-center group-hover:scale-105 md:flex-col"
+      class="bg-bg-prim border-brdr group-hover:border-acc-prim flex h-full w-full items-center rounded-2xl border p-4 text-center md:flex-col"
     >
       <div class="select-none group-hover:opacity-100 md:opacity-70">
         <slot name="graphic">

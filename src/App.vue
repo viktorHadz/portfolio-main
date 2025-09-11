@@ -18,7 +18,7 @@ const toggleMode = () => {
 </script>
 
 <template>
-  <div class="selection:bg-acc-prim selection:text-fg-sec dark:selection:text-white">
+  <div class="selection:bg-acc-prim/50 selection:text-fg-sec dark:selection:text-white">
     <nav class="border-brdr bg-bg-prim sticky top-0 z-50 w-full border-b">
       <div class="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
         <!-- Logo -->

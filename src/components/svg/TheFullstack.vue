@@ -1,24 +1,39 @@
 <script setup>
-import { ref, watch } from 'vue'
+import { ref, useTemplateRef, watch } from 'vue'
 import gsap from 'gsap'
+import MotionPathPlugin from 'gsap/MotionPathPlugin'
+gsap.registerPlugin(MotionPathPlugin)
 const hov = ref(false)
+
+const frontCon = useTemplateRef('con-front')
+const backCon = useTemplateRef('con-back')
+const dotFront = useTemplateRef('dot-front')
+const dotBack = useTemplateRef('dot-back')
+const zeroes = useTemplateRef('zeroes')
+const antenaLeft = useTemplateRef('antena-left')
+const antenaRight = useTemplateRef('antena-right')
+
 watch(hov, (newVal) => {
   if (newVal) {
-    // mouse enter shrink the connectors
-    gsap.to('#connectors', {
-      scale: 0.8,
-      duration: 0.3,
-      ease: 'power2.out',
-      transformOrigin: 'center center',
+    let tl = gsap.timeline({ repeat: -1 })
+
+    tl.to(dotFront.value, {
+      motionPath: { path: frontCon.value, align: frontCon.value, alignOrigin: [0.5, 0.5] },
+      duration: 2,
+      ease: 'sine',
+    }).to(dotBack.value, {
+      motionPath: {
+        path: frontCon.value,
+        align: frontCon.value,
+        alignOrigin: [0.5, 0.5],
+        start: 1,
+        end: 0,
+      },
+      duration: 2,
+      ease: 'sine',
     })
   } else {
-    // mouse leave expand back to original
-    gsap.to('#connectors', {
-      scale: 1,
-      duration: 0.3,
-      ease: 'power2.out',
-      transformOrigin: 'center center',
-    })
+    gsap.killTweensOf([dotFront.value, dotBack.value])
   }
 })
 </script>
@@ -29,14 +44,20 @@ watch(hov, (newVal) => {
         <g id="all-devs-and-connector">
           <g id="connectors">
             <path
-              class="fill-amber-50"
-              id="mid-to-forward"
-              d="M277 497h-1l-140-81a1 1 0 0 1 1-2l140 81 50-29h2l-1 1-51 30Z"
+              ref="con-front"
+              d="M302.061 459.5L256.624 489.091L29.5703 342.55L78.11 314.516"
+              class="stroke-white stroke-4"
+            />
+
+            <path
+              ref="dot-front"
+              d="M308.411 463.911C308.411 467.007 304.468 469.517 299.604 469.517C294.74 469.517 290.797 467.007 290.797 463.911C290.797 460.815 294.74 458.305 299.604 458.305C304.468 458.305 308.411 460.815 308.411 463.911Z"
+              class="fill-acc-sec"
             />
             <path
-              class="fill-amber-50"
-              id="mid-to-back"
-              d="m107 387-75-43a1 1 0 0 1 0-2l43-25h1a1 1 0 0 1 0 2l-42 24 74 43a1 1 0 0 1-1 1Z"
+              ref="dot-back"
+              d="M308.411 463.911C308.411 467.007 304.468 469.517 299.604 469.517C294.74 469.517 290.797 467.007 290.797 463.911C290.797 460.815 294.74 458.305 299.604 458.305C304.468 458.305 308.411 460.815 308.411 463.911Z"
+              class="fill-acc-ter"
             />
           </g>
 
@@ -253,29 +274,29 @@ watch(hov, (newVal) => {
                 style="fill: #000; fill-opacity: 1"
               />
             </g>
+
             <g id="antenae">
-              <g id="Group">
+              <g id="Group" class="text-fg-prim" ref="antena-left">
                 <path
-                  id="Vector_30"
-                  fill="#000"
+                  id="ant-1"
+                  class="stroke-current stroke-2"
                   d="m137 211-1-1L43 94a1 1 0 1 1 2-1l92 116a1 1 0 0 1 0 2Z"
-                  style="fill: #000; fill-opacity: 1"
                 />
               </g>
-              <g id="Group_2" fill="#000">
+              <g id="Group_2" class="text-fg-prim" ref="antena-right">
                 <path
                   id="Vector_31"
                   d="M201 191v-1l-1-1 67-162h1l1 1-67 162-1 1Z"
-                  style="fill: #000; fill-opacity: 1"
+                  class="stroke-current stroke-2"
                 />
                 <path
                   id="Vector_32"
                   d="M233 86h-1v-2l19-47 2-1v1l-19 48-1 1Z"
-                  style="fill: #000; fill-opacity: 1"
+                  class="stroke-current stroke-2"
                 />
               </g>
             </g>
-            <g id="zeroes" fill="#F1F2F2">
+            <g ref="zeroes" fill="#F1F2F2">
               <path
                 id="Vector_33"
                 d="M108 57v21l-3 2V62l-4 3v-4l7-4Z"
@@ -425,6 +446,7 @@ watch(hov, (newVal) => {
             />
             <path
               id="mid-dev-sqr-center"
+              ref="mid-dev"
               fill="#FFEB58"
               d="M188 396c3 2 3 6 0 8l-31 17c-3 2-9 2-13 0l-31-17c-3-2-3-6 0-8l31-18c4-2 9-2 13 0l31 18Z"
               style="fill: #ffeb58; fill: color(display-p3 1 0.9216 0.3451); fill-opacity: 1"
