@@ -1,45 +1,113 @@
 <script setup>
-import { ref, useTemplateRef, watch } from 'vue'
+import { ref, useTemplateRef, watch, onMounted, onUnmounted } from 'vue'
 import gsap from 'gsap'
 import MotionPathPlugin from 'gsap/MotionPathPlugin'
+
 gsap.registerPlugin(MotionPathPlugin)
+
+// Hover state
 const hov = ref(false)
 
+// Template refs
 const frontCon = useTemplateRef('con-front')
-const backCon = useTemplateRef('con-back')
 const dotFront = useTemplateRef('dot-front')
 const dotBack = useTemplateRef('dot-back')
 const zeroes = useTemplateRef('zeroes')
 const antenaLeft = useTemplateRef('antena-left')
 const antenaRight = useTemplateRef('antena-right')
 
-watch(hov, (newVal) => {
-  if (newVal) {
-    let tl = gsap.timeline({ repeat: -1 })
+let ctx
 
-    tl.to(dotFront.value, {
-      motionPath: { path: frontCon.value, align: frontCon.value, alignOrigin: [0.5, 0.5] },
-      duration: 2,
+onMounted(() => {
+  ctx = gsap.context(() => {
+    // --- Motion path animation (dots) ---
+    const motionTimeline = gsap.timeline({ repeat: -1, paused: true })
+    motionTimeline
+      .to(
+        dotFront.value,
+        {
+          motionPath: {
+            path: frontCon.value,
+            align: frontCon.value,
+            alignOrigin: [0.5, 0.5],
+          },
+          duration: 2,
+          ease: 'sine.inOut',
+        },
+        0,
+      )
+      .to(
+        dotBack.value,
+        {
+          motionPath: {
+            path: frontCon.value,
+            align: frontCon.value,
+            alignOrigin: [0.5, 0.5],
+            start: 1,
+            end: 0,
+          },
+          duration: 2,
+          ease: 'sine.inOut',
+        },
+        0,
+      )
+
+    //  Zeroes bounce
+    const zeroesBounce = gsap.to(zeroes.value, {
+      y: 10,
+      duration: 0.5,
+      repeat: -1,
+      yoyo: true,
       ease: 'sine',
-    }).to(dotBack.value, {
-      motionPath: {
-        path: frontCon.value,
-        align: frontCon.value,
-        alignOrigin: [0.5, 0.5],
-        start: 1,
-        end: 0,
-      },
-      duration: 2,
-      ease: 'sine',
+      paused: true,
     })
-  } else {
-    gsap.killTweensOf([dotFront.value, dotBack.value])
-  }
+
+    const zeroesColor = gsap.to(zeroes.value, {
+      fill: 'var(--acc-primary)',
+      duration: 0.5,
+      paused: true,
+    })
+    const antenaLeftColor = gsap.to(antenaLeft.value, {
+      color: 'var(--acc-primary)',
+      duration: 0.5,
+      paused: true,
+    })
+    const antenaRightColor = gsap.to(antenaRight.value, {
+      color: 'var(--acc-primary)',
+      duration: 0.5,
+      paused: true,
+    })
+
+    // Watch hover state
+    watch(hov, (active) => {
+      if (active) {
+        motionTimeline.play()
+        zeroesBounce.play()
+        zeroesColor.play()
+        antenaLeftColor.play()
+        antenaRightColor.play()
+      } else {
+        motionTimeline.pause(0)
+        zeroesBounce.pause(0)
+        zeroesColor.reverse()
+        antenaLeftColor.reverse()
+        antenaRightColor.reverse()
+      }
+    })
+  })
 })
+
+onUnmounted(() => ctx?.revert())
 </script>
+
 <template>
   <div @mouseenter="hov = true" @mouseleave="hov = false">
-    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 500 501">
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      fill="none"
+      class="accent-acc-prim"
+      viewBox="0 0 500 501"
+    >
       <g id="fullstack" clip-path="url(#clip0_781_3434)">
         <g id="all-devs-and-connector">
           <g id="connectors">
@@ -66,13 +134,21 @@ watch(hov, (newVal) => {
               id="Vector"
               fill="#AFD84B"
               d="M266 420v25c0 3 2 5 5 7l78 45v-26l-78-45c-3-2-5-4-5-6Z"
-              style="fill: #afd84b; fill: color(display-p3 0.6863 0.8471 0.2941); fill-opacity: 1"
+              style="
+                fill: #afd84b;
+                fill: color(display-p3 0.6863 0.8471 0.2941);
+                fill-opacity: 1;
+              "
             />
             <path
               id="Vector_2"
               fill="#AFD84B"
               d="M370 471v26l120-69c2-2 4-4 4-6v-26c0 2-2 5-5 6l-119 69Z"
-              style="fill: #afd84b; fill: color(display-p3 0.6863 0.8471 0.2941); fill-opacity: 1"
+              style="
+                fill: #afd84b;
+                fill: color(display-p3 0.6863 0.8471 0.2941);
+                fill-opacity: 1;
+              "
             />
             <path
               id="Vector_3"
@@ -108,7 +184,11 @@ watch(hov, (newVal) => {
               id="Vector_8"
               fill="#AFD84B"
               d="M349 471v26c6 3 15 3 21 0v-26c-6 4-15 4-21 0Z"
-              style="fill: #afd84b; fill: color(display-p3 0.6863 0.8471 0.2941); fill-opacity: 1"
+              style="
+                fill: #afd84b;
+                fill: color(display-p3 0.6863 0.8471 0.2941);
+                fill-opacity: 1;
+              "
             />
             <path
               id="Vector_9"
@@ -126,7 +206,11 @@ watch(hov, (newVal) => {
               id="Vector_11"
               fill="#AFD84B"
               d="m364 394 101-59v68l-101 58v-67Z"
-              style="fill: #afd84b; fill: color(display-p3 0.6863 0.8471 0.2941); fill-opacity: 1"
+              style="
+                fill: #afd84b;
+                fill: color(display-p3 0.6863 0.8471 0.2941);
+                fill-opacity: 1;
+              "
             />
             <path
               id="Vector_12"
@@ -138,7 +222,11 @@ watch(hov, (newVal) => {
               id="fwd-dev-rect"
               fill="#489934"
               d="m382 405 65-38v25l-65 38v-25Z"
-              style="fill: #489934; fill: color(display-p3 0.2824 0.6 0.2039); fill-opacity: 1"
+              style="
+                fill: #489934;
+                fill: color(display-p3 0.2824 0.6 0.2039);
+                fill-opacity: 1;
+              "
             />
             <path
               id="Vector_13"
@@ -162,7 +250,11 @@ watch(hov, (newVal) => {
               id="Vector_16"
               fill="#AFD84B"
               d="m388 247 8-5 39 23-101 59-39-23 58-34"
-              style="fill: #afd84b; fill: color(display-p3 0.6863 0.8471 0.2941); fill-opacity: 1"
+              style="
+                fill: #afd84b;
+                fill: color(display-p3 0.6863 0.8471 0.2941);
+                fill-opacity: 1;
+              "
             />
             <path
               id="Vector_17"
@@ -174,7 +266,11 @@ watch(hov, (newVal) => {
               id="Vector_18"
               fill="#AFD84B"
               d="m334 324 30 70v67l-69-39V301l39 23Z"
-              style="fill: #afd84b; fill: color(display-p3 0.6863 0.8471 0.2941); fill-opacity: 1"
+              style="
+                fill: #afd84b;
+                fill: color(display-p3 0.6863 0.8471 0.2941);
+                fill-opacity: 1;
+              "
             />
             <path
               id="Vector_19"
@@ -187,13 +283,21 @@ watch(hov, (newVal) => {
                 id="bg"
                 fill="#FFEB58"
                 d="m350 324 78-46c2-1 4 0 5 2l20 47c1 3 0 7-3 8l-78 46c-2 1-5 0-5-2l-20-46c-2-4 0-8 3-9Z"
-                style="fill: #ffeb58; fill: color(display-p3 1 0.9216 0.3451); fill-opacity: 1"
+                style="
+                  fill: #ffeb58;
+                  fill: color(display-p3 1 0.9216 0.3451);
+                  fill-opacity: 1;
+                "
               />
               <path
                 id="cloud"
                 fill="#D88A4B"
                 d="M384 313c5-2 10-1 13 3l3-2c4-2 9-1 12 4 5-3 11 0 14 7 2 7-1 15-6 18l-32 19c-6 3-12 0-14-7s0-14 5-18l-1-3c-3-8 0-17 6-21Z"
-                style="fill: #d88a4b; fill: color(display-p3 0.8471 0.5429 0.2941); fill-opacity: 1"
+                style="
+                  fill: #d88a4b;
+                  fill: color(display-p3 0.8471 0.5429 0.2941);
+                  fill-opacity: 1;
+                "
               />
             </g>
           </g>
@@ -203,7 +307,11 @@ watch(hov, (newVal) => {
                 id="Vector_20"
                 fill="#AFD84B"
                 d="m316 219-1 40c0 22-14 43-42 60-57 33-150 33-207 0-29-17-43-39-43-61v-40c0 22 15 44 44 60 57 33 149 33 206 0 28-16 43-37 43-59Z"
-                style="fill: #afd84b; fill: color(display-p3 0.6863 0.8471 0.2941); fill-opacity: 1"
+                style="
+                  fill: #afd84b;
+                  fill: color(display-p3 0.6863 0.8471 0.2941);
+                  fill-opacity: 1;
+                "
               />
               <path
                 id="Vector_21"
@@ -229,7 +337,11 @@ watch(hov, (newVal) => {
                 id="Vector_24"
                 fill="#FFEB58"
                 d="M271 222v-22c0 7-5 14-15 20l-12 5v22l13-5c9-6 14-13 14-20Z"
-                style="fill: #ffeb58; fill: color(display-p3 1 0.9216 0.3451); fill-opacity: 1"
+                style="
+                  fill: #ffeb58;
+                  fill: color(display-p3 1 0.9216 0.3451);
+                  fill-opacity: 1;
+                "
               />
               <path
                 id="Vector_25"
@@ -241,7 +353,11 @@ watch(hov, (newVal) => {
                 id="Vector_26"
                 fill="#FFEB58"
                 d="m68 178 1 22c0 6 3 12 11 16l104 61c15 9 40 9 56 0 8-5 12-11 11-16v-22c0 6-3 11-11 16-16 9-41 9-56 0L80 194c-8-4-11-10-12-16Z"
-                style="fill: #ffeb58; fill: color(display-p3 1 0.9216 0.3451); fill-opacity: 1"
+                style="
+                  fill: #ffeb58;
+                  fill: color(display-p3 1 0.9216 0.3451);
+                  fill-opacity: 1;
+                "
               />
               <path
                 id="Vector_27"
@@ -253,7 +369,11 @@ watch(hov, (newVal) => {
                 id="Vector_28"
                 fill="#D88A4B"
                 d="M80 162c-15 9-15 23 0 32l104 61c15 9 40 9 56 0 14-8 15-21 4-30l12-5c19-11 19-28 1-39-14-8-34-10-51-7-1-5-4-10-11-14a61 61 0 0 0-59 2c-15-9-40-9-56 0Z"
-                style="fill: #d88a4b; fill: color(display-p3 0.8471 0.5429 0.2941); fill-opacity: 1"
+                style="
+                  fill: #d88a4b;
+                  fill: color(display-p3 0.8471 0.5429 0.2941);
+                  fill-opacity: 1;
+                "
               />
               <path
                 id="Vector_29"
@@ -265,7 +385,11 @@ watch(hov, (newVal) => {
                 id="outline-cl"
                 fill="#FFEB58"
                 d="M207 200c0-12-17-22-37-22-21 0-37 10-37 22s16 21 36 21c21 0 37-9 38-21Z"
-                style="fill: #ffeb58; fill: color(display-p3 1 0.9216 0.3451); fill-opacity: 1"
+                style="
+                  fill: #ffeb58;
+                  fill: color(display-p3 1 0.9216 0.3451);
+                  fill-opacity: 1;
+                "
               />
               <path
                 id="inside-cl"
@@ -297,125 +421,65 @@ watch(hov, (newVal) => {
               </g>
             </g>
             <g ref="zeroes" fill="#F1F2F2">
-              <path
-                id="Vector_33"
-                d="M108 57v21l-3 2V62l-4 3v-4l7-4Z"
-                style="fill: #f1f2f2; fill: color(display-p3 0.9451 0.949 0.949); fill-opacity: 1"
-              />
+              <path id="Vector_33" d="M108 57v21l-3 2V62l-4 3v-4l7-4Z" />
               <path
                 id="Vector_34"
                 d="m126 51 1 6-1 6-2 6-4 3-4 1c-2 0-3-1-3-2l-1-5a21 21 0 0 1 3-12l4-4 4-1c2 0 3 1 3 2Zm-3 14 1-6-1-5h-4l-3 3-1 7 1 5h4l3-4Z"
-                style="fill: #f1f2f2; fill: color(display-p3 0.9451 0.949 0.949); fill-opacity: 1"
               />
-              <path
-                id="Vector_35"
-                d="M136 41v21l-3 2V46l-4 2v-3l7-4Z"
-                style="fill: #f1f2f2; fill: color(display-p3 0.9451 0.949 0.949); fill-opacity: 1"
-              />
+              <path id="Vector_35" d="M136 41v21l-3 2V46l-4 2v-3l7-4Z" />
               <path
                 id="Vector_36"
                 d="m154 35 1 5-1 7-2 5-4 4-4 1c-2 0-3-1-3-2l-1-6a21 21 0 0 1 3-11l4-4 4-1c2 0 3 1 3 2Zm-3 14 1-7-1-5h-4l-3 4-1 6 1 5 4 1 3-4Z"
-                style="fill: #f1f2f2; fill: color(display-p3 0.9451 0.949 0.949); fill-opacity: 1"
               />
-              <path
-                id="Vector_37"
-                d="M164 25v21l-3 2V30l-4 2v-3l7-4Z"
-                style="fill: #f1f2f2; fill: color(display-p3 0.9451 0.949 0.949); fill-opacity: 1"
-              />
+              <path id="Vector_37" d="M164 25v21l-3 2V30l-4 2v-3l7-4Z" />
               <path
                 id="Vector_38"
                 d="m182 19 1 5a21 21 0 0 1-3 12l-4 4-4 1c-2 0-3-1-3-2l-1-6a21 21 0 0 1 3-12l4-3 4-1c2 0 3 1 3 2Zm-3 14 1-7-1-5h-4l-3 4-1 6 1 5h4l3-3Z"
-                style="fill: #f1f2f2; fill: color(display-p3 0.9451 0.949 0.949); fill-opacity: 1"
               />
-              <path
-                id="Vector_39"
-                d="M192 8v22l-3 2V14l-4 2v-3l7-5Z"
-                style="fill: #f1f2f2; fill: color(display-p3 0.9451 0.949 0.949); fill-opacity: 1"
-              />
+              <path id="Vector_39" d="M192 8v22l-3 2V14l-4 2v-3l7-5Z" />
               <path
                 id="Vector_40"
                 d="m210 3 1 5a20 20 0 0 1-3 12l-4 4-4 1c-2-1-3-1-3-3l-1-5a21 21 0 0 1 3-12l4-3c2-1 3-2 4-1 2 0 3 0 3 2Zm-3 13 1-6-1-5h-4l-3 4-1 6 1 5h4l3-4Z"
-                style="fill: #f1f2f2; fill: color(display-p3 0.9451 0.949 0.949); fill-opacity: 1"
               />
-              <path
-                id="Vector_41"
-                d="M108 90v21l-3 2V95l-4 3v-4l7-4Z"
-                style="fill: #f1f2f2; fill: color(display-p3 0.9451 0.949 0.949); fill-opacity: 1"
-              />
+              <path id="Vector_41" d="M108 90v21l-3 2V95l-4 3v-4l7-4Z" />
               <path
                 id="Vector_42"
                 d="m126 84 1 5a21 21 0 0 1-3 12l-4 4-4 1c-2 0-2-1-3-2l-1-5a21 21 0 0 1 4-12l4-4 4-1 2 2Zm-3 14 1-6-1-6h-3l-4 4-1 6 1 5 4 1 3-4Z"
-                style="fill: #f1f2f2; fill: color(display-p3 0.9451 0.949 0.949); fill-opacity: 1"
               />
-              <path
-                id="Vector_43"
-                d="M136 74v21l-3 2V79l-4 2v-3l7-4Z"
-                style="fill: #f1f2f2; fill: color(display-p3 0.9451 0.949 0.949); fill-opacity: 1"
-              />
+              <path id="Vector_43" d="M136 74v21l-3 2V79l-4 2v-3l7-4Z" />
               <path
                 id="Vector_44"
                 d="m154 68 1 5a21 21 0 0 1-3 12l-4 4-4 1c-2 0-2-1-3-2l-1-6a21 21 0 0 1 4-12l4-3 4-1 2 2Zm-3 14 1-7-1-5h-3l-4 4-1 6 1 5h4l3-3Z"
-                style="fill: #f1f2f2; fill: color(display-p3 0.9451 0.949 0.949); fill-opacity: 1"
               />
-              <path
-                id="Vector_45"
-                d="M164 58v21l-3 2V63l-4 2v-3l7-4Z"
-                style="fill: #f1f2f2; fill: color(display-p3 0.9451 0.949 0.949); fill-opacity: 1"
-              />
+              <path id="Vector_45" d="M164 58v21l-3 2V63l-4 2v-3l7-4Z" />
               <path
                 id="Vector_46"
                 d="m182 52 1 5a21 21 0 0 1-3 12l-4 4-4 1-3-3-1-5a21 21 0 0 1 4-12c1-1 2-3 4-3 1-1 2-2 4-1 1 0 2 0 2 2Zm-3 13 1-6-1-5h-3l-4 4-1 6 1 5h4l3-4Z"
-                style="fill: #f1f2f2; fill: color(display-p3 0.9451 0.949 0.949); fill-opacity: 1"
               />
-              <path
-                id="Vector_47"
-                d="M192 41v22l-3 2V47l-4 2v-3l7-5Z"
-                style="fill: #f1f2f2; fill: color(display-p3 0.9451 0.949 0.949); fill-opacity: 1"
-              />
+              <path id="Vector_47" d="M192 41v22l-3 2V47l-4 2v-3l7-5Z" />
               <path
                 id="Vector_48"
                 d="m210 36 1 5a20 20 0 0 1-3 12l-4 4-4 1-3-3-1-5a21 21 0 0 1 4-12l4-4 4-1c1 1 2 1 2 3Zm-3 13 1-6-1-5h-3l-4 4-1 6 1 5h4l3-4Z"
-                style="fill: #f1f2f2; fill: color(display-p3 0.9451 0.949 0.949); fill-opacity: 1"
               />
-              <path
-                id="Vector_49"
-                d="M108 123v21l-3 2v-18l-4 2v-3l7-4Z"
-                style="fill: #f1f2f2; fill: color(display-p3 0.9451 0.949 0.949); fill-opacity: 1"
-              />
+              <path id="Vector_49" d="M108 123v21l-3 2v-18l-4 2v-3l7-4Z" />
               <path
                 id="Vector_50"
                 d="m126 117 1 5a21 21 0 0 1-3 12l-4 4-4 1-3-2-1-6a21 21 0 0 1 4-12l4-3 4-1 2 2Zm-3 14 1-7-1-5h-3c-2 1-3 2-3 4l-2 6c0 3 1 5 2 5h3l3-3Z"
-                style="fill: #f1f2f2; fill: color(display-p3 0.9451 0.949 0.949); fill-opacity: 1"
               />
-              <path
-                id="Vector_51"
-                d="M136 107v21l-3 2v-18l-4 2v-3l7-4Z"
-                style="fill: #f1f2f2; fill: color(display-p3 0.9451 0.949 0.949); fill-opacity: 1"
-              />
+              <path id="Vector_51" d="M136 107v21l-3 2v-18l-4 2v-3l7-4Z" />
               <path
                 id="Vector_52"
                 d="m154 101 2 5-1 7-3 5-4 4-4 1-3-2-1-6a21 21 0 0 1 4-12l4-3c1-1 2-2 4-1l2 2Zm-3 14 1-7-1-5h-3c-2 1-3 2-3 4l-2 6c0 3 1 4 2 5h3l3-3Z"
-                style="fill: #f1f2f2; fill: color(display-p3 0.9451 0.949 0.949); fill-opacity: 1"
               />
-              <path
-                id="Vector_53"
-                d="M164 90v22l-3 2V96l-4 2v-3l7-5Z"
-                style="fill: #f1f2f2; fill: color(display-p3 0.9451 0.949 0.949); fill-opacity: 1"
-              />
+              <path id="Vector_53" d="M164 90v22l-3 2V96l-4 2v-3l7-5Z" />
               <path
                 id="Vector_54"
                 d="m182 85 2 5a21 21 0 0 1-4 12l-4 4-4 1-3-3-1-5a21 21 0 0 1 4-12c1-1 2-3 4-3l4-2c1 1 2 1 2 3Zm-3 13 1-6-1-5h-3c-2 1-3 2-3 4l-2 6c0 3 1 4 2 5h3l3-4Z"
-                style="fill: #f1f2f2; fill: color(display-p3 0.9451 0.949 0.949); fill-opacity: 1"
               />
-              <path
-                id="Vector_55"
-                d="M192 74v22l-3 2V80l-4 2v-3l7-5Z"
-                style="fill: #f1f2f2; fill: color(display-p3 0.9451 0.949 0.949); fill-opacity: 1"
-              />
+              <path id="Vector_55" d="M192 74v22l-3 2V80l-4 2v-3l7-5Z" />
               <path
                 id="Vector_56"
                 d="m210 69 2 5a21 21 0 0 1-4 12l-4 3c-2 1-3 2-4 1-1 0-2 0-3-2l-1-5a21 21 0 0 1 4-12l4-4 4-1c1 0 2 1 2 3Zm-3 13 1-6-1-5h-3c-2 1-3 2-3 4l-2 6 2 5h3l3-4Z"
-                style="fill: #f1f2f2; fill: color(display-p3 0.9451 0.949 0.949); fill-opacity: 1"
               />
             </g>
           </g>
@@ -424,7 +488,11 @@ watch(hov, (newVal) => {
               id="Vector_57"
               fill="#AFD84B"
               d="M233 400v27c0 3-2 5-5 7l-64 37c-7 5-19 5-27 0l-64-37c-3-2-5-5-5-7v-27c0 3 2 5 6 8l63 36c8 5 20 5 27 0l64-36c3-3 5-5 5-8Z"
-              style="fill: #afd84b; fill: color(display-p3 0.6863 0.8471 0.2941); fill-opacity: 1"
+              style="
+                fill: #afd84b;
+                fill: color(display-p3 0.6863 0.8471 0.2941);
+                fill-opacity: 1;
+              "
             />
             <path
               id="Vector_58"
@@ -449,7 +517,11 @@ watch(hov, (newVal) => {
               ref="mid-dev"
               fill="#FFEB58"
               d="M188 396c3 2 3 6 0 8l-31 17c-3 2-9 2-13 0l-31-17c-3-2-3-6 0-8l31-18c4-2 9-2 13 0l31 18Z"
-              style="fill: #ffeb58; fill: color(display-p3 1 0.9216 0.3451); fill-opacity: 1"
+              style="
+                fill: #ffeb58;
+                fill: color(display-p3 1 0.9216 0.3451);
+                fill-opacity: 1;
+              "
             />
             <path
               id="Vector_61"
@@ -461,31 +533,51 @@ watch(hov, (newVal) => {
               <path
                 id="Vector_62"
                 d="M196 435c3-1 4 0 4 3 0 2-1 5-4 6-2 2-4 1-4-2l4-7Z"
-                style="fill: #489934; fill: color(display-p3 0.2824 0.6 0.2039); fill-opacity: 1"
+                style="
+                  fill: #489934;
+                  fill: color(display-p3 0.2824 0.6 0.2039);
+                  fill-opacity: 1;
+                "
               />
               <path
                 id="Vector_63"
                 d="M209 428c2-1 4 0 4 2 0 3-2 6-4 7s-4 0-4-2c0-3 2-6 4-7Z"
-                style="fill: #489934; fill: color(display-p3 0.2824 0.6 0.2039); fill-opacity: 1"
+                style="
+                  fill: #489934;
+                  fill: color(display-p3 0.2824 0.6 0.2039);
+                  fill-opacity: 1;
+                "
               />
               <path
                 id="Vector_64"
                 d="M222 420c2-1 4 0 4 3l-4 7c-2 1-4 0-4-3l4-7Z"
-                style="fill: #489934; fill: color(display-p3 0.2824 0.6 0.2039); fill-opacity: 1"
+                style="
+                  fill: #489934;
+                  fill: color(display-p3 0.2824 0.6 0.2039);
+                  fill-opacity: 1;
+                "
               />
             </g>
             <path
               id="dev-mid-face-line"
               fill="#489934"
               d="m111 439 2 5c0 2-1 3-3 2l-32-19c-2-1-3-3-3-5s1-3 3-2l33 19Z"
-              style="fill: #489934; fill: color(display-p3 0.2824 0.6 0.2039); fill-opacity: 1"
+              style="
+                fill: #489934;
+                fill: color(display-p3 0.2824 0.6 0.2039);
+                fill-opacity: 1;
+              "
             />
           </g>
         </g>
       </g>
       <defs>
         <clipPath id="clip0_781_3434">
-          <path fill="#fff" d="M0 0h500v500H0z" style="fill: #fff; fill-opacity: 1" />
+          <path
+            fill="#fff"
+            d="M0 0h500v500H0z"
+            style="fill: #fff; fill-opacity: 1"
+          />
         </clipPath>
       </defs>
     </svg>
