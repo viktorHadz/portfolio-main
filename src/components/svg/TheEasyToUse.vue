@@ -1,127 +1,96 @@
 <script setup>
-import { ref, watch, onMounted, onUnmounted, useTemplateRef } from 'vue'
+import { onMounted, onUnmounted } from 'vue'
 import { gsap } from 'gsap'
 
-const hov = ref(false)
-let ctx
+let ctx, liftTl, dotsTl, floatTween
+let card // for cleanup
 
-const formAll = useTemplateRef('form-all')
-const textBubble = useTemplateRef('text-bubble')
-const playBtnAll = useTemplateRef('play-btn')
-const inputsAll = useTemplateRef('inputs-form')
-const btnIcon = useTemplateRef('playbutton-icon')
-const btnOutline = useTemplateRef('button-outline')
-const btnFill = useTemplateRef('button-fill')
-const inputFillBot = useTemplateRef('input-fill')
-const inputFillTop = useTemplateRef('input-fill-top')
+function createLiftTimeline() {
+  return gsap
+    .timeline({ paused: true })
+    .to('.form-all', { y: -20, duration: 0.3, ease: 'sine.inOut' })
+    .to(
+      '.text-bubble',
+      { y: -25, duration: 0.3, ease: 'power1.inOut' },
+      '-=0.2',
+    )
+    .to(['.play-btn', '.inputs-form'], { y: -20, duration: 1 })
+    .to(
+      '.button-outline',
+      {
+        rotation: 360,
+        transformOrigin: 'center',
+        duration: 0.5,
+        ease: 'power2.inOut',
+      },
+      '-=0.5',
+    )
+    .to('.button-fill', { fill: '#ff8c00', duration: 0.3 }, '-=0.5')
+    .to('.playbutton-icon', { fill: '#FFEB58', duration: 0.3 }, '-=0.5')
+    .to(['.input-fill-top', '.input-fill'], {
+      fill: 'var(--acc-primary)',
+      duration: 0.3,
+    })
+}
+
+function createFloatTween() {
+  return gsap.to(['.form-all', '.text-bubble'], {
+    y: 5,
+    yoyo: true,
+    repeat: -1,
+    ease: 'power1',
+    duration: 1.5,
+    paused: true, // allows running only when told to
+  })
+}
+
+function createDotsTimeline() {
+  const dots = '.dot'
+  gsap.set(dots, { opacity: 0 })
+
+  return gsap
+    .timeline({ repeat: -1, paused: true })
+    .to(dots, { opacity: 1, duration: 0.3, stagger: 0.3 })
+    .to(dots, { opacity: 0, duration: 0.2, delay: 0.5 })
+}
 
 onMounted(() => {
   ctx = gsap.context(() => {
-    const liftTl = gsap.timeline({ paused: true })
+    liftTl = createLiftTimeline()
+    floatTween = createFloatTween()
+    dotsTl = createDotsTimeline()
 
-    // 1. lift all off
-    liftTl
-      .to(formAll.value, {
-        y: -20,
-        duration: 0.3,
-        ease: 'sine.inOut',
+    card = document.querySelector('.easy-to-use')
+    if (!card) return
+
+    const onEnter = () => {
+      liftTl.play().eventCallback('onComplete', () => {
+        floatTween.play()
       })
-      .to(
-        textBubble.value,
-        {
-          y: -25,
-          duration: 0.3,
-          ease: 'power1.inOut',
-        },
-        '-=0.2',
-      )
+      dotsTl.play()
+    }
 
-    // 2. lift btn and inputs off
-    liftTl.to([playBtnAll.value, inputsAll.value], {
-      y: -20,
-      duration: 1,
-    })
+    const onLeave = () => {
+      floatTween.pause(0)
+      liftTl.reverse()
+      dotsTl.pause(0)
+      gsap.set('.dot', { opacity: 0 })
+    }
 
-    // 3. rise, color, spin
-    liftTl
+    card.addEventListener('mouseenter', onEnter)
+    card.addEventListener('mouseleave', onLeave)
 
-      .to(
-        btnOutline.value,
-        {
-          rotation: 360,
-          transformOrigin: 'center',
-          duration: 0.5,
-          ease: 'power2.inOut',
-        },
-        '-=0.5',
-      )
-      .to(
-        btnFill.value,
-        {
-          fill: '#ff8c00',
-          duration: 0.3,
-        },
-        '-=0.5',
-      )
-      .to(
-        btnIcon.value,
-        {
-          fill: '#FFEB58',
-          duration: 0.3,
-        },
-        '-=0.5',
-      )
-      .to(inputFillTop.value, {
-        fill: 'var(--acc-primary)',
-        duration: 0.3,
-      })
-      .to(inputFillBot.value, {
-        fill: 'var(--acc-primary)',
-        duration: 0.3,
-      })
-
-    // Dots
-    const dotsArr = ['#ld-1', '#ld-2', '#ld-3', '#ld-4']
-    gsap.set(dotsArr, {
-      opacity: 0,
-    })
-
-    const dotsTl = gsap
-      .timeline({
-        repeat: -1,
-        paused: true,
-      })
-      .to(dotsArr, {
-        opacity: 1,
-        duration: 0.3,
-        stagger: 0.3,
-      })
-      .to(dotsArr, {
-        opacity: 0,
-        duration: 0.2,
-        delay: 0.5,
-      })
-
-    // Hover watcher
-    watch(hov, (active) => {
-      if (active) {
-        // bob.play()
-        // btnTl.play()
-        dotsTl.play()
-        liftTl.play()
-      } else {
-        // bob.pause(0)
-        // btnTl.reverse()
-        dotsTl.pause(0)
-        gsap.set(dotsArr, { opacity: 0 })
-        liftTl.reverse()
-      }
-    })
+    card._onEnter = onEnter
+    card._onLeave = onLeave
   })
 })
 
 onUnmounted(() => {
-  ctx && ctx.revert()
+  if (card) {
+    card.removeEventListener('mouseenter', card._onEnter)
+    card.removeEventListener('mouseleave', card._onLeave)
+  }
+  ctx?.revert()
 })
 </script>
 
@@ -286,7 +255,7 @@ onUnmounted(() => {
         />
       </g>
       <g id="Group_2">
-        <g ref="text-bubble">
+        <g class="text-bubble">
           <g id="bub-face-back">
             <path
               id="bub-back-minor"
@@ -388,24 +357,20 @@ onUnmounted(() => {
             />
             <g id="loading-dots" class="text-white">
               <path
-                id="ld-1"
                 d="M420.2 174.6c.5.3 1 .7 1.3 1.3.3.6.5 1.2.5 1.8 0 .7-.2 1-.6 1.2-.3.2-.7.2-1.2-.1-.5-.3-1-.7-1.3-1.3-.4-.6-.5-1.2-.5-1.9 0-.6.1-1 .5-1.2.3-.2.8-.1 1.3.2Z"
-                class="fill-current"
+                class="dot fill-current"
               />
               <path
-                id="ld-2"
                 d="M425.6 177.7c.5.3.9.7 1.2 1.3.4.6.6 1.2.6 1.8 0 .7-.2 1-.6 1.2-.3.2-.8.2-1.3 0-.5-.4-.9-.8-1.2-1.4-.4-.6-.6-1.2-.6-1.8 0-.7.2-1 .6-1.3.3-.2.7-.1 1.3.2Z"
-                class="fill-current"
+                class="dot fill-current"
               />
               <path
-                id="ld-3"
                 d="M431 180.8c.5.3.9.8 1.2 1.3.4.6.6 1.2.6 1.9 0 .6-.2 1-.6 1.2-.3.2-.7.1-1.3-.2-.5-.3-.9-.7-1.2-1.3-.4-.6-.6-1.2-.6-1.8 0-.7.2-1 .6-1.3.3-.1.7 0 1.3.2Z"
-                class="fill-current"
+                class="dot fill-current"
               />
               <path
-                id="ld-4"
                 d="M436.3 184c.6.2 1 .7 1.3 1.3.4.5.6 1.2.6 1.8 0 .6-.2 1-.6 1.2-.3.2-.8.1-1.3-.2-.5-.2-.9-.7-1.3-1.3-.3-.6-.5-1.2-.5-1.8 0-.6.2-1 .5-1.2.4-.2.8-.2 1.3.1Z"
-                class="fill-current"
+                class="dot fill-current"
               />
             </g>
           </g>
@@ -439,7 +404,7 @@ onUnmounted(() => {
           </g>
         </g>
       </g>
-      <g ref="form-all">
+      <g class="form-all">
         <g ref="form-floor">
           <path
             id="Vector_42"
@@ -470,20 +435,17 @@ onUnmounted(() => {
             style="fill: #000; fill-opacity: 1"
           />
         </g>
-        <g ref="play-btn">
+        <g class="play-btn">
           <path
-            ref="button-fill"
-            class="fill-acc-prim"
+            class="fill-acc-prim button-fill"
             d="M281.5 209c23.7 13.6 23.8 35.8.3 49.5a94.1 94.1 0 0 1-85.5 0c-23.6-13.7-23.8-35.9-.2-49.5a94.2 94.2 0 0 1 85.4 0Z"
           />
           <path
-            ref="button-outline"
-            class="fill-black"
+            class="button-outline fill-black"
             d="M195.9 259.3c-24.2-14-24.7-37-.3-51.1a1 1 0 0 1 1 1.6c-23 13.3-22.9 34.5.2 47.9a93.2 93.2 0 0 0 84.5 0c11-6.5 17.1-15 17.1-24s-6.2-17.5-17.3-24a1 1 0 1 1 .9-1.6c11.8 6.8 18.3 16 18.3 25.7 0 9.6-6.4 18.7-18 25.5a95.3 95.3 0 0 1-86.4 0Z"
           />
           <path
-            ref="playbutton-icon"
-            class="fill-gray-200"
+            class="playbutton-icon fill-gray-200"
             d="M265 218.6c1.6 1 2.5 2.4 1.9 3.9l-11 28c-1.3 3.1-8 4.2-12 2l-37.3-21.6c-4-2.3-2-6.2 3.4-6.9l48.3-6.5c2.6-.3 5 .2 6.7 1.1Z"
           />
           <path
@@ -493,15 +455,13 @@ onUnmounted(() => {
             style="fill: #000; fill-opacity: 1"
           />
         </g>
-        <g ref="inputs-form">
+        <g class="inputs-form">
           <path
-            ref="input-fill"
-            class="fill-gray-300"
+            class="input-fill fill-gray-300"
             d="M401.3 269.7c4.4 2.6 4.5 6.6.2 9L313 330a16.8 16.8 0 0 1-15.5 0c-4.4-2.4-4.4-6.4 0-9l88.3-51.3a17 17 0 0 1 15.5 0Z"
           />
           <path
-            ref="input-fill-top"
-            class="fill-gray-300"
+            class="input-fill-top fill-gray-300"
             d="M352 247.8a17 17 0 0 1 15.5 0c4.4 2.5 4.5 6.5.2 9l-88.5 51.3a16.8 16.8 0 0 1-15.6 0c-4.3-2.4-4.4-6.4 0-9l52-30.2"
           />
           <path

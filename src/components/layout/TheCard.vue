@@ -7,10 +7,13 @@ defineProps({
   text: {
     type: String,
   },
+  gsapSelector: {
+    type: String,
+  },
 })
 </script>
 <template>
-  <div class="group">
+  <div :class="['group', gsapSelector]">
     <div
       class="bg-bg-prim border-brdr group-hover:border-acc-prim flex h-full w-full items-center rounded-2xl border p-4 text-center md:flex-col"
     >
@@ -20,7 +23,9 @@ defineProps({
             <MenchDontKnow></MenchDontKnow>
           </div>
         </slot>
-        <h2 class="mt-8 text-3xl font-bold tracking-tight">{{ title ? title : 'Card Title' }}</h2>
+        <h2 class="mt-8 text-3xl font-bold tracking-tight">
+          {{ title ? title : 'Card Title' }}
+        </h2>
         <hr class="group-hover:text-acc-prim mx-auto w-1/2 border-1" />
         <p class="text-fg-sec mt-2">
           {{ text ? text : 'Card body placeholder.' }}
