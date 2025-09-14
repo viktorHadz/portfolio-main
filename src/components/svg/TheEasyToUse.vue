@@ -9,11 +9,7 @@ function createLiftTimeline() {
   return gsap
     .timeline({ paused: true })
     .to('.form-all', { y: -20, duration: 0.3, ease: 'sine.inOut' })
-    .to(
-      '.text-bubble',
-      { y: -25, duration: 0.3, ease: 'power1.inOut' },
-      '-=0.2',
-    )
+    .to('.text-bubble', { y: -25, duration: 0.3, ease: 'sine.inOut' }, '-=0.2')
     .to(['.play-btn', '.inputs-form'], { y: -20, duration: 1 })
     .to(
       '.button-outline',
@@ -71,7 +67,7 @@ onMounted(() => {
     }
 
     const onLeave = () => {
-      floatTween.pause(0)
+      floatTween.pause()
       liftTl.reverse()
       dotsTl.pause(0)
       gsap.set('.dot', { opacity: 0 })

@@ -1,98 +1,72 @@
 <script setup>
-import { ref, useTemplateRef, watch, onMounted, onUnmounted } from 'vue'
+import { ref, onMounted, onUnmounted } from 'vue'
 import gsap from 'gsap'
 import MotionPathPlugin from 'gsap/MotionPathPlugin'
 
 gsap.registerPlugin(MotionPathPlugin)
 
-// Hover state
 const hov = ref(false)
+let ctx, dotTl, gridTl
+let card
 
-// Template refs
-const frontCon = useTemplateRef('con-front')
-const dotFront = useTemplateRef('dot-front')
-const dotBack = useTemplateRef('dot-back')
-const zeroes = useTemplateRef('zeroes')
-const antenaLeft = useTemplateRef('antena-left')
-const antenaRight = useTemplateRef('antena-right')
+const moveDot = (start, end) => ({
+  motionPath: {
+    path: '#con-front',
+    align: '#con-front',
+    alignOrigin: [0.5, 0.5],
+    start,
+    end,
+  },
+})
 
-let ctx
+function createGridTimeline() {
+  const zeros = document.querySelectorAll('.grid-zero')
+  const ones = document.querySelectorAll('.grid-one')
+
+  return gsap
+    .timeline({ paused: true, repeat: -1 })
+    .to(zeros, { fill: '#ff8c00', duration: 0.5, stagger: 0.05 })
+    .to(zeros, { fill: '', duration: 0.5, stagger: 0.05 })
+    .to(ones, { fill: '#ff8c00', duration: 0.5, stagger: 0.05 })
+    .to(ones, { fill: '', duration: 0.5, stagger: 0.05 })
+}
+function createClientDotTimeline() {
+  return (
+    gsap
+      .timeline({
+        paused: true,
+        repeat: -1,
+        defaults: { duration: 2, ease: 'sine.inOut' },
+      })
+      // Forward
+      .to('#fwd-color-change-1', { fill: '#ff8c00', duration: 0.2 })
+      .to('#dot-front', moveDot(0, 0.5))
+      .to('#mid-color-change-2', { fill: '#ff8c00', duration: 0.2 })
+      .to('#dot-front', moveDot(0.5, 1))
+      .to('.back-color-change-3', { fill: '#ff8c00', duration: 0.2 })
+      // Reverse
+      .to('#dot-front', moveDot(1, 0.5))
+      .set('#mid-color-change-2', { fill: '#ffeb58' })
+      .to('#dot-front', moveDot(0.5, 0))
+      .set('#fwd-color-change-1', { fill: '#ffeb58' })
+  )
+}
 
 onMounted(() => {
   ctx = gsap.context(() => {
-    // --- Motion path animation (dots) ---
-    const motionTimeline = gsap.timeline({ repeat: -1, paused: true })
-    motionTimeline
-      .to(
-        dotFront.value,
-        {
-          motionPath: {
-            path: frontCon.value,
-            align: frontCon.value,
-            alignOrigin: [0.5, 0.5],
-          },
-          duration: 2,
-          ease: 'sine.inOut',
-        },
-        0,
-      )
-      .to(
-        dotBack.value,
-        {
-          motionPath: {
-            path: frontCon.value,
-            align: frontCon.value,
-            alignOrigin: [0.5, 0.5],
-            start: 1,
-            end: 0,
-          },
-          duration: 2,
-          ease: 'sine.inOut',
-        },
-        0,
-      )
+    dotTl = createClientDotTimeline()
+    gridTl = createGridTimeline()
 
-    //  Zeroes bounce
-    const zeroesBounce = gsap.to(zeroes.value, {
-      y: 10,
-      duration: 0.5,
-      repeat: -1,
-      yoyo: true,
-      ease: 'sine',
-      paused: true,
-    })
+    card = document.querySelector('.full-stacked')
+    if (!card) return
 
-    const zeroesColor = gsap.to(zeroes.value, {
-      fill: 'var(--acc-primary)',
-      duration: 0.5,
-      paused: true,
+    card.addEventListener('mouseenter', () => {
+      dotTl.play()
+      gridTl.play()
     })
-    const antenaLeftColor = gsap.to(antenaLeft.value, {
-      color: 'var(--acc-primary)',
-      duration: 0.5,
-      paused: true,
-    })
-    const antenaRightColor = gsap.to(antenaRight.value, {
-      color: 'var(--acc-primary)',
-      duration: 0.5,
-      paused: true,
-    })
-
-    // Watch hover state
-    watch(hov, (active) => {
-      if (active) {
-        motionTimeline.play()
-        zeroesBounce.play()
-        zeroesColor.play()
-        antenaLeftColor.play()
-        antenaRightColor.play()
-      } else {
-        motionTimeline.pause(0)
-        zeroesBounce.pause(0)
-        zeroesColor.reverse()
-        antenaLeftColor.reverse()
-        antenaRightColor.reverse()
-      }
+    card.addEventListener('mouseleave', () => {
+      dotTl.pause(0)
+      gridTl.pause(0)
     })
   })
 })
@@ -112,18 +86,18 @@ onUnmounted(() => ctx?.revert())
         <g id="all-devs-and-connector">
           <g id="connectors">
             <path
-              ref="con-front"
+              id="con-front"
               d="M302.061 459.5L256.624 489.091L29.5703 342.55L78.11 314.516"
               class="stroke-white stroke-4"
             />
 
             <path
-              ref="dot-front"
+              id="dot-front"
               d="M308.411 463.911C308.411 467.007 304.468 469.517 299.604 469.517C294.74 469.517 290.797 467.007 290.797 463.911C290.797 460.815 294.74 458.305 299.604 458.305C304.468 458.305 308.411 460.815 308.411 463.911Z"
               class="fill-acc-sec"
             />
             <path
-              ref="dot-back"
+              id="dot-back"
               d="M308.411 463.911C308.411 467.007 304.468 469.517 299.604 469.517C294.74 469.517 290.797 467.007 290.797 463.911C290.797 460.815 294.74 458.305 299.604 458.305C304.468 458.305 308.411 460.815 308.411 463.911Z"
               class="fill-acc-ter"
             />
@@ -219,14 +193,9 @@ onUnmounted(() => ctx?.revert())
               style="fill: #000; fill-opacity: 1"
             />
             <path
-              id="fwd-dev-rect"
-              fill="#489934"
+              id="fwd-color-change-1"
+              class="fill-[#ffeb58]"
               d="m382 405 65-38v25l-65 38v-25Z"
-              style="
-                fill: #489934;
-                fill: color(display-p3 0.2824 0.6 0.2039);
-                fill-opacity: 1;
-              "
             />
             <path
               id="Vector_13"
@@ -334,14 +303,8 @@ onUnmounted(() => ctx?.revert())
             </g>
             <g id="cloud_2">
               <path
-                id="Vector_24"
-                fill="#FFEB58"
+                class="back-color-change-3 fill-yellow-300"
                 d="M271 222v-22c0 7-5 14-15 20l-12 5v22l13-5c9-6 14-13 14-20Z"
-                style="
-                  fill: #ffeb58;
-                  fill: color(display-p3 1 0.9216 0.3451);
-                  fill-opacity: 1;
-                "
               />
               <path
                 id="Vector_25"
@@ -350,14 +313,8 @@ onUnmounted(() => ctx?.revert())
                 style="fill: #000; fill-opacity: 1"
               />
               <path
-                id="Vector_26"
-                fill="#FFEB58"
+                class="back-color-change-3 fill-yellow-300"
                 d="m68 178 1 22c0 6 3 12 11 16l104 61c15 9 40 9 56 0 8-5 12-11 11-16v-22c0 6-3 11-11 16-16 9-41 9-56 0L80 194c-8-4-11-10-12-16Z"
-                style="
-                  fill: #ffeb58;
-                  fill: color(display-p3 1 0.9216 0.3451);
-                  fill-opacity: 1;
-                "
               />
               <path
                 id="Vector_27"
@@ -382,17 +339,11 @@ onUnmounted(() => ctx?.revert())
                 style="fill: #000; fill-opacity: 1"
               />
               <path
-                id="outline-cl"
-                fill="#FFEB58"
+                class="back-color-change-3 fill-yellow-300"
                 d="M207 200c0-12-17-22-37-22-21 0-37 10-37 22s16 21 36 21c21 0 37-9 38-21Z"
-                style="
-                  fill: #ffeb58;
-                  fill: color(display-p3 1 0.9216 0.3451);
-                  fill-opacity: 1;
-                "
               />
               <path
-                id="inside-cl"
+                id="outline-cl"
                 fill="#000"
                 d="M170 222c-10 0-20-2-27-6s-11-10-11-16 4-12 11-16c14-9 38-9 53 0 7 4 12 10 12 16s-4 12-12 16c-7 4-17 6-26 6Zm-1-43c-9 0-18 2-25 7-7 3-10 8-10 14 0 5 3 10 10 14 14 8 37 8 51 0 7-4 11-9 11-14s-4-11-11-14c-7-5-16-7-26-7Z"
                 style="fill: #000; fill-opacity: 1"
@@ -400,14 +351,14 @@ onUnmounted(() => ctx?.revert())
             </g>
 
             <g id="antenae">
-              <g id="Group" class="text-fg-prim" ref="antena-left">
+              <g class="text-fg-prim" id="antena-left">
                 <path
                   id="ant-1"
                   class="stroke-current stroke-2"
                   d="m137 211-1-1L43 94a1 1 0 1 1 2-1l92 116a1 1 0 0 1 0 2Z"
                 />
               </g>
-              <g id="Group_2" class="text-fg-prim" ref="antena-right">
+              <g class="text-fg-prim" id="antena-right">
                 <path
                   id="Vector_31"
                   d="M201 191v-1l-1-1 67-162h1l1 1-67 162-1 1Z"
@@ -420,65 +371,65 @@ onUnmounted(() => ctx?.revert())
                 />
               </g>
             </g>
-            <g ref="zeroes" fill="#F1F2F2">
-              <path id="Vector_33" d="M108 57v21l-3 2V62l-4 3v-4l7-4Z" />
+            <g id="zeroes" fill="#F1F2F2">
+              <path class="grid-one" d="M108 57v21l-3 2V62l-4 3v-4l7-4Z" />
               <path
-                id="Vector_34"
+                class="grid-zero"
                 d="m126 51 1 6-1 6-2 6-4 3-4 1c-2 0-3-1-3-2l-1-5a21 21 0 0 1 3-12l4-4 4-1c2 0 3 1 3 2Zm-3 14 1-6-1-5h-4l-3 3-1 7 1 5h4l3-4Z"
               />
-              <path id="Vector_35" d="M136 41v21l-3 2V46l-4 2v-3l7-4Z" />
+              <path class="grid-one" d="M136 41v21l-3 2V46l-4 2v-3l7-4Z" />
               <path
-                id="Vector_36"
+                class="grid-zero"
                 d="m154 35 1 5-1 7-2 5-4 4-4 1c-2 0-3-1-3-2l-1-6a21 21 0 0 1 3-11l4-4 4-1c2 0 3 1 3 2Zm-3 14 1-7-1-5h-4l-3 4-1 6 1 5 4 1 3-4Z"
               />
-              <path id="Vector_37" d="M164 25v21l-3 2V30l-4 2v-3l7-4Z" />
+              <path class="grid-one" d="M164 25v21l-3 2V30l-4 2v-3l7-4Z" />
               <path
-                id="Vector_38"
+                class="grid-zero"
                 d="m182 19 1 5a21 21 0 0 1-3 12l-4 4-4 1c-2 0-3-1-3-2l-1-6a21 21 0 0 1 3-12l4-3 4-1c2 0 3 1 3 2Zm-3 14 1-7-1-5h-4l-3 4-1 6 1 5h4l3-3Z"
               />
-              <path id="Vector_39" d="M192 8v22l-3 2V14l-4 2v-3l7-5Z" />
+              <path class="grid-one" d="M192 8v22l-3 2V14l-4 2v-3l7-5Z" />
               <path
-                id="Vector_40"
+                class="grid-zero"
                 d="m210 3 1 5a20 20 0 0 1-3 12l-4 4-4 1c-2-1-3-1-3-3l-1-5a21 21 0 0 1 3-12l4-3c2-1 3-2 4-1 2 0 3 0 3 2Zm-3 13 1-6-1-5h-4l-3 4-1 6 1 5h4l3-4Z"
               />
-              <path id="Vector_41" d="M108 90v21l-3 2V95l-4 3v-4l7-4Z" />
+              <path class="grid-one" d="M108 90v21l-3 2V95l-4 3v-4l7-4Z" />
               <path
-                id="Vector_42"
+                class="grid-zero"
                 d="m126 84 1 5a21 21 0 0 1-3 12l-4 4-4 1c-2 0-2-1-3-2l-1-5a21 21 0 0 1 4-12l4-4 4-1 2 2Zm-3 14 1-6-1-6h-3l-4 4-1 6 1 5 4 1 3-4Z"
               />
-              <path id="Vector_43" d="M136 74v21l-3 2V79l-4 2v-3l7-4Z" />
+              <path class="grid-one" d="M136 74v21l-3 2V79l-4 2v-3l7-4Z" />
               <path
-                id="Vector_44"
+                class="grid-zero"
                 d="m154 68 1 5a21 21 0 0 1-3 12l-4 4-4 1c-2 0-2-1-3-2l-1-6a21 21 0 0 1 4-12l4-3 4-1 2 2Zm-3 14 1-7-1-5h-3l-4 4-1 6 1 5h4l3-3Z"
               />
-              <path id="Vector_45" d="M164 58v21l-3 2V63l-4 2v-3l7-4Z" />
+              <path class="grid-one" d="M164 58v21l-3 2V63l-4 2v-3l7-4Z" />
               <path
-                id="Vector_46"
+                class="grid-zero"
                 d="m182 52 1 5a21 21 0 0 1-3 12l-4 4-4 1-3-3-1-5a21 21 0 0 1 4-12c1-1 2-3 4-3 1-1 2-2 4-1 1 0 2 0 2 2Zm-3 13 1-6-1-5h-3l-4 4-1 6 1 5h4l3-4Z"
               />
-              <path id="Vector_47" d="M192 41v22l-3 2V47l-4 2v-3l7-5Z" />
+              <path class="grid-one" d="M192 41v22l-3 2V47l-4 2v-3l7-5Z" />
               <path
-                id="Vector_48"
+                class="grid-zero"
                 d="m210 36 1 5a20 20 0 0 1-3 12l-4 4-4 1-3-3-1-5a21 21 0 0 1 4-12l4-4 4-1c1 1 2 1 2 3Zm-3 13 1-6-1-5h-3l-4 4-1 6 1 5h4l3-4Z"
               />
-              <path id="Vector_49" d="M108 123v21l-3 2v-18l-4 2v-3l7-4Z" />
+              <path class="grid-one" d="M108 123v21l-3 2v-18l-4 2v-3l7-4Z" />
               <path
-                id="Vector_50"
+                class="grid-zero"
                 d="m126 117 1 5a21 21 0 0 1-3 12l-4 4-4 1-3-2-1-6a21 21 0 0 1 4-12l4-3 4-1 2 2Zm-3 14 1-7-1-5h-3c-2 1-3 2-3 4l-2 6c0 3 1 5 2 5h3l3-3Z"
               />
-              <path id="Vector_51" d="M136 107v21l-3 2v-18l-4 2v-3l7-4Z" />
+              <path class="grid-one" d="M136 107v21l-3 2v-18l-4 2v-3l7-4Z" />
               <path
-                id="Vector_52"
+                class="grid-zero"
                 d="m154 101 2 5-1 7-3 5-4 4-4 1-3-2-1-6a21 21 0 0 1 4-12l4-3c1-1 2-2 4-1l2 2Zm-3 14 1-7-1-5h-3c-2 1-3 2-3 4l-2 6c0 3 1 4 2 5h3l3-3Z"
               />
-              <path id="Vector_53" d="M164 90v22l-3 2V96l-4 2v-3l7-5Z" />
+              <path class="grid-one" d="M164 90v22l-3 2V96l-4 2v-3l7-5Z" />
               <path
-                id="Vector_54"
+                class="grid-zero"
                 d="m182 85 2 5a21 21 0 0 1-4 12l-4 4-4 1-3-3-1-5a21 21 0 0 1 4-12c1-1 2-3 4-3l4-2c1 1 2 1 2 3Zm-3 13 1-6-1-5h-3c-2 1-3 2-3 4l-2 6c0 3 1 4 2 5h3l3-4Z"
               />
-              <path id="Vector_55" d="M192 74v22l-3 2V80l-4 2v-3l7-5Z" />
+              <path class="grid-one" d="M192 74v22l-3 2V80l-4 2v-3l7-5Z" />
               <path
-                id="Vector_56"
+                class="grid-zero"
                 d="m210 69 2 5a21 21 0 0 1-4 12l-4 3c-2 1-3 2-4 1-1 0-2 0-3-2l-1-5a21 21 0 0 1 4-12l4-4 4-1c1 0 2 1 2 3Zm-3 13 1-6-1-5h-3c-2 1-3 2-3 4l-2 6 2 5h3l3-4Z"
               />
             </g>
@@ -513,15 +464,10 @@ onUnmounted(() => ctx?.revert())
               style="fill: #000; fill-opacity: 1"
             />
             <path
-              id="mid-dev-sqr-center"
+              id="mid-color-change-2"
               ref="mid-dev"
-              fill="#FFEB58"
+              class="fill-yellow-300"
               d="M188 396c3 2 3 6 0 8l-31 17c-3 2-9 2-13 0l-31-17c-3-2-3-6 0-8l31-18c4-2 9-2 13 0l31 18Z"
-              style="
-                fill: #ffeb58;
-                fill: color(display-p3 1 0.9216 0.3451);
-                fill-opacity: 1;
-              "
             />
             <path
               id="Vector_61"

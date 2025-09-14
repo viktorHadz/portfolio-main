@@ -14,6 +14,7 @@ const responsiveClasses = 'size-24 sm:size-32 md:size-44 lg:size-56 xl:size-64'
     <TheCard
       title="Full stack"
       text="Design, build, deploy and maintain. Complete system, not fragents."
+      gsap-selector="full-stacked"
     >
       <template #graphic>
         <TheFullstack :class="responsiveClasses" />
