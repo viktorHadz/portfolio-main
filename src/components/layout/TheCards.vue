@@ -32,6 +32,7 @@ const responsiveClasses = 'size-24 sm:size-32 md:size-44 lg:size-56 xl:size-64'
     <TheCard
       title="Efficient"
       text=" Saving time, reducing costs, and delivering value."
+      gsap-selector="the-efficient"
     >
       <template #graphic>
         <Efficiency :class="responsiveClasses" />
