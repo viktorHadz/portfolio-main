@@ -2,15 +2,19 @@
 import { onMounted, onUnmounted } from 'vue'
 import { gsap } from 'gsap'
 
-let ctx, liftTl, dotsTl, floatTween
-let card // for cleanup
+let ctx, masterTl, card
 
-function createLiftTimeline() {
-  return gsap
-    .timeline({ paused: true })
-    .to('.form-all', { y: -20, duration: 0.3, ease: 'sine.inOut' })
+function createMasterTimeline() {
+  const dots = '.dot'
+
+  gsap.set(dots, { opacity: 0 })
+
+  const tl = gsap.timeline({ paused: true })
+
+  // lfit els & button visuals
+  tl.to('.form-all', { y: -20, duration: 0.3, ease: 'sine.inOut' })
     .to('.text-bubble', { y: -25, duration: 0.3, ease: 'sine.inOut' }, '-=0.2')
-    .to(['.play-btn', '.inputs-form'], { y: -20, duration: 1 })
+    .to(['.play-btn', '.inputs-form'], { y: -20, duration: 1 }, '-=0.2')
     .to(
       '.button-outline',
       {
@@ -23,55 +27,37 @@ function createLiftTimeline() {
     )
     .to('.button-fill', { fill: '#ff8c00', duration: 0.3 }, '-=0.5')
     .to('.playbutton-icon', { fill: '#FFEB58', duration: 0.3 }, '-=0.5')
-    .to(['.input-fill-top', '.input-fill'], {
-      fill: 'var(--acc-primary)',
-      duration: 0.3,
-    })
-}
+    .to(
+      ['.input-fill-top', '.input-fill'],
+      { fill: 'var(--acc-primary)', duration: 0.3 },
+      '-=0.5',
+    )
 
-function createFloatTween() {
-  return gsap.to(['.form-all', '.text-bubble'], {
-    y: 5,
-    yoyo: true,
-    repeat: -1,
-    ease: 'power1',
-    duration: 1.5,
-    paused: true, // allows running only when told to
-  })
-}
+  // float ui kicks in after lift finishes
+  tl.to(
+    ['.form-all', '.text-bubble'],
+    { y: '+=5', yoyo: true, repeat: -1, ease: 'sine.inOut', duration: 1.5 },
+    '>-0.2', // start right after lift
+  )
 
-function createDotsTimeline() {
-  const dots = '.dot'
-  gsap.set(dots, { opacity: 0 })
+  // dots
+  tl.to(
+    dots,
+    { opacity: 1, duration: 0.3, stagger: 0.3, repeat: -1, yoyo: true },
+    '<', // start same time as float
+  )
 
-  return gsap
-    .timeline({ repeat: -1, paused: true })
-    .to(dots, { opacity: 1, duration: 0.3, stagger: 0.3 })
-    .to(dots, { opacity: 0, duration: 0.2, delay: 0.5 })
+  return tl
 }
 
 onMounted(() => {
   ctx = gsap.context(() => {
-    liftTl = createLiftTimeline()
-    floatTween = createFloatTween()
-    dotsTl = createDotsTimeline()
-
+    masterTl = createMasterTimeline()
     card = document.querySelector('.easy-to-use')
     if (!card) return
 
-    const onEnter = () => {
-      liftTl.play().eventCallback('onComplete', () => {
-        floatTween.play()
-      })
-      dotsTl.play()
-    }
-
-    const onLeave = () => {
-      floatTween.pause()
-      liftTl.reverse()
-      dotsTl.pause(0)
-      gsap.set('.dot', { opacity: 0 })
-    }
+    const onEnter = () => masterTl.play(0)
+    const onLeave = () => masterTl.reverse()
 
     card.addEventListener('mouseenter', onEnter)
     card.addEventListener('mouseleave', onLeave)

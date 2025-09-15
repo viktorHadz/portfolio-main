@@ -41,6 +41,7 @@ const responsiveClasses = 'size-24 sm:size-32 md:size-44 lg:size-56 xl:size-64'
     <TheCard
       title="Secure"
       text="Security as a default resilient code, safe data, and robust systems."
+      gsap-selector="the-secure"
     >
       <template #graphic>
         <TheSecure :class="responsiveClasses" />
