@@ -1,7 +1,12 @@
 <script setup>
 import { ref } from 'vue'
 import TheButton from './TheButton.vue'
-import { Dialog, DialogPanel, DialogTitle, DialogDescription } from '@headlessui/vue'
+import {
+  Dialog,
+  DialogPanel,
+  DialogTitle,
+  DialogDescription,
+} from '@headlessui/vue'
 
 const isOpen = ref(false)
 
@@ -24,7 +29,11 @@ const setIsOpen = (value) => {
 </script>
 
 <template>
-  <TheButton @click="isOpen = true" :class="openButtonClasses" :variant="openButtonVariant">
+  <TheButton
+    @click="isOpen = true"
+    :class="openButtonClasses"
+    :variant="openButtonVariant"
+  >
     {{ openDialogButtonTitle }}
   </TheButton>
   <Teleport to="body">
@@ -36,7 +45,9 @@ const setIsOpen = (value) => {
         >
           <DialogTitle class="text-xl font-bold">
             <slot name="diagTitle"></slot>
-            <hr class="from-acc-sec to-acc-prim mt-2 h-px border-0 bg-gradient-to-r" />
+            <hr
+              class="from-acc-sec to-acc-prim mt-2 h-px border-0 bg-gradient-to-r"
+            />
           </DialogTitle>
           <DialogDescription class="text-fg-sec">
             <slot name="diagDesc"></slot>

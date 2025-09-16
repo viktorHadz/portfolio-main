@@ -67,16 +67,32 @@ onMounted(() => {
   setEyeRy = gsap.quickTo(eyeRightEl.value, 'y', { ease: 'power3' })
 
   gsap.set(mouthEl.value, { transformOrigin: '50% 50%' })
-  setMouthSkewX = gsap.quickTo(mouthEl.value, 'skewX', { duration: 0.18, ease: 'power2' })
-  setMouthScaleY = gsap.quickTo(mouthEl.value, 'scaleY', { duration: 0.18, ease: 'power2' })
-  setMouthY = gsap.quickTo(mouthEl.value, 'y', { duration: 0.18, ease: 'power2' })
+  setMouthSkewX = gsap.quickTo(mouthEl.value, 'skewX', {
+    duration: 0.18,
+    ease: 'power2',
+  })
+  setMouthScaleY = gsap.quickTo(mouthEl.value, 'scaleY', {
+    duration: 0.18,
+    ease: 'power2',
+  })
+  setMouthY = gsap.quickTo(mouthEl.value, 'y', {
+    duration: 0.18,
+    ease: 'power2',
+  })
 
-  gsap.set(headEl.value, { transformOrigin: '50% 50%', transformBox: 'fill-box' })
+  gsap.set(headEl.value, {
+    transformOrigin: '50% 50%',
+    transformBox: 'fill-box',
+  })
   // emerges from portal then iddly bobs
   headBobTl = gsap
     .timeline({ paused: true })
     // emerge
-    .fromTo(headEl.value, { y: 10 }, { y: 0, duration: 0.9, ease: 'power3.out' })
+    .fromTo(
+      headEl.value,
+      { y: 10 },
+      { y: 0, duration: 0.9, ease: 'power3.out' },
+    )
     // idle bob loop
     .to(headEl.value, {
       y: 4, // peak
@@ -109,13 +125,13 @@ onMounted(() => {
     }
 
     const eyeX =
-      mouseOffsetX.value < 0
-        ? mouseOffsetX.value * MAX.eye.xLeft
-        : mouseOffsetX.value * MAX.eye.xRight
+      mouseOffsetX.value < 0 ?
+        mouseOffsetX.value * MAX.eye.xLeft
+      : mouseOffsetX.value * MAX.eye.xRight
     const eyeY =
-      mouseOffsetY.value < 0
-        ? mouseOffsetY.value * MAX.eye.yTop // looking up
-        : mouseOffsetY.value * MAX.eye.yBottom // looking down
+      mouseOffsetY.value < 0 ?
+        mouseOffsetY.value * MAX.eye.yTop // looking up
+      : mouseOffsetY.value * MAX.eye.yBottom // looking down
 
     setEyeLx(eyeX)
     setEyeLy(eyeY)
@@ -217,7 +233,11 @@ onBeforeUnmount(() => {
               id="facefill"
               fill="#EFBDA2"
               d="m176.5 116.4 84-5 15.4 37-8.8 53.8-9.9 22.6-18.3 15.6-17 5-18.5-1-12.3-6.3-8.8-9-7.1-15.1-3.3-30.5 2.4-42.3 4-17.4-1.8-7.4Z"
-              style="fill: #efbda2; fill: color(display-p3 0.9373 0.7412 0.6353); fill-opacity: 1"
+              style="
+                fill: #efbda2;
+                fill: color(display-p3 0.9373 0.7412 0.6353);
+                fill-opacity: 1;
+              "
             />
             <path
               id="nose-line"
@@ -250,7 +270,11 @@ onBeforeUnmount(() => {
               fill-rule="evenodd"
               d="M273 170.3c7.5-10.4 16.7-8.5 16.7 3.6 0 12.8-11.4 26-19.9 23-.7-.2-1.2-.5-1.2-.7 0-1.7-.6-1-1.4.9 2.2-9 3.3-21.3 4-24.5l1.8-2.3Zm11.3-2.2c-.2 0-1.3.8-2.4 1.8-5.3 4.7-11 16.6-8 16.6.2 0 .7-.8 1-1.9.9-3.9 3.8-9 7-12.4 2.8-3 3.5-4.1 2.4-4.1Z"
               clip-rule="evenodd"
-              style="fill: #efbda2; fill: color(display-p3 0.9373 0.7412 0.6353); fill-opacity: 1"
+              style="
+                fill: #efbda2;
+                fill: color(display-p3 0.9373 0.7412 0.6353);
+                fill-opacity: 1;
+              "
             />
             <g id="neu-glasses">
               <path
@@ -267,13 +291,21 @@ onBeforeUnmount(() => {
                 id="moustache"
                 fill="#A78570"
                 d="M185 204.5a17 17 0 0 1 14.2-8.6c2.9 0 5.5.8 6 .7 2.6.5 6.4-.3 7.7-1 .9-.3 1-1.2 1.2-1.1.3.2.7-.1 2.1 0 18.5 2 23 3.6 26 9.7 2.5 5.2 2.3 6-.7 2.4-.8-.8-3-3-5.4-4.6-1.7-.5-3-4-11.3 1.3-9.2 2.8-11 2.9-22.7 1-9.3-1.5-11.4-1.3-15.4 1.4-3.4 2.3-3.7 2.1-1.7-1.2Z"
-                style="fill: #a78570; fill: color(display-p3 0.6549 0.5216 0.4392); fill-opacity: 1"
+                style="
+                  fill: #a78570;
+                  fill: color(display-p3 0.6549 0.5216 0.4392);
+                  fill-opacity: 1;
+                "
               />
               <path
                 id="beard_2"
                 fill="#A78570"
                 d="M220.8 244.4c9-.4 31.2-8.2 41.2-31.3 2.4-5.9 3.3-9 5-15.4 2.5-9.5 3.6-22.9 4.2-25.5-.6.2-.7.3-1-.6-1.8 13.5-17.8 44.8-24.3 42.8-1.5-.6-1.6-.5-2.3 1.6-7.8 23.4-50.9 24.7-57 1.4-2-3.3-.7-4.3-1.5-4.3-6 1.1-9.4-11.5-11.5-18.3a68 68 0 0 0 3.7 22.6c1 4.3 7 13.6 13.1 18.5 9.7 7.7 18.7 9 30.4 8.5Z"
-                style="fill: #a78570; fill: color(display-p3 0.6549 0.5216 0.4392); fill-opacity: 1"
+                style="
+                  fill: #a78570;
+                  fill: color(display-p3 0.6549 0.5216 0.4392);
+                  fill-opacity: 1;
+                "
               />
               <path
                 id="soul-patch"
@@ -293,7 +325,12 @@ onBeforeUnmount(() => {
                 fill="#fff"
                 stroke-width="1.2"
                 d="M185.2 154.3c9.9-3.7 19 6.4 14.3 15.8-1.3 2.8-4.5 4.6-8 5-3.6.6-7.5-.3-10.2-2.5-2.6-2.2-3.4-6.1-2.6-9.9.8-3.8 3.1-7.2 6.5-8.4Z"
-                style="fill: #fff; fill-opacity: 1; stroke: #000; stroke-opacity: 1"
+                style="
+                  fill: #fff;
+                  fill-opacity: 1;
+                  stroke: #000;
+                  stroke-opacity: 1;
+                "
               />
               <path
                 id="pupil"
@@ -301,7 +338,12 @@ onBeforeUnmount(() => {
                 stroke-width=".4"
                 ref="eye-left-el"
                 d="M189.4 161.1c1 0 1.8.4 2.3 1 .5.5.8 1.3.8 2 0 1.6-1 3.3-2.8 3.7h-.2c-1.3.3-2.4-.5-3-1.8a3.7 3.7 0 0 1 1.7-4.7 3 3 0 0 1 1.2-.2Z"
-                style="fill: #000; fill-opacity: 1; stroke: #000; stroke-opacity: 1"
+                style="
+                  fill: #000;
+                  fill-opacity: 1;
+                  stroke: #000;
+                  stroke-opacity: 1;
+                "
               />
             </g>
             <g id="right-eye" stroke="#000">
@@ -310,7 +352,12 @@ onBeforeUnmount(() => {
                 fill="#fff"
                 stroke-width="1.4"
                 d="M232.4 155.7c4.6-1.7 9 .3 11.7 3.8 2.7 3.4 3.6 8.3 1.5 12.3-1.8 3-5.9 4.6-10 4.6-4.3 0-8.2-1.6-9.6-4.5a12 12 0 0 1-.7-9.4c1-2.9 3.4-5.4 7-6.8Z"
-                style="fill: #fff; fill-opacity: 1; stroke: #000; stroke-opacity: 1"
+                style="
+                  fill: #fff;
+                  fill-opacity: 1;
+                  stroke: #000;
+                  stroke-opacity: 1;
+                "
               />
               <path
                 id="pupil_2"
@@ -318,7 +365,12 @@ onBeforeUnmount(() => {
                 fill="#000"
                 stroke-width=".4"
                 d="M235.7 162c1 0 1.9.4 2.4 1s.8 1.5.8 2.4c0 1.8-1 3.7-3.2 4-1.4.4-2.5-.6-3-2-.6-1.3-.5-3 .6-4.3l1-1a3 3 0 0 1 1.4-.2Z"
-                style="fill: #000; fill-opacity: 1; stroke: #000; stroke-opacity: 1"
+                style="
+                  fill: #000;
+                  fill-opacity: 1;
+                  stroke: #000;
+                  stroke-opacity: 1;
+                "
               />
             </g>
             <g id="brows">
@@ -348,7 +400,11 @@ onBeforeUnmount(() => {
                 id="hair-color"
                 fill="#554845"
                 d="M207 81.9c-4.8 1.6-5.6 1.5-7.6-.4-2.4-2.2-3.3-.8-3.4 5.3 0 2 0 2-2.3 1.8-6.3-.3-11.9 2.3-17.1 8.2-3.2 3.5-4.1 4-8 3.9-3.5 0-4.2 3-1.7 8.3 1 2.3 1 2.4-.7 2.8-2.4.5-.7 7.2 2.7 10.5 4.3 4.4 6.6 5.2 7.7 2.9 2.7-5.7 2.6-5.1.3-7.4-2.8-2.7-2-3.4 1-1 4.2 3.5 10.5 3.6 16.6.5 2.9-1.4 3-1.8 1.9-3.7-2.8-4-3-9-.3-7.1a6.2 6.2 0 0 0 7.5-.2c1.5-1.3 2.6-.7 1.4.7-1.8 2-5.5 2.8-7.7 1.6-1.5-.7-1.6-.6-1 1.3 1.3 5.2 5.7 7.4 14.6 7.3 6.5 0 9.4-1 15.7-5.4.4-.3.9 0 1.9 1.2 3.1 3.7 9.5 4 16.2.9 3.4-1.6 4.4-1.3 2.2.6-3.4 3 4.5 6.8 10.3 5.1.7-.2 1 0 2 2 .7 1.3 2.6 4 4.1 6 7.2 9 8 12 8.1 27 .3 11-.4 11.4-.4 15 8-9 10.6-5.2 14-35.8.5-4.6-1-10.8-3.4-14.6-.9-1.3-1.3-2.2-1.2-3 .2-1.8-1.3-3.8-3.5-5-1.8-.8-1.9-1-2.1-3-1-8.7-3-10.5-9.4-8.6-2 .7-2 .8-2.4-2.3-.6-4.6-3.6-8-8.8-10.2a34 34 0 0 1-6.8-3.6c-.3 0 .3 3.3.8 4.3 1.2 2.4.3 2.5-2.3.4-1-.8-3.4-2.2-5.3-3l-6.3-3a11 11 0 0 0-3.2-1.3c-.2.3-.2 2.6.1 4.3.4 2-1 1.8-7-1.1-8.1-4-11-4.4-17.3-2.2Z"
-                style="fill: #554845; fill: color(display-p3 0.3333 0.2824 0.2706); fill-opacity: 1"
+                style="
+                  fill: #554845;
+                  fill: color(display-p3 0.3333 0.2824 0.2706);
+                  fill-opacity: 1;
+                "
               />
             </g>
           </g>

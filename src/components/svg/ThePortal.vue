@@ -4,7 +4,12 @@
     <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" class="">
       <defs></defs>
 
-      <path id="blob" class="fill-acc-prim" transform="translate(100 100)" filter="url(#glow)">
+      <path
+        id="blob"
+        class="fill-acc-prim"
+        transform="translate(100 100)"
+        filter="url(#glow)"
+      >
         <animate
           attributeName="d"
           dur="5s"

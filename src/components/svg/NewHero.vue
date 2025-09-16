@@ -67,9 +67,18 @@ onMounted(() => {
   setHeadRotY = gsap.quickTo(headEl.value, 'rotationY', { ease: 'power3' })
 
   gsap.set(mouthEl.value, { transformOrigin: '50% 50%' })
-  setMouthSkewX = gsap.quickTo(mouthEl.value, 'skewX', { duration: 0.18, ease: 'power2' })
-  setMouthScaleY = gsap.quickTo(mouthEl.value, 'scaleY', { duration: 0.18, ease: 'power2' })
-  setMouthY = gsap.quickTo(mouthEl.value, 'y', { duration: 0.18, ease: 'power2' })
+  setMouthSkewX = gsap.quickTo(mouthEl.value, 'skewX', {
+    duration: 0.18,
+    ease: 'power2',
+  })
+  setMouthScaleY = gsap.quickTo(mouthEl.value, 'scaleY', {
+    duration: 0.18,
+    ease: 'power2',
+  })
+  setMouthY = gsap.quickTo(mouthEl.value, 'y', {
+    duration: 0.18,
+    ease: 'power2',
+  })
 
   const { pause } = useRafFn(() => {
     if (mouseOffsetX.value < 0) {
@@ -82,9 +91,9 @@ onMounted(() => {
 
     const eyeX = mouseOffsetX.value * MAX.eye.offsetX
     const eyeY =
-      mouseOffsetY.value < 0
-        ? mouseOffsetY.value * MAX.eye.yTop // looking up
-        : mouseOffsetY.value * MAX.eye.yBottom // looking down
+      mouseOffsetY.value < 0 ?
+        mouseOffsetY.value * MAX.eye.yTop // looking up
+      : mouseOffsetY.value * MAX.eye.yBottom // looking down
 
     setEyeLx(eyeX)
     setEyeLy(eyeY)
@@ -134,8 +143,15 @@ onBeforeUnmount(() => {
     </div> -->
 
     <!-- HEAD -->
-    <div class="head-wrapper absolute" style="perspective: 1000px; transform-style: preserve-3d">
-      <svg ref="head-el" class="h-full w-full will-change-transform" viewBox="0 0 201 258">
+    <div
+      class="head-wrapper absolute"
+      style="perspective: 1000px; transform-style: preserve-3d"
+    >
+      <svg
+        ref="head-el"
+        class="h-full w-full will-change-transform"
+        viewBox="0 0 201 258"
+      >
         <g id="ears-jaw-hair" fill="currentColor">
           <path
             id="soul-patch"
@@ -162,7 +178,11 @@ onBeforeUnmount(() => {
     </div>
     <!-- BROW LEFT -->
     <div class="brow-left-wrapper absolute">
-      <svg class="h-full w-full will-change-transform" viewBox="0 0 201 258" ref="brow-left-el">
+      <svg
+        class="h-full w-full will-change-transform"
+        viewBox="0 0 201 258"
+        ref="brow-left-el"
+      >
         <path
           id="eyebrow-left"
           fill="currentColor"
@@ -172,7 +192,11 @@ onBeforeUnmount(() => {
     </div>
     <!-- BROW RIGHT (y translate) -->
     <div class="brow-right-wrapper absolute">
-      <svg class="h-full w-full will-change-transform" viewBox="0 0 201 258" ref="brow-right-el">
+      <svg
+        class="h-full w-full will-change-transform"
+        viewBox="0 0 201 258"
+        ref="brow-right-el"
+      >
         <path
           id="eyebrow-right"
           fill="currentColor"

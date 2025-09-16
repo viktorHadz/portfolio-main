@@ -55,7 +55,9 @@ onBeforeUnmount(() => {
 })
 </script>
 <template>
-  <div class="border-brdr container flex place-content-center place-self-center border">
+  <div
+    class="border-brdr container flex place-content-center place-self-center border"
+  >
     <div class="flex-flex-col">
       <div class="flex gap-2">
         <div
@@ -88,13 +90,19 @@ onBeforeUnmount(() => {
       <div
         class="border-brdr from-acc-prim via-acc-sec to-acc-ter mt-2 flex h-22 w-70 gap-2 border bg-gradient-to-r"
       ></div>
-      <div class="border-brdr grad-tr-prim-sec mt-2 flex h-22 w-70 gap-2 border text-black">
+      <div
+        class="border-brdr grad-tr-prim-sec mt-2 flex h-22 w-70 gap-2 border text-black"
+      >
         prim to sec
       </div>
-      <div class="border-brdr grad-tr-sec-ter mt-2 flex h-22 w-70 gap-2 border text-black">
+      <div
+        class="border-brdr grad-tr-sec-ter mt-2 flex h-22 w-70 gap-2 border text-black"
+      >
         sec to ter
       </div>
-      <div class="border-brdr grad-tr-prim-ter mt-2 flex h-22 w-70 gap-2 border text-black">
+      <div
+        class="border-brdr grad-tr-prim-ter mt-2 flex h-22 w-70 gap-2 border text-black"
+      >
         prim to ter
       </div>
     </div>
@@ -135,7 +143,10 @@ onBeforeUnmount(() => {
 
     <div id="boundary" class="h-[600px] max-w-full">
       <img :src="svgVue" alt="svg-vue" ref="svgVueRef" class="size-24" />
-      <div ref="box" class="size-24 bg-gradient-to-br from-lime-400 to-green-300 p-2"></div>
+      <div
+        ref="box"
+        class="size-24 bg-gradient-to-br from-lime-400 to-green-300 p-2"
+      ></div>
       <div class="grad-tr-prim-sec follow-box size-24 p-2"></div>
     </div>
   </TheContainer>

@@ -2,7 +2,8 @@
 defineProps({
   variant: {
     type: String,
-    validator: (value) => ['primary', 'secondary', 'tertiary', 'neu', 'neu-sec'].includes(value),
+    validator: (value) =>
+      ['primary', 'secondary', 'tertiary', 'neu', 'neu-sec'].includes(value),
   },
   disabled: {
     type: Boolean,

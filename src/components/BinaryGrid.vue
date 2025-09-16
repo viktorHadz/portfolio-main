@@ -95,7 +95,8 @@ onMounted(() => {
   drawAll()
 
   // flip a tiny random subset each tick (partial redraw only)
-  const perTick = () => Math.max(1, Math.floor(bits.length * props.flipFraction))
+  const perTick = () =>
+    Math.max(1, Math.floor(bits.length * props.flipFraction))
   const ms = Math.max(16, Math.floor(1000 / props.fps))
   timer = setInterval(() => {
     const flips = perTick()
@@ -116,9 +117,11 @@ onMounted(() => {
       const minR = Math.min(prev.R, R),
         minC = Math.min(prev.C, C)
       for (let r = 0; r < minR; r++)
-        for (let c = 0; c < minC; c++) nextBits[r * C + c] = prev.bits[r * prev.C + c]
+        for (let c = 0; c < minC; c++)
+          nextBits[r * C + c] = prev.bits[r * prev.C + c]
     } else {
-      for (let i = 0; i < nextBits.length; i++) nextBits[i] = Math.random() < 0.5 ? 0 : 1
+      for (let i = 0; i < nextBits.length; i++)
+        nextBits[i] = Math.random() < 0.5 ? 0 : 1
     }
     bits = nextBits
     drawAll()

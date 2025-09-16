@@ -14,22 +14,22 @@ defineProps({
 </script>
 <template>
   <div :class="['group', gsapSelector]">
-    <div
-      class="bg-bg-prim border-brdr group-hover:border-acc-prim flex h-full w-full items-center rounded-2xl border p-4 text-center md:flex-col"
-    >
-      <div class="select-none group-hover:opacity-100 md:opacity-70">
-        <slot name="graphic">
-          <div>
-            <MenchDontKnow></MenchDontKnow>
-          </div>
-        </slot>
-        <h2 class="mt-8 text-3xl font-bold tracking-tight">
-          {{ title ? title : 'Card Title' }}
-        </h2>
-        <hr class="group-hover:text-acc-prim mx-auto w-1/2 border-1" />
-        <p class="text-fg-sec mt-2">
-          {{ text ? text : 'Card body placeholder.' }}
-        </p>
+    <div class="relative">
+      <slot name="graphic">
+        <div>
+          <MenchDontKnow></MenchDontKnow>
+        </div>
+      </slot>
+      <div class="absolute -top-36">
+        <div class="flex flex-col justify-start">
+          <h2 class="text-3xl font-bold tracking-tight">
+            {{ title ? title : '' }}
+          </h2>
+          <!-- <hr class="group-hover:text-acc-prim mx-auto w-1/2 border-1" /> -->
+          <p class="text-fg-sec mt-2">
+            {{ text ? text : '' }}
+          </p>
+        </div>
       </div>
     </div>
   </div>
