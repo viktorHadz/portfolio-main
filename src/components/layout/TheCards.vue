@@ -5,6 +5,7 @@ import TheFullstack from '@/components/svg/TheFullstack.vue'
 import EasyToUse from '@/components/svg/TheEasyToUse.vue'
 import TheSecure from '@/components/svg/TheSecure.vue'
 import uiMorph from '@/assets/images/neomorph.png'
+import FullstackMench from '../svg/FullstackMench.vue'
 
 const responsiveClasses = 'size-24 sm:size-32 md:size-44 lg:size-56 xl:size-64'
 </script>
@@ -154,17 +155,17 @@ const responsiveClasses = 'size-24 sm:size-32 md:size-44 lg:size-56 xl:size-64'
             <div
               class="@container flex flex-1 items-center max-lg:py-6 lg:pb-2"
             >
-              <img :src="uiMorph" alt="uiBoardDecor" />
+              <!-- <img :src="uiMorph" alt="uiBoardDecor" /> -->
               <!-- <TheCard gsap-selector="full-stacked">
                 <template #graphic>
                   <TheFullstack :class="responsiveClasses" />
                 </template>
               </TheCard> -->
-              <!-- <img
+              <img
                 class="h-[min(152px,40cqw)] object-cover"
                 src="https://tailwindcss.com/plus-assets/img/component-images/dark-bento-03-security.png"
                 alt=""
-              /> -->
+              />
             </div>
           </div>
           <div
@@ -173,7 +174,7 @@ const responsiveClasses = 'size-24 sm:size-32 md:size-44 lg:size-56 xl:size-64'
         </div>
         <div class="relative lg:row-span-2">
           <div
-            class="absolute inset-px rounded-lg bg-gray-800 max-lg:rounded-b-4xl lg:rounded-r-4xl"
+            class="bg-bg-prim absolute inset-px rounded-lg max-lg:rounded-b-4xl lg:rounded-r-4xl"
           />
           <div
             class="relative flex h-full flex-col overflow-hidden rounded-[calc(var(--radius-lg)+1px)] max-lg:rounded-b-[calc(2rem+1px)] lg:rounded-r-[calc(2rem+1px)]"
@@ -182,36 +183,17 @@ const responsiveClasses = 'size-24 sm:size-32 md:size-44 lg:size-56 xl:size-64'
               <p
                 class="mt-2 text-lg font-medium tracking-tight text-white max-lg:text-center"
               >
-                Powerful APIs
+                Full stack
               </p>
               <p
                 class="mt-2 max-w-lg text-sm/6 text-gray-400 max-lg:text-center"
               >
-                Sit quis amet rutrum tellus ullamcorper ultricies libero dolor
-                eget sem sodales gravida.
+                “I design, build, and deploy complete systems — connecting
+                frontend, backend, and infrastructure into one seamless
+                product.”
               </p>
             </div>
-            <div class="relative min-h-120 w-full grow">
-              <div
-                class="absolute top-10 right-0 bottom-0 left-10 overflow-hidden rounded-tl-xl bg-gray-900/60 outline outline-white/10"
-              >
-                <div class="flex bg-gray-900 outline outline-white/5">
-                  <div class="-mb-px flex text-sm/6 font-medium text-gray-400">
-                    <div
-                      class="border-r border-b border-r-white/10 border-b-white/20 bg-white/5 px-4 py-2 text-white"
-                    >
-                      NotificationSetting.jsx
-                    </div>
-                    <div class="border-r border-gray-600/10 px-4 py-2">
-                      App.jsx
-                    </div>
-                  </div>
-                </div>
-                <div class="px-6 pt-6 pb-14">
-                  <!-- Your code example -->
-                </div>
-              </div>
-            </div>
+            <FullstackMench></FullstackMench>
           </div>
           <div
             class="pointer-events-none absolute inset-px rounded-lg shadow-sm outline outline-white/15 max-lg:rounded-b-4xl lg:rounded-r-4xl"
