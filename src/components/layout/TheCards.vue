@@ -2,10 +2,13 @@
 import TheCard from '@/components/layout/TheCard.vue'
 import Efficiency from '@/components/svg/TheEfficient.vue'
 import TheFullstack from '@/components/svg/TheFullstack.vue'
-import EasyToUse from '@/components/svg/TheEasyToUse.vue'
+// import EasyToUse from '@/components/svg/TheEasyToUse.vue'
 import TheSecure from '@/components/svg/TheSecure.vue'
 import uiMorph from '@/assets/images/neomorph.png'
 import FullstackMench from '../svg/FullstackMench.vue'
+import EasyToUseMench from '../svg/EasyToUseMench.vue'
+import SecureMench from '../svg/SecureMench.vue'
+import EfficientMench from '../svg/EfficientMench.vue'
 
 const responsiveClasses = 'size-24 sm:size-32 md:size-44 lg:size-56 xl:size-64'
 </script>
@@ -66,33 +69,20 @@ const responsiveClasses = 'size-24 sm:size-32 md:size-44 lg:size-56 xl:size-64'
             class="bg-bg-prim absolute inset-px rounded-lg lg:rounded-l-4xl"
           />
           <div
-            class="relative flex h-full flex-col overflow-hidden rounded-[calc(var(--radius-lg)+1px)] lg:rounded-l-[calc(2rem+1px)]"
+            class="relative flex h-full flex-col justify-center overflow-hidden rounded-[calc(var(--radius-lg)+1px)] lg:rounded-l-[calc(2rem+1px)]"
           >
+            <EasyToUseMench class="size-64"></EasyToUseMench>
             <div class="px-8 pt-8 pb-3 sm:px-10 sm:pt-10 sm:pb-0">
               <p
                 class="mt-2 text-lg font-medium tracking-tight text-white max-lg:text-center"
               >
-                Mobile friendly
+                Easy to Use
               </p>
               <p
                 class="mt-2 max-w-lg text-sm/6 text-gray-400 max-lg:text-center"
               >
-                Anim aute id magna aliqua ad ad non deserunt sunt. Qui irure qui
-                lorem cupidatat commodo.
+                Design that puts the user first. Making the complicated simple.
               </p>
-            </div>
-            <div
-              class="@container relative min-h-120 w-full grow max-lg:mx-auto max-lg:max-w-sm"
-            >
-              <div
-                class="absolute inset-x-10 top-10 bottom-0 overflow-hidden rounded-t-[12cqw] border-x-[3cqw] border-t-[3cqw] border-gray-700 bg-gray-900 outline outline-white/20"
-              >
-                <img
-                  class="size-full object-cover object-top"
-                  src="https://tailwindcss.com/plus-assets/img/component-images/bento-03-mobile-friendly.png"
-                  alt=""
-                />
-              </div>
             </div>
           </div>
           <div
@@ -110,24 +100,15 @@ const responsiveClasses = 'size-24 sm:size-32 md:size-44 lg:size-56 xl:size-64'
               <p
                 class="mt-2 text-lg font-medium tracking-tight text-white max-lg:text-center"
               >
-                Easy to Use
+                Efficient
               </p>
               <p
                 class="mt-2 max-w-lg text-sm/6 text-gray-400 max-lg:text-center"
               >
-                I focus on clarity and usability, turning complex systems into
-                simple, intuitive experiences.
+                Saving time, reducing costs, and delivering value.
               </p>
             </div>
-            <div
-              class="flex flex-1 items-center justify-center px-8 max-lg:pt-10 max-lg:pb-12 sm:px-10 lg:pb-2"
-            >
-              <img
-                class="w-full max-lg:max-w-xs"
-                src="https://tailwindcss.com/plus-assets/img/component-images/dark-bento-03-performance.png"
-                alt=""
-              />
-            </div>
+            <EfficientMench class="size-48"></EfficientMench>
           </div>
           <div
             class="pointer-events-none absolute inset-px rounded-lg shadow-sm outline outline-white/15 max-lg:rounded-t-4xl"
@@ -142,31 +123,16 @@ const responsiveClasses = 'size-24 sm:size-32 md:size-44 lg:size-56 xl:size-64'
               <p
                 class="mt-2 text-lg font-medium tracking-tight text-white max-lg:text-center"
               >
-                Full stack
+                Secure
               </p>
               <p
                 class="mt-2 max-w-lg text-sm/6 text-gray-400 max-lg:text-center"
               >
-                “I design, build, and deploy complete systems — connecting
-                frontend, backend, and infrastructure into one seamless
-                product.”
+                Security as a default. Resilient code and safe data to build
+                robust software.
               </p>
             </div>
-            <div
-              class="@container flex flex-1 items-center max-lg:py-6 lg:pb-2"
-            >
-              <!-- <img :src="uiMorph" alt="uiBoardDecor" /> -->
-              <!-- <TheCard gsap-selector="full-stacked">
-                <template #graphic>
-                  <TheFullstack :class="responsiveClasses" />
-                </template>
-              </TheCard> -->
-              <img
-                class="h-[min(152px,40cqw)] object-cover"
-                src="https://tailwindcss.com/plus-assets/img/component-images/dark-bento-03-security.png"
-                alt=""
-              />
-            </div>
+            <SecureMench class="size-64"></SecureMench>
           </div>
           <div
             class="pointer-events-none absolute inset-px rounded-lg shadow-sm outline outline-white/15"
@@ -177,7 +143,7 @@ const responsiveClasses = 'size-24 sm:size-32 md:size-44 lg:size-56 xl:size-64'
             class="bg-bg-prim absolute inset-px rounded-lg max-lg:rounded-b-4xl lg:rounded-r-4xl"
           />
           <div
-            class="relative flex h-full flex-col overflow-hidden rounded-[calc(var(--radius-lg)+1px)] max-lg:rounded-b-[calc(2rem+1px)] lg:rounded-r-[calc(2rem+1px)]"
+            class="relative flex h-full flex-col justify-center overflow-hidden rounded-[calc(var(--radius-lg)+1px)] max-lg:rounded-b-[calc(2rem+1px)] lg:rounded-r-[calc(2rem+1px)]"
           >
             <div class="px-8 pt-8 pb-3 sm:px-10 sm:pt-10 sm:pb-0">
               <p
@@ -193,7 +159,7 @@ const responsiveClasses = 'size-24 sm:size-32 md:size-44 lg:size-56 xl:size-64'
                 product.”
               </p>
             </div>
-            <FullstackMench></FullstackMench>
+            <FullstackMench class="size-64"></FullstackMench>
           </div>
           <div
             class="pointer-events-none absolute inset-px rounded-lg shadow-sm outline outline-white/15 max-lg:rounded-b-4xl lg:rounded-r-4xl"
