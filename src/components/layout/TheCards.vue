@@ -1,169 +1,98 @@
 <script setup>
-import TheCard from '@/components/layout/TheCard.vue'
-import Efficiency from '@/components/svg/TheEfficient.vue'
-import TheFullstack from '@/components/svg/TheFullstack.vue'
-// import EasyToUse from '@/components/svg/TheEasyToUse.vue'
-import TheSecure from '@/components/svg/TheSecure.vue'
-import uiMorph from '@/assets/images/neomorph.png'
 import FullstackMench from '../svg/FullstackMench.vue'
 import EasyToUseMench from '../svg/EasyToUseMench.vue'
 import SecureMench from '../svg/SecureMench.vue'
 import EfficientMench from '../svg/EfficientMench.vue'
-
-const responsiveClasses = 'size-24 sm:size-32 md:size-44 lg:size-56 xl:size-64'
 </script>
+
 <template>
-  <div
-    class="container grid grid-cols-1 gap-6 place-self-center sm:grid-cols-2 lg:grid-cols-4"
-  >
-    <TheCard
-      title="Full stack"
-      text="Build, deploy and maintain complete systems, not fragments."
-      gsap-selector="full-stacked"
-    >
-      <template #graphic>
-        <TheFullstack :class="responsiveClasses" />
-      </template>
-    </TheCard>
-    <TheCard
-      title="Easy to Use"
-      text="Design that puts the user first. Making the complicated simple."
-      gsap-selector="easy-to-use"
-    >
-      <template #graphic>
-        <EasyToUse :class="responsiveClasses" />
-      </template>
-    </TheCard>
-    <TheCard
-      title="Efficient"
-      text=" Saving time, reducing costs, and delivering value."
-      gsap-selector="the-efficient"
-    >
-      <template #graphic>
-        <Efficiency :class="responsiveClasses" />
-      </template>
-    </TheCard>
-    <TheCard
-      title="Secure"
-      text="Security as a default. Resilient code and safe data to build robust software."
-      gsap-selector="the-secure"
-    >
-      <template #graphic>
-        <TheSecure :class="responsiveClasses" />
-      </template>
-    </TheCard>
-  </div>
-  <div class="bg-bg-sec py-24 sm:py-32">
-    <div class="mx-auto max-w-2xl px-6 lg:max-w-7xl lg:px-8">
-      <h2 class="text-acc-prim text-center text-base/7 font-semibold">
-        built with purpose
+  <div class="bg-bg-sec py-16 sm:py-24 lg:py-32">
+    <div class="container mx-auto max-w-7xl px-6 lg:px-8">
+      <h2 class="text-acc-prim text-center text-sm font-semibold">
+        software built with purpose
       </h2>
       <p
-        class="text-fg-prim mx-auto mt-2 max-w-lg text-center text-4xl font-semibold tracking-tight text-balance sm:text-5xl"
+        class="text-fg-prim mx-auto mt-2 max-w-2xl text-center text-3xl font-bold tracking-tight sm:text-4xl lg:text-5xl"
       >
-        Full-stack development from idea to deployment
+        From idea to deployment
       </p>
-      <div class="mt-10 grid gap-4 sm:mt-16 lg:grid-cols-3 lg:grid-rows-2">
-        <div class="relative lg:row-span-2">
-          <div
-            class="bg-bg-prim absolute inset-px rounded-lg lg:rounded-l-4xl"
-          />
-          <div
-            class="relative flex h-full flex-col justify-center overflow-hidden rounded-[calc(var(--radius-lg)+1px)] lg:rounded-l-[calc(2rem+1px)]"
-          >
-            <EasyToUseMench class="size-64"></EasyToUseMench>
-            <div class="px-8 pt-8 pb-3 sm:px-10 sm:pt-10 sm:pb-0">
-              <p
-                class="mt-2 text-lg font-medium tracking-tight text-white max-lg:text-center"
-              >
-                Easy to Use
-              </p>
-              <p
-                class="mt-2 max-w-lg text-sm/6 text-gray-400 max-lg:text-center"
-              >
-                Design that puts the user first. Making the complicated simple.
-              </p>
-            </div>
+
+      <!-- Grid -->
+      <div class="mt-10 grid gap-6 sm:mt-16 sm:grid-cols-2 lg:grid-cols-5">
+        <!-- Fullstack -->
+        <div
+          class="bg-bg-prim flex flex-col items-center justify-between rounded-2xl p-6 sm:col-span-2 sm:flex-row sm:items-start sm:p-8 lg:col-span-3 lg:flex-col"
+        >
+          <div class="flex-1">
+            <h3 class="text-fg-prim text-2xl font-bold sm:text-3xl">
+              Full stack
+            </h3>
+            <p class="text-acc-prim mt-2 text-sm sm:text-lg">
+              Build, design, deploy and maintain complete systems, not
+              fragments.
+            </p>
           </div>
           <div
-            class="pointer-events-none absolute inset-px rounded-lg shadow-sm outline outline-white/15 lg:rounded-l-4xl"
-          />
+            class="mt-6 flex flex-1 justify-center sm:mt-0 sm:justify-end lg:mt-6"
+          >
+            <FullstackMench class="h-auto w-40 max-w-full sm:w-56 lg:w-64" />
+          </div>
         </div>
-        <div class="relative max-lg:row-start-1">
-          <div
-            class="bg-bg-prim absolute inset-px rounded-lg max-lg:rounded-t-4xl"
-          />
-          <div
-            class="relative flex h-full flex-col overflow-hidden rounded-[calc(var(--radius-lg)+1px)] max-lg:rounded-t-[calc(2rem+1px)]"
-          >
-            <div class="px-8 pt-8 sm:px-10 sm:pt-10">
-              <p
-                class="mt-2 text-lg font-medium tracking-tight text-white max-lg:text-center"
-              >
-                Efficient
-              </p>
-              <p
-                class="mt-2 max-w-lg text-sm/6 text-gray-400 max-lg:text-center"
-              >
-                Saving time, reducing costs, and delivering value.
-              </p>
-            </div>
-            <EfficientMench class="size-48"></EfficientMench>
+
+        <!-- Easy to use -->
+        <div
+          class="bg-bg-prim flex flex-col items-center justify-between rounded-2xl p-6 sm:items-start sm:p-8 lg:col-span-2 lg:flex-col"
+        >
+          <div class="flex-1 text-center sm:text-left">
+            <h3 class="text-fg-prim text-2xl font-bold sm:text-3xl">
+              Easy to Use
+            </h3>
+            <p class="text-acc-prim mt-2 text-sm sm:text-lg">
+              Design that puts the user first. Making the complicated simple.
+            </p>
           </div>
           <div
-            class="pointer-events-none absolute inset-px rounded-lg shadow-sm outline outline-white/15 max-lg:rounded-t-4xl"
-          />
+            class="mt-6 flex flex-1 justify-center sm:mt-0 sm:justify-end lg:mt-6"
+          >
+            <EasyToUseMench class="w-48 max-w-full sm:w-56 lg:w-64" />
+          </div>
         </div>
-        <div class="relative max-lg:row-start-3 lg:col-start-2 lg:row-start-2">
-          <div class="bg-bg-prim absolute inset-px rounded-lg" />
-          <div
-            class="relative flex h-full flex-col overflow-hidden rounded-[calc(var(--radius-lg)+1px)]"
-          >
-            <div class="px-8 pt-8 sm:px-10 sm:pt-10">
-              <p
-                class="mt-2 text-lg font-medium tracking-tight text-white max-lg:text-center"
-              >
-                Secure
-              </p>
-              <p
-                class="mt-2 max-w-lg text-sm/6 text-gray-400 max-lg:text-center"
-              >
-                Security as a default. Resilient code and safe data to build
-                robust software.
-              </p>
-            </div>
-            <SecureMench class="size-64"></SecureMench>
+
+        <!-- Efficient -->
+        <div
+          class="bg-bg-prim flex flex-col items-center justify-between rounded-2xl p-6 sm:items-start sm:p-8 lg:col-span-2 lg:flex-col"
+        >
+          <div class="flex-1">
+            <h3 class="text-fg-prim text-2xl font-bold sm:text-3xl">
+              Efficient
+            </h3>
+            <p class="text-acc-prim mt-2 text-sm sm:text-lg">
+              Saving time, reducing costs, and delivering value.
+            </p>
           </div>
           <div
-            class="pointer-events-none absolute inset-px rounded-lg shadow-sm outline outline-white/15"
-          />
+            class="mt-6 flex flex-1 justify-center sm:mt-0 sm:justify-end lg:mt-6"
+          >
+            <EfficientMench class="h-auto w-40 max-w-full sm:w-56 lg:w-64" />
+          </div>
         </div>
-        <div class="relative lg:row-span-2">
-          <div
-            class="bg-bg-prim absolute inset-px rounded-lg max-lg:rounded-b-4xl lg:rounded-r-4xl"
-          />
-          <div
-            class="relative flex h-full flex-col justify-center overflow-hidden rounded-[calc(var(--radius-lg)+1px)] max-lg:rounded-b-[calc(2rem+1px)] lg:rounded-r-[calc(2rem+1px)]"
-          >
-            <div class="px-8 pt-8 pb-3 sm:px-10 sm:pt-10 sm:pb-0">
-              <p
-                class="mt-2 text-lg font-medium tracking-tight text-white max-lg:text-center"
-              >
-                Full stack
-              </p>
-              <p
-                class="mt-2 max-w-lg text-sm/6 text-gray-400 max-lg:text-center"
-              >
-                “I design, build, and deploy complete systems — connecting
-                frontend, backend, and infrastructure into one seamless
-                product.”
-              </p>
-            </div>
-            <FullstackMench class="size-64"></FullstackMench>
+
+        <!-- Secure -->
+        <div
+          class="bg-bg-prim flex flex-col items-center justify-between rounded-2xl p-6 sm:col-span-2 sm:flex-row sm:items-start sm:p-8 lg:col-span-3 lg:flex-col"
+        >
+          <div class="flex-1">
+            <h3 class="text-fg-prim text-2xl font-bold sm:text-3xl">Secure</h3>
+            <p class="text-acc-prim mt-2 text-sm sm:text-lg">
+              Security as a default. Resilient code and safe data to build
+              robust software.
+            </p>
           </div>
           <div
-            class="pointer-events-none absolute inset-px rounded-lg shadow-sm outline outline-white/15 max-lg:rounded-b-4xl lg:rounded-r-4xl"
-          />
+            class="mt-6 flex flex-1 justify-center sm:mt-0 sm:justify-around lg:mt-6"
+          >
+            <SecureMench class="h-auto w-40 max-w-full sm:w-56 lg:w-64" />
+          </div>
         </div>
       </div>
     </div>

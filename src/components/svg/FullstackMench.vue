@@ -1,3 +1,28 @@
+<script setup>
+import gsap from 'gsap'
+import { onMounted, onUnmounted } from 'vue'
+
+let ctx
+function floatUpDown(element, y) {
+  const floatTween = gsap.to(element, {
+    y: y,
+    repeat: -1,
+    yoyo: true,
+    ease: 'sine.inOut',
+    duration: 1,
+  })
+  return floatTween
+}
+
+onMounted(() => {
+  ctx = gsap.context(() => {
+    floatUpDown('#form', -24)
+    floatUpDown('#keylock', -24)
+  })
+})
+
+onUnmounted(() => ctx?.revert())
+</script>
 <template>
   <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 969 888">
     <g id="Group 388">

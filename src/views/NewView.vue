@@ -5,8 +5,6 @@ import TheCards from '@/components/layout/TheCards.vue'
 <template>
   <div>
     <TheHero></TheHero>
-    <div class="bg-bg-sec py-44">
-      <TheCards></TheCards>
-    </div>
+    <TheCards></TheCards>
   </div>
 </template>

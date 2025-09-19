@@ -7,14 +7,14 @@ import PostMench from '@/components/svg/PostMench.vue'
     <div
       class="container flex flex-col place-content-center place-self-center self-center sm:flex-row"
     >
-      <div class="mb-24 flex flex-col justify-center text-center sm:text-start">
+      <div class="mb-12 flex flex-col justify-center text-center sm:text-start">
         <div
           class="text-fg-prim overflow-visible text-5xl font-bold tracking-tighter text-nowrap sm:text-6xl 2xl:text-8xl"
         >
           Hi I'm Vik!
         </div>
         <div
-          class="overflow-visible text-lg leading-tight font-light tracking-normal text-nowrap"
+          class="overflow-visible text-lg leading-tight font-light tracking-tight text-nowrap sm:tracking-normal"
         >
           <div>and I love building software that</div>
           <div class="">solves real world problems</div>
