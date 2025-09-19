@@ -17,81 +17,82 @@ import EfficientMench from '../svg/EfficientMench.vue'
         From idea to deployment
       </p>
 
-      <!-- Grid -->
       <div class="mt-10 grid gap-6 sm:mt-16 sm:grid-cols-2 lg:grid-cols-5">
         <!-- Fullstack -->
         <div
-          class="bg-bg-prim flex flex-col items-center justify-between rounded-2xl p-6 sm:col-span-2 sm:flex-row sm:items-start sm:p-8 lg:col-span-3 lg:flex-col"
+          class="bg-bg-prim relative flex flex-col items-center rounded-l-2xl rounded-r-2xl p-6 sm:col-span-2 sm:flex-row sm:items-center sm:justify-between sm:p-8 lg:col-span-3 lg:rounded-r-md"
         >
-          <div class="flex-1">
+          <div
+            class="flex flex-col text-center sm:flex-1 sm:-translate-y-6 sm:text-left"
+          >
             <h3 class="text-fg-prim text-2xl font-bold sm:text-3xl">
               Full stack
             </h3>
-            <p class="text-acc-prim mt-2 text-sm sm:text-lg">
-              Build, design, deploy and maintain complete systems, not
-              fragments.
+            <p class="text-acc-prim mt-2 text-sm leading-relaxed font-bold">
+              Build, design, deploy and maintain <br />
+              complete systems, not fragments.
             </p>
           </div>
-          <div
-            class="mt-6 flex flex-1 justify-center sm:mt-0 sm:justify-end lg:mt-6"
-          >
-            <FullstackMench class="h-auto w-40 max-w-full sm:w-56 lg:w-64" />
+
+          <div class="mt-6 flex justify-center sm:mt-0 sm:flex-1">
+            <FullstackMench class="h-auto w-44 max-w-full sm:w-72" />
           </div>
         </div>
 
         <!-- Easy to use -->
         <div
-          class="bg-bg-prim flex flex-col items-center justify-between rounded-2xl p-6 sm:items-start sm:p-8 lg:col-span-2 lg:flex-col"
+          id="easyUseMench"
+          class="bg-bg-prim flex flex-col items-center justify-between rounded-2xl p-6 sm:items-start sm:p-8 lg:col-span-2 lg:flex-col lg:rounded-l-md"
         >
-          <div class="flex-1 text-center sm:text-left">
+          <div class="flex-1 place-self-center text-center">
             <h3 class="text-fg-prim text-2xl font-bold sm:text-3xl">
               Easy to Use
             </h3>
-            <p class="text-acc-prim mt-2 text-sm sm:text-lg">
-              Design that puts the user first. Making the complicated simple.
+            <p class="text-acc-prim mt-2 text-sm leading-relaxed font-bold">
+              Design that puts the user first.<br />
+              Making the complicated simple.
             </p>
           </div>
-          <div
-            class="mt-6 flex flex-1 justify-center sm:mt-0 sm:justify-end lg:mt-6"
-          >
+          <div class="mt-6 flex w-full flex-1 justify-center sm:mt-0 lg:mt-6">
             <EasyToUseMench class="w-48 max-w-full sm:w-56 lg:w-64" />
           </div>
         </div>
 
         <!-- Efficient -->
         <div
-          class="bg-bg-prim flex flex-col items-center justify-between rounded-2xl p-6 sm:items-start sm:p-8 lg:col-span-2 lg:flex-col"
+          class="bg-bg-prim flex flex-col items-center justify-between rounded-2xl p-6 sm:items-start sm:p-8 lg:col-span-2 lg:flex-col lg:rounded-r-md"
         >
-          <div class="flex-1">
+          <div class="flex-1 place-self-center text-center">
             <h3 class="text-fg-prim text-2xl font-bold sm:text-3xl">
               Efficient
             </h3>
-            <p class="text-acc-prim mt-2 text-sm sm:text-lg">
-              Saving time, reducing costs, and delivering value.
+            <p class="text-acc-prim mt-2 text-sm leading-relaxed font-bold">
+              Saving time, reducing costs, <br />
+              and delivering value.
             </p>
           </div>
-          <div
-            class="mt-6 flex flex-1 justify-center sm:mt-0 sm:justify-end lg:mt-6"
-          >
-            <EfficientMench class="h-auto w-40 max-w-full sm:w-56 lg:w-64" />
+          <div class="mt-6 flex w-full flex-1 justify-center sm:mt-0 lg:mt-6">
+            <EfficientMench class="w-48 max-w-full sm:w-56 lg:w-64" />
           </div>
         </div>
 
         <!-- Secure -->
         <div
-          class="bg-bg-prim flex flex-col items-center justify-between rounded-2xl p-6 sm:col-span-2 sm:flex-row sm:items-start sm:p-8 lg:col-span-3 lg:flex-col"
+          class="bg-bg-prim relative flex flex-col items-center rounded-l-2xl rounded-r-2xl p-6 sm:col-span-2 sm:flex-row sm:items-center sm:justify-between sm:p-8 lg:col-span-3 lg:rounded-l-md"
         >
-          <div class="flex-1">
+          <div
+            class="flex flex-col text-center sm:flex-1 sm:-translate-y-6 sm:text-left"
+          >
             <h3 class="text-fg-prim text-2xl font-bold sm:text-3xl">Secure</h3>
-            <p class="text-acc-prim mt-2 text-sm sm:text-lg">
-              Security as a default. Resilient code and safe data to build
-              robust software.
+            <p class="text-acc-prim mt-2 text-sm leading-relaxed font-bold">
+              Security as a default. Resilient code <br />
+              and safe data to build robust software.
             </p>
           </div>
           <div
             class="mt-6 flex flex-1 justify-center sm:mt-0 sm:justify-around lg:mt-6"
           >
-            <SecureMench class="h-auto w-40 max-w-full sm:w-56 lg:w-64" />
+            <SecureMench class="h-auto w-44 max-w-full sm:w-72" />
           </div>
         </div>
       </div>
