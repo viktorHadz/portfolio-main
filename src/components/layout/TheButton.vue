@@ -16,27 +16,22 @@ defineProps({
 </script>
 
 <template>
-  <!-- primary solid -->
+  <!-- primary -->
   <button
     v-if="variant === 'primary'"
     :disabled="disabled"
-    class="group bg-acc-prim hover:bg-acc-sec border-brdr relative overflow-hidden rounded-xl border-2 px-4 py-3 text-sm font-bold tracking-wide text-white uppercase shadow-[0_4px_0_rgba(0,0,0,0.2)] transition-all duration-200 ease-out hover:-translate-y-0.5 hover:shadow-[0_6px_0_rgba(0,0,0,0.2)] active:translate-y-0.5 active:shadow-[0_2px_0_rgba(0,0,0,0.2)] disabled:cursor-not-allowed disabled:opacity-50"
+    class="group border-brdr hover:border-acc-prim text-fg-prim hover:text-acc-prim relative rounded-xl border-2 bg-transparent px-4 py-3 text-sm font-bold tracking-wide uppercase shadow-[0_4px_0_rgba(0,0,0,0.2)] transition-all duration-200 ease-out hover:-translate-y-0.5 hover:shadow-[0_6px_0_rgba(0,0,0,0.3)] active:translate-y-0.5 active:shadow-[0_2px_0_rgba(0,0,0,0.3)] disabled:cursor-not-allowed disabled:opacity-50"
   >
-    <!-- hover effect -->
-    <div
-      class="via-bg-ter/20 pointer-events-none absolute inset-0 translate-x-[-100%] bg-gradient-to-r from-transparent to-transparent transition-transform duration-700 group-hover:translate-x-[100%]"
-    ></div>
-
     <span class="relative z-10">
       <slot></slot>
     </span>
   </button>
 
-  <!-- secondary outlined -->
+  <!-- secondary -->
   <button
     v-else-if="variant === 'secondary'"
     :disabled="disabled"
-    class="group border-brdr hover:border-acc-ter text-fg-prim hover:text-acc-ter relative rounded-xl border-2 bg-transparent px-4 py-3 text-sm font-bold tracking-wide uppercase shadow-[0_4px_0_rgba(0,0,0,0.2)] transition-all duration-200 ease-out hover:-translate-y-0.5 hover:shadow-[0_6px_0_rgba(0,0,0,0.2)] active:translate-y-0.5 active:shadow-[0_2px_0_rgba(0,0,0,0.2)] disabled:cursor-not-allowed disabled:opacity-50"
+    class="group border-brdr hover:border-acc-sec text-fg-prim hover:text-acc-sec relative rounded-xl border-2 bg-transparent px-4 py-3 text-sm font-bold tracking-wide uppercase shadow-[0_4px_0_rgba(0,0,0,0.2)] transition-all duration-200 ease-out hover:-translate-y-0.5 hover:shadow-[0_6px_0_rgba(0,0,0,0.3)] active:translate-y-0.5 active:shadow-[0_2px_0_rgba(0,0,0,0.3)] disabled:cursor-not-allowed disabled:opacity-50"
   >
     <span class="relative z-10">
       <slot></slot>

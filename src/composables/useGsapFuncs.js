@@ -1,9 +1,11 @@
 import gsap from "gsap"
 
+// Provide Gsap context
 export function withGsapContext(fn, scope) {
     return gsap.context(fn, scope)
 }
 
+// Full stack
 export function floatUpDown(element, y, dur) {
     return gsap.to(element, {
         y,
@@ -23,7 +25,7 @@ export function blink(element, opacityFill) {
         ease: "sine.inOut"
     })
 }
-
+// Easy to use
 export function makeAssembleTimeline(pieceTop, bulbSelector, options = {}) {
     const tl = gsap.timeline({ paused: true })
 
@@ -47,13 +49,13 @@ export function makeAssembleTimeline(pieceTop, bulbSelector, options = {}) {
 
 
     tl.to(`${bulbSelector} *`,
-        { fill: "#ffeb58", duration: 0.3, ease: 'sine.inOut' },
+        { fill: "#ffeb58", duration: 1, ease: 'sine.inOut' },
         "<"
     )
 
     return tl
 }
-
+// Rocket stuff
 export function flyRocket(rocketSelector) {
     const tl = gsap.timeline({ repeat: -1, yoyo: true })
 
@@ -96,18 +98,3 @@ export function riderBounce(characterSelector) {
     })
 }
 
-export function blobIn() {
-    gsap.to("#blob", {
-        scale: 3,
-        duration: 0.6,
-        ease: "elastic.out(1, 0.5)"
-    })
-}
-
-export function blobOut() {
-    gsap.to("#blob", {
-        scale: 0,
-        duration: 0.4,
-        ease: "power2.in"
-    })
-}

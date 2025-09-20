@@ -14,7 +14,7 @@ import PostMench from '@/components/svg/PostMench.vue'
           Hi I'm Vik!
         </div>
         <div
-          class="text-acc-prim overflow-visible text-lg leading-tight font-bold font-light tracking-tight text-nowrap"
+          class="text-acc-prim overflow-visible text-lg leading-tight font-bold tracking-tight text-nowrap"
         >
           <div>and I love building software that</div>
           <div class="">solves real world problems</div>
@@ -22,8 +22,8 @@ import PostMench from '@/components/svg/PostMench.vue'
         <div
           class="mt-12 flex items-center justify-center gap-6 sm:justify-start"
         >
-          <TheButton variant="neu">My Work</TheButton>
-          <TheButton variant="neu-sec">Contact</TheButton>
+          <TheButton variant="primary">My Work</TheButton>
+          <TheButton variant="secondary">Contact</TheButton>
         </div>
       </div>
       <div class="w-full max-w-full sm:max-w-xl lg:max-w-2xl 2xl:max-w-3xl">
