@@ -20,7 +20,7 @@ import EfficientMench from '../svg/EfficientMench.vue'
       <div class="mt-10 grid gap-6 sm:mt-16 sm:grid-cols-2 lg:grid-cols-5">
         <!-- Fullstack -->
         <div
-          class="bg-bg-prim relative flex flex-col items-center rounded-l-2xl rounded-r-2xl p-6 sm:col-span-2 sm:flex-row sm:items-center sm:justify-between sm:p-8 lg:col-span-3 lg:rounded-r-md"
+          class="bg-bg-prim border-brdr hover:border-acc-prim/50 relative flex flex-col items-center rounded-l-2xl rounded-r-2xl border-2 p-6 sm:col-span-2 sm:flex-row sm:items-center sm:justify-between sm:p-8 lg:col-span-3 lg:rounded-r-md"
         >
           <div
             class="flex flex-col text-center sm:flex-1 sm:-translate-y-6 sm:text-left"
@@ -33,7 +33,6 @@ import EfficientMench from '../svg/EfficientMench.vue'
               complete systems, not fragments.
             </p>
           </div>
-
           <div class="mt-6 flex justify-center sm:mt-0 sm:flex-1">
             <FullstackMench class="h-auto w-44 max-w-full sm:w-72" />
           </div>
@@ -42,7 +41,7 @@ import EfficientMench from '../svg/EfficientMench.vue'
         <!-- Easy to use -->
         <div
           id="easyUseMench"
-          class="bg-bg-prim flex flex-col items-center justify-between rounded-2xl p-6 sm:items-start sm:p-8 lg:col-span-2 lg:flex-col lg:rounded-l-md"
+          class="bg-bg-prim border-brdr hover:border-acc-prim/50 flex flex-col items-center justify-between rounded-2xl border-2 p-6 sm:items-start sm:p-8 lg:col-span-2 lg:flex-col lg:rounded-l-md"
         >
           <div class="flex-1 place-self-center text-center">
             <h3 class="text-fg-prim text-2xl font-bold sm:text-3xl">
@@ -60,7 +59,7 @@ import EfficientMench from '../svg/EfficientMench.vue'
 
         <!-- Efficient -->
         <div
-          class="bg-bg-prim flex flex-col items-center justify-between rounded-2xl p-6 sm:items-start sm:p-8 lg:col-span-2 lg:flex-col lg:rounded-r-md"
+          class="bg-bg-prim border-brdr hover:border-acc-prim/50 flex flex-col items-center justify-between rounded-2xl border-2 p-6 sm:items-start sm:p-8 lg:col-span-2 lg:flex-col lg:rounded-r-md"
         >
           <div class="flex-1 place-self-center text-center">
             <h3 class="text-fg-prim text-2xl font-bold sm:text-3xl">
@@ -78,7 +77,7 @@ import EfficientMench from '../svg/EfficientMench.vue'
 
         <!-- Secure -->
         <div
-          class="bg-bg-prim relative flex flex-col items-center rounded-l-2xl rounded-r-2xl p-6 sm:col-span-2 sm:flex-row sm:items-center sm:justify-between sm:p-8 lg:col-span-3 lg:rounded-l-md"
+          class="bg-bg-prim border-brdr hover:border-acc-prim/50 relative flex flex-col items-center rounded-l-2xl rounded-r-2xl border-2 p-6 sm:col-span-2 sm:flex-row sm:items-center sm:justify-between sm:p-8 lg:col-span-3 lg:rounded-l-md"
         >
           <div
             class="flex flex-col text-center sm:flex-1 sm:-translate-y-6 sm:text-left"

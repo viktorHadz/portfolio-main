@@ -14,7 +14,7 @@ import PostMench from '@/components/svg/PostMench.vue'
           Hi I'm Vik!
         </div>
         <div
-          class="overflow-visible text-lg leading-tight font-light tracking-tight text-nowrap sm:tracking-normal"
+          class="text-acc-prim overflow-visible text-lg leading-tight font-bold font-light tracking-tight text-nowrap"
         >
           <div>and I love building software that</div>
           <div class="">solves real world problems</div>

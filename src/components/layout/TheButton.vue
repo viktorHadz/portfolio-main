@@ -54,14 +54,14 @@ defineProps({
   <button
     v-else-if="variant === 'neu'"
     :disabled="disabled"
-    class="bg-bg-sec border-brdr-sec shadow-fg-ter/50 text-fg-prim rounded-full border px-6 py-3 font-bold shadow-sm transition-shadow hover:shadow-md active:scale-90 dark:hover:text-white"
+    class="bg-bg-sec border-brdr-sec shadow-fg-ter/50 text-fg-prim hover:border-acc-prim hover:text-acc-prim rounded-full border px-6 py-3 font-bold shadow-sm transition-shadow hover:shadow-md active:scale-90"
   >
     <slot></slot>
   </button>
   <button
     v-else-if="variant === 'neu-sec'"
     :disabled="disabled"
-    class="bg-bg-sec border-brdr-sec shadow-fg-ter/50 text-fg-prim rounded-full border px-6 py-3 font-bold shadow-sm transition-shadow hover:shadow-md active:scale-90 dark:hover:text-white"
+    class="bg-bg-sec border-brdr-sec shadow-fg-ter/50 text-fg-prim hover:border-acc-prim rounded-full border px-6 py-3 font-bold shadow-sm transition-shadow hover:shadow-md active:scale-90 dark:hover:text-white"
   >
     <slot></slot>
   </button>

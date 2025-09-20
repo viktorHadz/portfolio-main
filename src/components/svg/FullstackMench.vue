@@ -6,8 +6,8 @@ let ctx
 
 onMounted(() => {
   ctx = withGsapContext(() => {
-    floatUpDown('#form', -24)
-    floatUpDown('#keylock', -24)
+    floatUpDown('#form', -24, 2)
+    floatUpDown('#keylock', -24, 2)
     blink('#server-dots ellipse', 0)
   })
 })
