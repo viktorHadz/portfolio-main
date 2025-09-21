@@ -54,7 +54,121 @@ onBeforeUnmount(() => {
   stop?.()
 })
 </script>
+<style scoped>
+.diagonal {
+  --skew-angle: -5deg;
+  --bg-grad: linear-gradient(45deg, #12c2e9, #c471ed, #f64f59);
+  position: relative;
+  isolation: isolate;
+}
+.diagonal::after {
+  content: '';
+  background-image: var(--bg-grad);
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  transform: skewY(var(--skew-angle));
+}
+
+.bubble {
+  position: relative;
+  color: black;
+  background: linear-gradient(to right, #fdc830, #f37335);
+}
+.bubble::before,
+.bubble::after {
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 50px;
+  background: var(--color-bg-prim);
+
+  mask-image: url('../assets/svgs/halfCircle.svg');
+  -webkit-mask-image: url('../assets/svgs/halfCircle.svg');
+  /* -webkit-mask-size: 10px 20px; */
+}
+.bubble::before {
+  top: 0;
+  transform: rotate(0.5turn); /* same as 180deg */
+}
+.bubble::after {
+  bottom: 0;
+}
+</style>
 <template>
+  <div class="mt-20">
+    <section class="diagonal p-20">
+      <div class="wrapper container mx-auto p-2">
+        <h2 class="section-title py-6 text-2xl font-bold">Diagonal</h2>
+        <p>
+          Lorem ipsum dolor sit amet consectetur, adipisicing elit. Maiores vero
+          consequatur itaque, quia incidunt nulla ut aperiam distinctio modi
+          enim repellat tempore, placeat tenetur porro provident corporis? Illo,
+          qui aperiam?
+        </p>
+      </div>
+    </section>
+    <section class="py-20">
+      <div class="wrapper">
+        <h2 class="section-title py-6 text-2xl font-bold">Some Content</h2>
+        <p>
+          Lorem ipsum dolor sit amet consectetur, adipisicing elit. Maiores vero
+          consequatur itaque, quia incidunt nulla ut aperiam distinctio modi
+          enim repellat tempore, placeat tenetur porro provident corporis? Illo,
+          qui aperiam?
+        </p>
+      </div>
+    </section>
+
+    <section class="bubble py-20">
+      <div class="wrapper container mx-auto">
+        <h2 class="section-title py-6 text-2xl font-bold">Diagonal</h2>
+        <p>
+          Lorem ipsum dolor sit amet consectetur, adipisicing elit. Maiores vero
+          consequatur itaque, quia incidunt nulla ut aperiam distinctio modi
+          enim repellat tempore, placeat tenetur porro provident corporis? Illo,
+          qui aperiam?
+        </p>
+      </div>
+    </section>
+
+    <section class="py-20">
+      <div class="wrapper">
+        <h2 class="section-title"></h2>
+        <p>
+          Lorem ipsum dolor sit amet consectetur, adipisicing elit. Maiores vero
+          consequatur itaque, quia incidunt nulla ut aperiam distinctio modi
+          enim repellat tempore, placeat tenetur porro provident corporis? Illo,
+          qui aperiam?
+        </p>
+      </div>
+    </section>
+
+    <section class="py-20">
+      <div class="wrapper">
+        <h2 class="section-title"></h2>
+        <p>
+          Lorem ipsum dolor sit amet consectetur, adipisicing elit. Maiores vero
+          consequatur itaque, quia incidunt nulla ut aperiam distinctio modi
+          enim repellat tempore, placeat tenetur porro provident corporis? Illo,
+          qui aperiam?
+        </p>
+      </div>
+    </section>
+
+    <section class="py-20">
+      <div class="wrapper">
+        <h2 class="section-title"></h2>
+        <p>
+          Lorem ipsum dolor sit amet consectetur, adipisicing elit. Maiores vero
+          consequatur itaque, quia incidunt nulla ut aperiam distinctio modi
+          enim repellat tempore, placeat tenetur porro provident corporis? Illo,
+          qui aperiam?
+        </p>
+      </div>
+    </section>
+  </div>
+
   <div
     class="border-brdr container flex place-content-center place-self-center border"
   >
@@ -151,5 +265,3 @@ onBeforeUnmount(() => {
     </div>
   </TheContainer>
 </template>
-
-<style></style>

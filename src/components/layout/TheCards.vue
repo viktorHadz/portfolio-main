@@ -4,10 +4,45 @@ import EasyToUseMench from '../svg/EasyToUseMench.vue'
 import SecureMench from '../svg/SecureMench.vue'
 import EfficientMench from '../svg/EfficientMench.vue'
 </script>
+<style scoped>
+.custom-shape-divider-top-1758430984 {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  overflow: hidden;
+  line-height: 0;
+}
 
+.custom-shape-divider-top-1758430984 svg {
+  position: relative;
+  display: block;
+  width: calc(100% + 1.3px);
+  height: 50px;
+}
+
+.custom-shape-divider-top-1758430984 .shape-fill {
+  fill: var(--color-bg-prim);
+}
+</style>
 <template>
-  <div class="bg-bg-sec py-16 sm:py-24 lg:py-32">
-    <div class="container mx-auto max-w-7xl px-6 lg:px-8">
+  <section class="bg-bg-sec relative">
+    <div class="custom-shape-divider-top-1758430984">
+      <svg
+        data-name="Layer 1"
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 1200 120"
+        preserveAspectRatio="none"
+      >
+        <path
+          d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z"
+          class="shape-fill"
+        ></path>
+      </svg>
+    </div>
+    <div
+      class="container mx-auto max-w-7xl px-6 py-16 sm:py-24 lg:px-8 lg:py-32"
+    >
       <h2 class="text-acc-prim text-center text-sm font-semibold">
         software built with purpose
       </h2>
@@ -33,8 +68,8 @@ import EfficientMench from '../svg/EfficientMench.vue'
               complete systems, not fragments.
             </p>
           </div>
-          <div class="mt-6 flex justify-center sm:mt-0 sm:flex-1">
-            <FullstackMench class="h-auto w-44 max-w-full sm:w-72" />
+          <div class="flex justify-center sm:mt-0 sm:flex-1">
+            <FullstackMench class="h-auto w-44 max-w-full sm:w-52 lg:w-64" />
           </div>
         </div>
 
@@ -52,8 +87,8 @@ import EfficientMench from '../svg/EfficientMench.vue'
               Making the complicated simple.
             </p>
           </div>
-          <div class="mt-6 flex w-full flex-1 justify-center sm:mt-0 lg:mt-6">
-            <EasyToUseMench class="w-48 max-w-full sm:w-56 lg:w-64" />
+          <div class="flex w-full flex-1 justify-center sm:mt-0">
+            <EasyToUseMench class="h-auto w-44 max-w-full sm:w-52 lg:w-64" />
           </div>
         </div>
 
@@ -70,8 +105,8 @@ import EfficientMench from '../svg/EfficientMench.vue'
               and delivering value.
             </p>
           </div>
-          <div class="mt-6 flex w-full flex-1 justify-center sm:mt-0 lg:mt-6">
-            <EfficientMench class="w-48 max-w-full sm:w-56 lg:w-64" />
+          <div class="mt-6 flex w-full flex-1 justify-center">
+            <EfficientMench class="h-auto w-44 max-w-full sm:w-52 lg:w-64" />
           </div>
         </div>
 
@@ -91,10 +126,10 @@ import EfficientMench from '../svg/EfficientMench.vue'
           <div
             class="mt-6 flex flex-1 justify-center sm:mt-0 sm:justify-around lg:mt-6"
           >
-            <SecureMench class="h-auto w-44 max-w-full sm:w-72" />
+            <SecureMench class="h-auto w-44 max-w-full sm:w-52 lg:w-64" />
           </div>
         </div>
       </div>
     </div>
-  </div>
+  </section>
 </template>

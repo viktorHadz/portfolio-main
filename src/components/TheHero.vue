@@ -1,34 +1,35 @@
 <script setup>
 import TheButton from '@/components/layout/TheButton.vue'
-import PostMench from '@/components/svg/PostMench.vue'
+// import PostMench from '@/components/svg/PostMench.vue'
+import PostMenchCopy from './svg/PostMenchCopy.vue'
 </script>
+
 <template>
-  <div class="mt-20 flex justify-center">
+  <section
+    class="bg-bg-prim container mx-auto flex flex-col items-center justify-center sm:flex-row"
+  >
     <div
-      class="container flex flex-col place-content-center place-self-center self-center sm:flex-row"
+      class="mt-24 mb-6 flex flex-col justify-center text-center sm:text-start"
     >
-      <div class="mb-12 flex flex-col justify-center text-center sm:text-start">
-        <div
-          class="text-fg-prim overflow-visible text-5xl font-bold tracking-tighter text-nowrap sm:text-6xl 2xl:text-8xl"
-        >
-          Hi I'm Vik!
-        </div>
-        <div
-          class="text-acc-prim overflow-visible text-lg leading-tight font-bold tracking-tight text-nowrap"
-        >
-          <div>and I love building software that</div>
-          <div class="">solves real world problems</div>
-        </div>
-        <div
-          class="mt-12 flex items-center justify-center gap-6 sm:justify-start"
-        >
-          <TheButton variant="primary">My Work</TheButton>
-          <TheButton variant="secondary">Contact</TheButton>
-        </div>
-      </div>
-      <div class="w-full max-w-full sm:max-w-xl lg:max-w-2xl 2xl:max-w-3xl">
-        <PostMench></PostMench>
+      <h1
+        class="text-fg-prim overflow-visible text-5xl font-bold tracking-tighter text-nowrap sm:text-6xl 2xl:text-8xl"
+      >
+        Hi I'm Vik!
+      </h1>
+      <p
+        class="text-acc-prim overflow-visible text-lg leading-tight font-bold tracking-tight text-nowrap"
+      >
+        <span>and I love building software that</span><br />
+        <span>solves real world problems</span>
+      </p>
+      <div class="mt-6 flex items-center justify-center gap-6 sm:justify-start">
+        <TheButton variant="primary">My Work</TheButton>
+        <TheButton variant="secondary">Contact</TheButton>
       </div>
     </div>
-  </div>
+    <div class="w-full max-w-full sm:max-w-xl lg:max-w-2xl 2xl:max-w-3xl">
+      <!-- <PostMench /> -->
+      <PostMenchCopy />
+    </div>
+  </section>
 </template>

@@ -18,66 +18,60 @@ const toggleMode = () => {
 </script>
 
 <template>
-  <div
-    class="selection:bg-acc-prim/50 selection:text-fg-sec dark:selection:text-white"
-  >
-    <nav class="border-brdr bg-bg-prim sticky top-0 z-50 w-full border-b">
-      <div
-        class="mx-auto flex max-w-6xl items-center justify-between px-6 py-4"
+  <nav class="border-brdr bg-bg-prim sticky top-0 z-50 w-full border-b">
+    <div class="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
+      <!-- Logo -->
+      <RouterLink
+        to="/"
+        class="hover:text-acc-prim text-fg-prim text-xl font-semibold transition-colors"
       >
-        <!-- Logo -->
+        VH
+      </RouterLink>
+
+      <!-- Navigation -->
+      <div class="flex items-center space-x-8">
         <RouterLink
           to="/"
-          class="hover:text-acc-prim text-fg-prim text-xl font-semibold transition-colors"
+          class="hover:text-acc-prim text-fg-prim font-medium transition-colors"
+          activeClass="link-active"
         >
-          VH
+          Home
         </RouterLink>
 
-        <!-- Navigation -->
-        <div class="flex items-center space-x-8">
-          <RouterLink
-            to="/"
-            class="hover:text-acc-prim text-fg-prim font-medium transition-colors"
-            activeClass="link-active"
-          >
-            Home
-          </RouterLink>
+        <RouterLink
+          to="/about"
+          class="hover:text-acc-prim text-fg-prim font-medium transition-colors"
+          activeClass="link-active"
+        >
+          About
+        </RouterLink>
 
-          <RouterLink
-            to="/about"
-            class="hover:text-acc-prim text-fg-prim font-medium transition-colors"
-            activeClass="link-active"
-          >
-            About
-          </RouterLink>
+        <RouterLink
+          to="/new"
+          class="hover:text-acc-prim text-fg-prim font-medium transition-colors"
+          activeClass="link-active"
+        >
+          Work
+        </RouterLink>
 
-          <RouterLink
-            to="/new"
-            class="hover:text-acc-prim text-fg-prim font-medium transition-colors"
-            activeClass="link-active"
-          >
-            Work
-          </RouterLink>
-
-          <!-- Theme -->
-          <button
-            @click="toggleMode()"
-            class="bg-bg-sec hover:bg-bg-ter rounded-lg p-2 transition-colors"
-            :title="`Switch to ${mode === 'dark' ? 'light' : 'dark'} mode`"
-          >
-            <span v-if="mode === 'dark'" class="text-tiny rounded-full">
-              <SunIcon class="size-4 text-yellow-400" />
-            </span>
-            <span v-else class="text-tiny rounded-full"
-              ><MoonIcon class="size-4 text-yellow-300"
-            /></span>
-          </button>
-        </div>
+        <!-- Theme -->
+        <button
+          @click="toggleMode()"
+          class="bg-bg-sec hover:bg-bg-ter rounded-lg p-2 transition-colors"
+          :title="`Switch to ${mode === 'dark' ? 'light' : 'dark'} mode`"
+        >
+          <span v-if="mode === 'dark'" class="text-tiny rounded-full">
+            <SunIcon class="size-4 text-yellow-400" />
+          </span>
+          <span v-else class="text-tiny rounded-full"
+            ><MoonIcon class="size-4 text-yellow-300"
+          /></span>
+        </button>
       </div>
-    </nav>
+    </div>
+  </nav>
 
-    <RouterView />
-  </div>
+  <RouterView />
 </template>
 
 <style scoped>

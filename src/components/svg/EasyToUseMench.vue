@@ -107,8 +107,8 @@ onUnmounted(() => {
       />
       <g id="puzzle-rotate">
         <path
-          id="move"
-          fill="color(display-p3 1 .9412 .7961)"
+          id="move-piece"
+          fill="#ffefc7"
           stroke="#000"
           stroke-opacity="1"
           stroke-width="1.6"
