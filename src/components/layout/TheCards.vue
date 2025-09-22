@@ -5,7 +5,7 @@ import SecureMench from '../svg/SecureMench.vue'
 import EfficientMench from '../svg/EfficientMench.vue'
 </script>
 <style scoped>
-.custom-shape-divider-top-1758430984 {
+.divider-downwards {
   position: absolute;
   top: 0;
   left: 0;
@@ -14,20 +14,20 @@ import EfficientMench from '../svg/EfficientMench.vue'
   line-height: 0;
 }
 
-.custom-shape-divider-top-1758430984 svg {
+.divider-downwards svg {
   position: relative;
   display: block;
   width: calc(100% + 1.3px);
   height: 50px;
 }
 
-.custom-shape-divider-top-1758430984 .shape-fill {
+.divider-downwards .shape-fill {
   fill: var(--color-bg-prim);
 }
 </style>
 <template>
   <section class="bg-bg-sec relative">
-    <div class="custom-shape-divider-top-1758430984">
+    <div class="divider-downwards">
       <svg
         data-name="Layer 1"
         xmlns="http://www.w3.org/2000/svg"

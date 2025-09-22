@@ -62,30 +62,30 @@ onUnmounted(() => {
             id="Ellipse 81"
             cx="163.4"
             cy="346.7"
-            fill="color(display-p3 .4941 .4824 .4706)"
+            fill="#CEE467"
             fill-opacity="1"
             rx="51.1"
             ry="50.9"
           />
           <path
             id="Exclude_3"
-            fill="color(display-p3 .6863 .8471 .2941)"
+            fill="#CEE467"
             fill-opacity="1"
             d="M370 285c-5-2-13-8-14-5a312 312 0 0 1-69 60l10 4c12 6 19 9 21 8 0 0 11 10 16 6 12-9 13-12 22-16l46-33 4-5c0-1-1-2-9-6-4-2-8-7-13-9l-14-4Z"
           />
           <path
             id="Intersect"
-            fill="color(display-p3 .6863 .8471 .2941)"
+            fill="#CEE467"
             fill-opacity="1"
             d="M87 262c11-1 19-1 20 1 6 12-11 71-28 97l-1 1-3 5-5 5c-7 9-7 9-13 3-35-32-58-70-50-82 7-11 49-27 80-30Z"
           />
           <path
             id="Intersect_2"
-            fill="color(display-p3 .6863 .8471 .2941)"
+            fill="#CEE467"
             fill-opacity="1"
             d="M237 451c-10-17-6-21 11-16a445 445 0 0 0 35 8l20 4c7 2 12 2 14 7 4 13 13 27 24 39 7 8 1 11-11 10-49-6-73-20-93-52Z"
           />
-          <g id="Intersect_3" fill="color(display-p3 .4941 .4824 .4706)">
+          <g id="Intersect_3" fill="#CEE467">
             <path
               d="M337 344v-1a979 979 0 0 0 14 4c12-2 4 51-13 82-14 26-20 31-22 19-1-4-1-5-4-5-4-1-4-1-1-5 4-5 0 0 3-7 2-4 7-19 10-22 5-16 5-33 13-46-2-2 1-2 1-5l-1-14Z"
             />
