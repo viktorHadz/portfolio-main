@@ -1,28 +1,9 @@
 <script setup>
 import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/vue/24/outline'
 import TheButton from './TheButton.vue'
+import BlackHoleBottom from '../svg/BlackHoleBottom.vue'
 </script>
-<style scoped>
-.divider-upwards {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  overflow: hidden;
-  line-height: 0;
-}
 
-.divider-upwards svg {
-  position: relative;
-  display: block;
-  width: calc(150% + 1.3px);
-  height: 150px;
-}
-
-.divider-upwards .shape-fill {
-  fill: var(--color-bg-sec);
-}
-</style>
 <template>
   <div class="relative py-24">
     <div class="divider-upwards">
@@ -57,6 +38,7 @@ import TheButton from './TheButton.vue'
         class="text-acc-prim size-24 cursor-pointer transition duration-300 hover:scale-110 hover:animate-pulse active:scale-90"
       />
     </div>
+    <!-- the card    -->
     <div>
       <div
         class="bg-bg-sec border-brdr inset-ring-bg-sec/50 hover:border-acc-prim/50 mx-auto flex max-w-sm rounded-lg border px-6 py-4 inset-ring-4"
@@ -122,5 +104,30 @@ import TheButton from './TheButton.vue'
         </div>
       </div>
     </div>
+    <!-- The portal -->
+    <div class="py-42">
+      <BlackHoleBottom class="flex w-96 place-self-center" />
+    </div>
   </div>
 </template>
+<style scoped>
+.divider-upwards {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  overflow: hidden;
+  line-height: 0;
+}
+
+.divider-upwards svg {
+  position: relative;
+  display: block;
+  width: calc(150% + 1.3px);
+  height: 150px;
+}
+
+.divider-upwards .shape-fill {
+  fill: var(--color-bg-sec);
+}
+</style>
