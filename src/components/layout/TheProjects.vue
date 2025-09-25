@@ -1,7 +1,6 @@
 <script setup>
-import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/vue/24/outline'
-import TheButton from './TheButton.vue'
-import BlackHoleBottom from '../svg/BlackHoleBottom.vue'
+// import TheButton from './TheButton.vue'
+import TheSystem from '../svg/projects/TheSystem.vue'
 </script>
 
 <template>
@@ -21,25 +20,17 @@ import BlackHoleBottom from '../svg/BlackHoleBottom.vue'
     </div>
     <div class="py-24">
       <h2 class="text-acc-prim text-center text-sm font-semibold">
-        a general overview
+        my universe of projects
       </h2>
       <p
         class="text-fg-prim mx-auto mt-2 max-w-2xl text-center text-3xl font-bold tracking-tight sm:text-4xl lg:text-5xl"
       >
-        Projects synopsys
+        Each Planet a creation I've built and love
       </p>
-    </div>
-    <div class="my-12 flex items-center justify-around">
-      <ChevronLeftIcon
-        class="text-acc-prim size-24 cursor-pointer transition duration-300 hover:scale-110 hover:animate-pulse active:scale-90"
-      />
-      <div class="rounded-full border p-4">big project icons</div>
-      <ChevronRightIcon
-        class="text-acc-prim size-24 cursor-pointer transition duration-300 hover:scale-110 hover:animate-pulse active:scale-90"
-      />
+      <TheSystem class="size-96"></TheSystem>
     </div>
     <!-- the card    -->
-    <div>
+    <!-- <div>
       <div
         class="bg-bg-sec border-brdr inset-ring-bg-sec/50 hover:border-acc-prim/50 mx-auto flex max-w-sm rounded-lg border px-6 py-4 inset-ring-4"
       >
@@ -47,9 +38,6 @@ import BlackHoleBottom from '../svg/BlackHoleBottom.vue'
           <div class="text-acc-prim text-3xl font-bold">
             Invoicer
             <hr class="bg-acc-prim mt-1.5 h-px border-0" />
-            <!-- <hr
-              class="from-acc-sec to-acc-prim mt-2 h-px border-0 bg-gradient-to-r"
-            /> -->
           </div>
           <p class="text-fg-sec mt-4">
             A comercially deployed custom invoicing program. Reducing time spent
@@ -57,7 +45,6 @@ import BlackHoleBottom from '../svg/BlackHoleBottom.vue'
             to the customer needs.
           </p>
           <div class="mt-6 text-lg">Tech Stack</div>
-          <!-- ICONS -->
           <div class="mt-4 flex gap-2">
             <div
               class="bg-bg-sec inset-shadow-bg-prim relative size-8 rounded-full border-transparent inset-shadow-sm"
@@ -103,11 +90,8 @@ import BlackHoleBottom from '../svg/BlackHoleBottom.vue'
           <TheButton variant="oxiliary" class="mt-6"> See more </TheButton>
         </div>
       </div>
-    </div>
+    </div> -->
     <!-- The portal -->
-    <div class="py-42">
-      <BlackHoleBottom class="flex w-96 place-self-center" />
-    </div>
   </div>
 </template>
 <style scoped>

@@ -1,4 +1,6 @@
 import gsap from 'gsap'
+import MotionPathPlugin from 'gsap/MotionPathPlugin'
+gsap.registerPlugin(MotionPathPlugin)
 
 // Provide Gsap context
 export function withGsapContext(fn, scope) {
@@ -103,5 +105,24 @@ export function riderBounce(characterSelector) {
     yoyo: true,
     duration: 0.6,
     ease: 'sine.inOut',
+  })
+}
+
+
+// Projects 
+
+export function revolveTween(planets, path, startPos) {
+  return gsap.to(planets, {
+    transformOrigin: '50% 50%',
+    duration: 5,
+    ease: 'none',
+    repeat: -1,
+    motionPath: {
+      path: path,
+      start: startPos,
+      alignOrigin: [0.5, 0.5],
+      align: '#outer-ring',
+      autoRotate: true,
+    },
   })
 }
