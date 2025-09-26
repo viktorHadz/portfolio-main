@@ -28,7 +28,7 @@ import TheSystem from '../svg/projects/TheSystem.vue'
         Each Planet a creation I've built and love
       </p>
       <TheSystem
-        class="container mx-auto max-w-7xl px-6 py-16 sm:py-24 lg:px-8 lg:py-32"
+        class="container mx-auto max-w-6xl px-6 py-16 sm:py-24 lg:px-8 lg:py-32"
       ></TheSystem>
     </div>
   </div>
