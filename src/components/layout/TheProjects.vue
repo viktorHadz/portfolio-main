@@ -27,71 +27,10 @@ import TheSystem from '../svg/projects/TheSystem.vue'
       >
         Each Planet a creation I've built and love
       </p>
-      <TheSystem class="size-96"></TheSystem>
+      <TheSystem
+        class="container mx-auto max-w-7xl px-6 py-16 sm:py-24 lg:px-8 lg:py-32"
+      ></TheSystem>
     </div>
-    <!-- the card    -->
-    <!-- <div>
-      <div
-        class="bg-bg-sec border-brdr inset-ring-bg-sec/50 hover:border-acc-prim/50 mx-auto flex max-w-sm rounded-lg border px-6 py-4 inset-ring-4"
-      >
-        <div>
-          <div class="text-acc-prim text-3xl font-bold">
-            Invoicer
-            <hr class="bg-acc-prim mt-1.5 h-px border-0" />
-          </div>
-          <p class="text-fg-sec mt-4">
-            A comercially deployed custom invoicing program. Reducing time spent
-            invoicing, streamlining business process. Simple and highly tailored
-            to the customer needs.
-          </p>
-          <div class="mt-6 text-lg">Tech Stack</div>
-          <div class="mt-4 flex gap-2">
-            <div
-              class="bg-bg-sec inset-shadow-bg-prim relative size-8 rounded-full border-transparent inset-shadow-sm"
-            >
-              <div class="absolute"></div>
-            </div>
-            <div
-              class="bg-bg-sec inset-shadow-bg-prim relative size-8 rounded-full border-transparent inset-shadow-sm"
-            >
-              <div class="absolute"></div>
-            </div>
-            <div
-              class="bg-bg-sec inset-shadow-bg-prim relative size-8 rounded-full border-transparent inset-shadow-sm"
-            >
-              <div class="absolute"></div>
-            </div>
-            <div
-              class="bg-bg-sec inset-shadow-bg-prim relative size-8 rounded-full border-transparent inset-shadow-sm"
-            >
-              <div class="absolute"></div>
-            </div>
-            <div
-              class="bg-bg-sec inset-shadow-bg-prim relative size-8 rounded-full border-transparent inset-shadow-sm"
-            >
-              <div class="absolute"></div>
-            </div>
-            <div
-              class="bg-bg-sec inset-shadow-bg-prim relative size-8 rounded-full border-transparent inset-shadow-sm"
-            >
-              <div class="absolute"></div>
-            </div>
-            <div
-              class="bg-bg-sec inset-shadow-bg-prim relative size-8 rounded-full border-transparent inset-shadow-sm"
-            >
-              <div class="absolute"></div>
-            </div>
-            <div
-              class="bg-bg-sec inset-shadow-bg-prim relative size-8 rounded-full border-transparent inset-shadow-sm"
-            >
-              <div class="absolute"></div>
-            </div>
-          </div>
-          <TheButton variant="oxiliary" class="mt-6"> See more </TheButton>
-        </div>
-      </div>
-    </div> -->
-    <!-- The portal -->
   </div>
 </template>
 <style scoped>

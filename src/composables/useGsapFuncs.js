@@ -108,21 +108,41 @@ export function riderBounce(characterSelector) {
   })
 }
 
+/**
+ * The key to start and end working properly is setting them as dynamic so gsap will map them modulo - or their remainder
+ */
+export function revolvePlanet(
+  planetSelector,
+  pathSelector,
+  duration = 40,
+  offset = 0,
+) {
+  const tween = gsap.to(planetSelector, {
+    duration,
+    ease: 'none',
+    repeat: -1,
+    motionPath: {
+      path: pathSelector,
+      align: pathSelector,
+      alignOrigin: [0.5, 0.5],
+      start: offset,
+      end: 1 + offset,
+    },
+  })
+  return tween
+}
 
-// Projects 
-
-export function revolveTween(planets, path, startPos) {
+// Projects
+export function revolveTween(planets, path, alignToPath) {
   return gsap.to(planets, {
-    transformOrigin: '50% 50%',
+    // transformOrigin: '50% 50%',
     duration: 5,
     ease: 'none',
     repeat: -1,
     motionPath: {
       path: path,
-      start: startPos,
       alignOrigin: [0.5, 0.5],
-      align: '#outer-ring',
-      autoRotate: true,
+      align: alignToPath,
     },
   })
 }
