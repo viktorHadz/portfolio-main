@@ -111,6 +111,7 @@ export function riderBounce(characterSelector) {
 /**
  * The key to start and end working properly is setting them as dynamic so gsap will map them modulo and it will allow values grater than 1
  */
+
 export function revolvePlanet(
   planetSelector,
   pathSelector,
@@ -132,13 +133,14 @@ export function revolvePlanet(
   })
 
   const el = document.querySelector(planetSelector)
-  let scaleTl = gsap.timeline({ paused: true, })
   if (el) {
+    let scaleTl = gsap.timeline({ paused: true })
+    scaleTl.to(el, { scale: 1.3, rotation: 180, duration: 0.3, ease: "power2.out" })
+
     el.addEventListener('mouseenter', () => {
       tween.pause()
       el.classList.add('planet-hovered')
-
-      scaleTl.to(el, { scale: 1.3 }).play()
+      scaleTl.play()
     })
 
     el.addEventListener('mouseleave', () => {
