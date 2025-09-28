@@ -4,7 +4,7 @@ import TheSystem from '../svg/projects/TheSystem.vue'
 </script>
 
 <template>
-  <div class="relative py-24">
+  <div class="relative overflow-clip py-24">
     <div class="divider-upwards">
       <svg
         data-name="Layer 1"
@@ -28,7 +28,7 @@ import TheSystem from '../svg/projects/TheSystem.vue'
         Each Planet a creation I've built and love
       </p>
       <TheSystem
-        class="container mx-auto max-w-6xl px-6 py-16 sm:py-24 lg:px-8 lg:py-32"
+        class="z-10 container mx-auto max-w-7xl p-6 sm:py-24 lg:px-8 lg:py-32"
       ></TheSystem>
     </div>
   </div>

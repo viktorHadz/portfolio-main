@@ -159,3 +159,8 @@ html {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+
+.planet-hovered {
+  fill: #2dde9a;
+  cursor: pointer;
+}

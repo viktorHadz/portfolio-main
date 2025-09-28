@@ -4,19 +4,31 @@ import { withGsapContext, revolvePlanet } from '@/composables/useGsapFuncs'
 
 let ctx
 
+const rings = [
+  {
+    path: '#outer-ring',
+    duration: 100,
+    planets: ['.outer-planet-1', '.outer-planet-2', '.outer-planet-3'],
+  },
+  {
+    path: '#middle-ring',
+    duration: 90,
+    planets: ['.mid-planet-1', '.mid-planet-2'],
+  },
+  {
+    path: '#inner-ring',
+    duration: 80,
+    planets: ['.inner-planet-1'],
+  },
+]
 onMounted(() => {
   ctx = withGsapContext(() => {
-    // Outer planets
-    revolvePlanet('.outer-planet-1', '#outer-ring', 100, 0)
-    revolvePlanet('.outer-planet-2', '#outer-ring', 100, 0.33)
-    revolvePlanet('.outer-planet-3', '#outer-ring', 100, 0.66)
-
-    // Mid-ring planets
-    revolvePlanet('.mid-planet-1', '#middle-ring', 90, 0)
-    revolvePlanet('.mid-planet-2', '#middle-ring', 90, 0.5)
-
-    // Inner-ring planets
-    revolvePlanet('.inner-planet-1', '#inner-ring', 80, 0)
+    rings.forEach(({ path, duration, planets }) => {
+      planets.forEach((selector, i) => {
+        const offset = i / planets.length
+        revolvePlanet(selector, path, duration, offset)
+      })
+    })
   })
 })
 
@@ -96,113 +108,66 @@ onUnmounted(() => ctx?.revert())
       </g>
       <g id="planets">
         <!-- Outer Planets -->
-        <g id="outer-60deg">
+        <g id="outer-60deg" class="">
           <circle
-            class="outer-planet-1"
+            class="outer-planet-1 fill-[#a3d920] hover:fill-[#b3ff00]"
             cx="780.48"
             cy="212.86"
             r="11.83"
-            fill="color(display-p3 .6392 .851 .1255)"
             fill-opacity="1"
-          />
-          <path
-            class="outer-planet-1"
-            id="Ellipse 111"
-            fill="color(display-p3 .1765 .2275 .051)"
-            fill-opacity=".5"
-            d="M786.4 223.1a11.83 11.83 0 0 0-11.84-20.49l5.92 10.25 5.92 10.24Z"
           />
         </g>
         <g id="outter-(-58deg)">
           <circle
             id="Ellipse 109"
-            class="outer-planet-2"
+            class="outer-planet-2 fill-[#a3d920]"
             cx="251.49"
             cy="255.05"
             r="11.83"
-            fill="color(display-p3 .6392 .851 .1255)"
             fill-opacity="1"
           />
-          <path
-            id="Ellipse 110_3"
-            class="outer-planet-2"
-            fill="color(display-p3 .1765 .2275 .051)"
-            fill-opacity=".5"
-            d="M257.75 245.02a11.83 11.83 0 1 0-12.53 20.07l6.27-10.04 6.26-10.03Z"
-          />
         </g>
+
         <g id="outter-(-130deg)">
           <circle
             id="Ellipse 108"
-            class="outer-planet-3"
+            class="outer-planet-3 fill-[#a3d920]"
             cx="138.32"
             cy="622.85"
             r="11.83"
-            fill="color(display-p3 .6392 .851 .1255)"
             fill-opacity="1"
-          />
-          <path
-            id="Ellipse 110_5"
-            class="outer-planet-3"
-            fill="color(display-p3 .1765 .2275 .051)"
-            fill-opacity=".5"
-            d="M130.72 613.79a11.83 11.83 0 1 0 15.2 18.12l-7.6-9.06-7.6-9.06Z"
           />
         </g>
         <!-- Middle Ring Planets -->
         <g id="mid-(60deg)">
           <circle
             id="Ellipse 105"
-            class="mid-planet-1"
+            class="mid-planet-1 fill-[#a3d920]"
             cx="658.54"
             cy="247.29"
             r="11.83"
-            fill="color(display-p3 .6392 .851 .1255)"
             fill-opacity="1"
-          />
-          <path
-            id="Ellipse 110"
-            class="mid-planet-1"
-            fill="color(display-p3 .1765 .2275 .051)"
-            fill-opacity=".5"
-            d="M664.46 257.54a11.83 11.83 0 1 0-11.83-20.5l5.91 10.25 5.92 10.25Z"
           />
         </g>
 
         <g id="mid-(-160deg)">
           <circle
             id="Ellipse 107"
-            class="mid-planet-2"
+            class="mid-planet-2 fill-[#a3d920]"
             cx="316.89"
             cy="579.01"
             r="11.83"
-            fill="color(display-p3 .6392 .851 .1255)"
             fill-opacity="1"
-          />
-          <path
-            id="Ellipse 110_4"
-            class="mid-planet-2"
-            fill="color(display-p3 .1765 .2275 .051)"
-            fill-opacity=".5"
-            d="M305.77 574.96a11.83 11.83 0 0 0 22.23 8.1L316.9 579l-11.12-4.05Z"
           />
         </g>
         <g id="inner-(90deg)">
           <circle
             id="Ellipse 106"
-            class="inner-planet-1"
+            class="inner-planet-1 fill-[#a3d920]"
             cx="538.21"
             cy="380.18"
             r="11.83"
-            fill="color(display-p3 .6392 .851 .1255)"
             fill-opacity="1"
-          />
-          <path
-            id="Ellipse 110_2"
-            class="inner-planet-1"
-            fill="color(display-p3 .1765 .2275 .051)"
-            fill-opacity=".5"
-            d="M538.2 392a11.83 11.83 0 0 0 0-23.66v23.67Z"
           />
         </g>
       </g>
@@ -227,3 +192,4 @@ onUnmounted(() => ctx?.revert())
     </defs>
   </svg>
 </template>
+<style scoped></style>
