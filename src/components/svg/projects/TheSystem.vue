@@ -1,7 +1,6 @@
 <script setup>
 import { onMounted, onUnmounted } from 'vue'
 import { withGsapContext, revolvePlanet } from '@/composables/useGsapFuncs'
-import LittleMench from './LittleMench.vue'
 
 let ctx
 
