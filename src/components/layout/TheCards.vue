@@ -1,8 +1,8 @@
 <script setup>
-import FullstackMench from '../svg/FullstackMench.vue'
-import EasyToUseMench from '../svg/EasyToUseMench.vue'
-import SecureMench from '../svg/SecureMench.vue'
-import EfficientMench from '../svg/EfficientMench.vue'
+import FullstackMench from '../svg/variousMench/FullstackMench.vue'
+import EasyToUseMench from '../svg/variousMench/EasyToUseMench.vue'
+import SecureMench from '../svg/variousMench/SecureMench.vue'
+import EfficientMench from '../svg/variousMench/EfficientMench.vue'
 </script>
 <style scoped>
 .divider-downwards {

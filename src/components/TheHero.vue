@@ -1,7 +1,7 @@
 <script setup>
 import TheButton from '@/components/layout/TheButton.vue'
 // import PostMench from '@/components/svg/PostMench.vue'
-import PostMenchCopy from './svg/PostMenchCopy.vue'
+import PostMenchCopy from './svg/variousMench/PostMenchCopy.vue'
 </script>
 
 <template>

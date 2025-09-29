@@ -1,5 +1,5 @@
 <script setup>
-import MenchDontKnow from '../svg/MenchDontKnow.vue'
+import MenchDontKnow from '../svg/variousMench/MenchDontKnow.vue'
 defineProps({
   title: {
     type: String,
