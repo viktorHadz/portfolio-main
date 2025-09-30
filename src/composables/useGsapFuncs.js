@@ -152,3 +152,18 @@ export function revolvePlanet(
 
   return tween
 }
+
+
+// Little mench 
+export function showMench(menchSelector, handSelector) {
+  gsap.set(menchSelector, { opacity: 0, y: 50 })
+  // const menchTl = gsap.timeline(selector, { y: 50, opacity: 0, paused: true })
+  // menchTl.play()
+
+  const menchTl = gsap.timeline({ paused: true })
+  menchTl.to(menchSelector, { opacity: 1, y: 0, duration: 0.3 })
+  menchTl.to(handSelector, { rotation: 20, transformOrigin: 'bottom, bottom', yoyo: true, repeat: 4 })
+  menchTl.to(handSelector, { rotation: 90, x: -190, scale: 0.5 })
+  // menchTl.to
+  return menchTl.play()
+}
