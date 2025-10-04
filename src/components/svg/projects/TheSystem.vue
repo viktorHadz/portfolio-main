@@ -1,40 +1,40 @@
 <script setup>
 import { onMounted, onUnmounted } from 'vue'
-import { withGsapContext, revolvePlanet, showMench } from '@/composables/useGsapFuncs'
+import { withGsapContext, revolvePlanet, showLitttleMench, restartLittleMench } from '@/composables/useGsapFuncs'
 
-let ctx
+let ctx, sunEl
+let handleClick
 
 const rings = [
-  {
-    path: '#outer-ring',
-    duration: 100,
-    planets: ['.outer-planet-1', '.outer-planet-2', '.outer-planet-3'],
-  },
-  {
-    path: '#middle-ring',
-    duration: 90,
-    planets: ['.mid-planet-1', '.mid-planet-2'],
-  },
-  {
-    path: '#inner-ring',
-    duration: 80,
-    planets: ['.inner-planet-1'],
-  },
+  { path: '#outer-ring', duration: 100, planets: ['.outer-planet-1', '.outer-planet-2', '.outer-planet-3'] },
+  { path: '#middle-ring', duration: 90, planets: ['.mid-planet-1', '.mid-planet-2'] },
+  { path: '#inner-ring', duration: 80, planets: ['.inner-planet-1'] },
 ]
+
 onMounted(() => {
   ctx = withGsapContext(() => {
     rings.forEach(({ path, duration, planets }) => {
       planets.forEach((planetSelector, i) => {
-        const offset = i / planets.length
-        revolvePlanet(planetSelector, path, duration, offset)
-        showMench('#little-mench', '#arm-rotate')
+        revolvePlanet(planetSelector, path, duration, i / planets.length)
       })
     })
+
+    // plays once on mount
+    showLitttleMench('#little-mench', '#arm-rotate', true)
+
+    sunEl = document.querySelector('#sun-inner')
+    handleClick = () => restartLittleMench()
+    sunEl?.addEventListener('click', handleClick)
   })
 })
 
-onUnmounted(() => ctx?.revert())
+onUnmounted(() => {
+  sunEl?.removeEventListener('click', handleClick)
+  ctx?.revert()
+})
 </script>
+
+
 <template>
   <div class="relative">
     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 901 806">
@@ -128,20 +128,35 @@ onUnmounted(() => ctx?.revert())
           </g>
         </g>
         <g id="mench-instance" transform="translate(400, 280)">
-          <use href="#little-mench" width="100" height="90" class="" />
+          <use href="#little-mench" width="100" height="90" />
+          <g id="speech-bubble" transform="translate(40, -70)" opacity="0" scale="0.5">
+            <rect x="0" y="0" width="150" height="60" rx="12" ry="12" fill="white" stroke="black" stroke-width="2" />
+            <!-- Tail pointing down-left toward mench’s head -->
+            <polygon points="20,60 35,60 25,75" fill="white" stroke="black" stroke-width="2" />
+            <text id="speech-text" x="6" y="20" font-size="14" font-family="sans-serif" fill="black">Check out the
+              planets.</text>
+            <text id="speech-text" x="6" y="35" font-size="14" font-family="sans-serif" fill="black">Hover and click
+              to</text>
+            <text id="speech-text" x="6" y="50" font-size="14" font-family="sans-serif" fill="black">
+              explore, drag for fun.
+            </text>
+          </g>
         </g>
         <g id="core" transform="translate(435.7 371.79) scale(1.3) translate(-435.7 -371.79)">
           <g id="Ellipse 94" filter="url(#filter0_f_974_709)">
             <circle cx="435.7" cy="371.78" r="60.22" fill="color(display-p3 1 .9216 .3451)" fill-opacity=".05" />
           </g>
-          <circle id="Ellipse 93" cx="435.7" cy="371.79" r="37.74" fill="color(display-p3 1 .9216 .3451)"
-            fill-opacity=".2" />
-          <circle id="Ellipse 90" cx="435.7" cy="371.79" r="31.51" fill="color(display-p3 1 .947 .5577)"
-            fill-opacity="1" stroke="#000" stroke-opacity="1" stroke-width=".8" />
-          <circle id="Ellipse 91" cx="435.7" cy="371.79" r="24.93" fill="color(display-p3 1 .9216 .3451)"
-            fill-opacity="1" />
-          <ellipse id="Ellipse 92" cx="434.13" cy="359.7" fill="color(display-p3 .9926 .9679 .7863)" fill-opacity="1"
-            rx="8.85" ry="5.9" transform="rotate(20.6 434.13 359.7)" />
+
+          <g id="sun-inner">
+            <circle id="Ellipse 93" cx="435.7" cy="371.79" r="37.74" fill="color(display-p3 1 .9216 .3451)"
+              fill-opacity=".2" />
+            <circle id="Elipse 90" cx="435.7" cy="371.79" r="31.51" fill="color(display-p3 1 .947 .5577)"
+              fill-opacity="1" stroke="#000" stroke-opacity="1" stroke-width=".8" />
+            <circle id="Ellipse 91" cx="435.7" cy="371.79" r="24.93" fill="color(display-p3 1 .9216 .3451)"
+              fill-opacity="1" />
+            <ellipse id="Ellipse 92" cx="434.13" cy="359.7" fill="color(display-p3 .9926 .9679 .7863)" fill-opacity="1"
+              rx="8.85" ry="5.9" transform="rotate(20.6 434.13 359.7)" />
+          </g>
         </g>
       </g>
       <defs>

@@ -155,15 +155,63 @@ export function revolvePlanet(
 
 
 // Little mench 
-export function showMench(menchSelector, handSelector) {
-  gsap.set(menchSelector, { opacity: 0, y: 50 })
-  // const menchTl = gsap.timeline(selector, { y: 50, opacity: 0, paused: true })
-  // menchTl.play()
 
-  const menchTl = gsap.timeline({ paused: true })
+let menchTl // store one master timeline
+export function showLitttleMench(menchSelector, handSelector, speechBubblePresent = false) {
+  gsap.set(menchSelector, { opacity: 0, y: 50 })
+  menchTl?.kill() // kills the little mench if it exists - allows restart on click 
+
+  menchTl = gsap.timeline({ paused: true })
   menchTl.to(menchSelector, { opacity: 1, y: 0, duration: 0.3 })
-  menchTl.to(handSelector, { rotation: 20, transformOrigin: 'bottom, bottom', yoyo: true, repeat: 4 })
+
+  menchTl.to(handSelector, {
+    rotation: 20,
+    transformOrigin: 'bottom, bottom',
+    yoyo: true,
+    repeat: 4
+  })
+
+  if (speechBubblePresent) {
+    menchTl.fromTo(
+      '#speech-bubble',
+      { opacity: 0, scale: 0 },
+      { opacity: 1, scale: 1, duration: 0.4, ease: 'back.out(2)' },
+      '<+=0.5'
+    )
+  }
+
   menchTl.to(handSelector, { rotation: 90, x: -190, scale: 0.5 })
-  // menchTl.to
+
+  if (speechBubblePresent) {
+    menchTl.to('#speech-bubble', {
+      opacity: 0,
+      scale: 0,
+      duration: 0.3,
+      ease: 'back.in(2)'
+    }, '+=3.5')
+  }
+
+  // mench hide after bubble out
+  menchTl.add(() => hideLittleMench(menchSelector, handSelector))
+
   return menchTl.play()
 }
+
+export function hideLittleMench(menchSelector, handSelector) {
+  const tl = gsap.timeline({ paused: true })
+  tl.set(handSelector, { opacity: 0 }) // instantly hide arm
+  tl.to(menchSelector, { opacity: 0, y: 50, duration: 0.3 })
+  tl.set(handSelector, { rotation: 0, x: 0, scale: 1, opacity: 1 }) // reset arm for next run
+  return tl.play()
+}
+
+// public restart
+export function restartLittleMench() {
+  if (menchTl) {
+    menchTl.restart()
+    return menchTl
+  } else {
+    return showLitttleMench('#little-mench', '#arm-rotate', true)
+  }
+}
+
