@@ -6,49 +6,39 @@ import InertiaPlugin from 'gsap/InertiaPlugin'
 import TheContainer from '@/components/layout/TheContainer.vue'
 import TheDialog from '@/components/layout/TheDialog.vue'
 // SVG Imports
-import svgVue from '@/assets/svgs/brandIcons/Vue.js.svg'
+// import svgVue from '@/assets/svgs/brandIcons/Vue.js.svg'
 import TheButton from '@/components/layout/TheButton.vue'
 import { useMouse, useRafFn, useWindowSize } from '@vueuse/core'
 gsap.registerPlugin(Draggable, InertiaPlugin)
 
-const { x: mouseX, y: mouseY } = useMouse()
-const { width, height } = useWindowSize()
-
-const centerX = computed(() => width.value / 2)
-const centerY = computed(() => height.value / 2)
-
-const deltaX = computed(() => mouseX.value - centerX.value)
-const deltaY = computed(() => mouseY.value - centerY.value)
-
 const box = useTemplateRef('box')
-const svgVueRef = useTemplateRef('svgVueRef')
+// const svgVueRef = useTemplateRef('svgVueRef')
 
-let boxX, boxY
 let stop
 
 onMounted(() => {
-  boxX = gsap.quickTo('.follow-box', 'x', { duration: 0.8, ease: 'power3' })
-  boxY = gsap.quickTo('.follow-box', 'y', { duration: 0.8, ease: 'power3' })
-  const { pause } = useRafFn(() => {
-    boxX(deltaX)
-    boxY(deltaY)
-  })
-  stop = pause
-  gsap.fromTo(
-    box.value,
-    { x: -200, y: 0 },
-    { x: 200, y: 300, rotation: 360, duration: 10, ease: 'elastic' },
-  )
+  // boxX = gsap.quickTo('.follow-box', 'x', { duration: 0.8, ease: 'power3' })
+  // boxY = gsap.quickTo('.follow-box', 'y', { duration: 0.8, ease: 'power3' })
+  // const { pause } = useRafFn(() => {
+  //   boxX(deltaX)
+  //   boxY(deltaY)
+  // })
+  // stop = pause
+  // gsap.fromTo(
+  //   box.value,
+  //   { x: -200, y: 0 },
+  //   { x: 200, y: 300, rotation: 360, duration: 10, ease: 'elastic' },
+  // )
   Draggable.create(box.value, {
     type: 'x,y',
     inertia: true,
     bounds: document.getElementById('boundary'),
   })
-  Draggable.create(svgVueRef.value, {
-    type: 'x,y',
-    inertia: true,
-    bounds: document.getElementById('boundary'),
-  })
+  // Draggable.create(svgVueRef.value, {
+  //   type: 'x,y',
+  //   inertia: true,
+  //   bounds: document.getElementById('boundary'),
+  // })
 })
 onBeforeUnmount(() => {
   stop?.()
@@ -61,6 +51,7 @@ onBeforeUnmount(() => {
   position: relative;
   isolation: isolate;
 }
+
 .diagonal::after {
   content: '';
   background-image: var(--bg-grad);
@@ -75,6 +66,7 @@ onBeforeUnmount(() => {
   color: black;
   background: linear-gradient(to right, #fdc830, #f37335);
 }
+
 .bubble::before,
 .bubble::after {
   content: '';
@@ -87,15 +79,35 @@ onBeforeUnmount(() => {
   -webkit-mask-image: url('../assets/svgs/halfCircle.svg');
   /* -webkit-mask-size: 10px 20px; */
 }
+
 .bubble::before {
   top: 0;
-  transform: rotate(0.5turn); /* same as 180deg */
+  transform: rotate(0.5turn);
+  /* same as 180deg */
 }
+
 .bubble::after {
   bottom: 0;
 }
 </style>
 <template>
+  <div class="container mx-auto my-46 p-12">
+    dragable
+    <svg width="400" height="400" viewBox="0 0 600 600">
+      <!-- Oval path, no fill -->
+      <ellipse
+        id="path"
+        cx="300"
+        cy="300"
+        rx="200"
+        ry="200"
+        fill="none"
+        stroke="red"
+        stroke-width="2"
+      />
+    </svg>
+  </div>
+
   <div class="mt-20">
     <section class="diagonal p-20">
       <div class="wrapper container mx-auto p-2">
@@ -224,10 +236,6 @@ onBeforeUnmount(() => {
       <TheButton variant="primary">Button</TheButton>
       <TheButton variant="secondary">Button</TheButton>
       <TheButton variant="tertiary">Button</TheButton>
-      <div class="flex gap-6 p-4">
-        <TheButton variant="neu">My Work</TheButton>
-        <TheButton variant="neu">Contact</TheButton>
-      </div>
     </div>
   </div>
 
@@ -240,7 +248,9 @@ onBeforeUnmount(() => {
         close-button-variant="tertiary"
         close-button-classes="-ml-2 self-start"
       >
-        <template #diagTitle><h1>Skills Description</h1></template>
+        <template #diagTitle>
+          <h1>Skills Description</h1>
+        </template>
         <template #diagDesc>
           <p>Here are my skills and my evaluation of them.</p>
         </template>
@@ -254,14 +264,7 @@ onBeforeUnmount(() => {
         </template>
       </TheDialog>
     </div>
-
-    <div id="boundary" class="h-[600px] max-w-full">
-      <img :src="svgVue" alt="svg-vue" ref="svgVueRef" class="size-24" />
-      <div
-        ref="box"
-        class="size-24 bg-gradient-to-br from-lime-400 to-green-300 p-2"
-      ></div>
-      <div class="grad-tr-prim-sec follow-box size-24 p-2"></div>
-    </div>
   </TheContainer>
+
+  <div></div>
 </template>

@@ -1,13 +1,26 @@
 <script setup>
 import { onMounted, onUnmounted } from 'vue'
-import { withGsapContext, revolvePlanet, showLitttleMench, restartLittleMench } from '@/composables/useGsapFuncs'
+import {
+  withGsapContext,
+  revolvePlanet,
+  showLitttleMench,
+  restartLittleMench,
+} from '@/composables/useGsapFuncs'
 
 let ctx, sunEl
 let handleClick
 
 const rings = [
-  { path: '#outer-ring', duration: 100, planets: ['.outer-planet-1', '.outer-planet-2', '.outer-planet-3'] },
-  { path: '#middle-ring', duration: 90, planets: ['.mid-planet-1', '.mid-planet-2'] },
+  {
+    path: '#outer-ring',
+    duration: 100,
+    planets: ['.outer-planet-1', '.outer-planet-2', '.outer-planet-3'],
+  },
+  {
+    path: '#middle-ring',
+    duration: 90,
+    planets: ['.mid-planet-1', '.mid-planet-2'],
+  },
   { path: '#inner-ring', duration: 80, planets: ['.inner-planet-1'] },
 ]
 
@@ -34,10 +47,9 @@ onUnmounted(() => {
 })
 </script>
 
-
 <template>
   <div class="relative">
-    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 901 806">
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 901 806" id="planet-drag-bound">
       <defs>
         <symbol id="planet-shape" viewBox="0 0 89 89">
           <g id="Group 426">
@@ -133,13 +145,17 @@ onUnmounted(() => {
             <rect x="0" y="0" width="150" height="60" rx="12" ry="12" fill="white" stroke="black" stroke-width="2" />
             <!-- Tail pointing down-left toward mench’s head -->
             <polygon points="20,60 35,60 25,75" fill="white" stroke="black" stroke-width="2" />
-            <text id="speech-text" x="6" y="20" font-size="14" font-family="sans-serif" fill="black">Check out the
-              planets.</text>
-            <text id="speech-text" x="6" y="35" font-size="14" font-family="sans-serif" fill="black">Hover and click
-              to</text>
-            <text id="speech-text" x="6" y="50" font-size="14" font-family="sans-serif" fill="black">
-              explore, drag for fun.
-            </text>
+            <g class="fill-black">
+              <text id="speech-text" x="6" y="20" font-size="14" font-family="sans-serif">
+                Check out the planets.
+              </text>
+              <text id="speech-text" x="6" y="35" font-size="14" font-family="sans-serif">
+                Hover and click to
+              </text>
+              <text id="speech-text" x="6" y="50" font-size="14" font-family="sans-serif">
+                explore. Drag for fun.
+              </text>
+            </g>
           </g>
         </g>
         <g id="core" transform="translate(435.7 371.79) scale(1.3) translate(-435.7 -371.79)">
@@ -147,7 +163,7 @@ onUnmounted(() => {
             <circle cx="435.7" cy="371.78" r="60.22" fill="color(display-p3 1 .9216 .3451)" fill-opacity=".05" />
           </g>
 
-          <g id="sun-inner">
+          <g id="sun-inner" class="cursor-pointer">
             <circle id="Ellipse 93" cx="435.7" cy="371.79" r="37.74" fill="color(display-p3 1 .9216 .3451)"
               fill-opacity=".2" />
             <circle id="Elipse 90" cx="435.7" cy="371.79" r="31.51" fill="color(display-p3 1 .947 .5577)"
@@ -170,4 +186,3 @@ onUnmounted(() => {
     </svg>
   </div>
 </template>
-<style scoped></style>

@@ -1,20 +1,23 @@
 import gsap from 'gsap'
 import MotionPathPlugin from 'gsap/MotionPathPlugin'
-gsap.registerPlugin(MotionPathPlugin)
+import Draggable from 'gsap/Draggable'
+import InertiaPlugin from 'gsap/InertiaPlugin'
+gsap.registerPlugin(MotionPathPlugin, Draggable, InertiaPlugin)
 
 // Provide Gsap context
 export function withGsapContext(fn, scope) {
   return gsap.context(fn, scope)
 }
 
+// --- Cards --- 
 // Full stack
-export function floatUpDown(element, y, dur) {
+export function floatUpDown(element, y, durrr) {
   return gsap.to(element, {
     y,
     repeat: -1,
     yoyo: true,
     ease: 'sine.inOut',
-    duration: dur,
+    duration: durrr,
   })
 }
 
@@ -65,7 +68,7 @@ export function makeAssembleTimeline(pieceTop, bulbSelector, options = {}) {
 
   return tl
 }
-// Rocket stuff
+// Rocket
 export function flyRocket(rocketSelector) {
   const tl = gsap.timeline({ repeat: -1, yoyo: true })
 
@@ -108,19 +111,16 @@ export function riderBounce(characterSelector) {
   })
 }
 
-/**
- * The key to start and end working properly is setting them as dynamic so gsap will map them modulo and it will allow values grater than 1
- */
 
-export function revolvePlanet(
-  planetSelector,
-  pathSelector,
-  duration = 40,
-  offset = 0,
-) {
-  const tween = gsap.to(planetSelector, {
+
+// --- Projects ---
+/**
+ * The key to motionPath working properly is setting each planet's start and end properties as dynamic. GSAP will then map them modulo and allow ffor values grater than 1...
+ */
+function createOrbitTimeline(planetSelector, pathSelector, duration, offset) {
+  return gsap.to(planetSelector, {
     duration,
-    ease: 'none',
+    ease: "none",
     repeat: -1,
     id: `${planetSelector}-${pathSelector}`,
     motionPath: {
@@ -131,87 +131,155 @@ export function revolvePlanet(
       end: 1 + offset,
     },
   })
+}
+
+function createHoverFx(el) {
+  return gsap.timeline({ paused: true }).to(el, {
+    scale: 1.3,
+    rotation: 180,
+    duration: 0.5,
+    ease: "power2.out",
+  })
+}
+
+function createDraggable(el, orbitTimeline) {
+  let savedProgress = 0
+
+  const draggable = Draggable.create(el, {
+    type: "x,y",
+    bounds: "#planet-drag-bound",
+    inertia: true,
+    edgeResistance: 0.9,
+    activeCursor: "grabbing",
+
+    onPress(event) {
+      event.target.setPointerCapture?.(event.pointerId)
+    },
+
+    onDragStart() {
+      savedProgress = orbitTimeline.progress()
+      orbitTimeline.pause()
+      document.querySelector("#projects").style.pointerEvents = "none"
+      this.target.style.pointerEvents = "auto"
+
+      this.startX = this.x
+      this.startY = this.y
+    },
+
+    onRelease() {
+      document.querySelector("#projects").style.pointerEvents = "auto"
+      if (this.tween) this.tween.kill()
+
+      gsap.to(this.target, {
+        duration: 1.2,
+        x: this.startX,
+        y: this.startY,
+        ease: "elastic.out(1,0.3)",
+        onComplete: () => {
+          orbitTimeline.progress(savedProgress)
+          orbitTimeline.resume()
+        },
+      })
+    },
+  })[0]
+
+  draggable.disable()
+  return draggable
+}
+
+// Main orchestrator 
+export function revolvePlanet(planetSelector, pathSelector, duration = 40, offset = 0) {
+  const orbitTimeline = createOrbitTimeline(planetSelector, pathSelector, duration, offset)
 
   const el = document.querySelector(planetSelector)
-  if (el) {
-    let scaleTl = gsap.timeline({ paused: true })
-    scaleTl.to(el, { scale: 1.3, rotation: 180, duration: 0.3, ease: "power2.out" })
+  if (!el) return orbitTimeline
 
-    el.addEventListener('mouseenter', () => {
-      tween.pause()
-      el.classList.add('planet-hovered')
-      scaleTl.play()
-    })
+  const hoverTl = createHoverFx(el)
+  const draggable = createDraggable(el, orbitTimeline)
 
-    el.addEventListener('mouseleave', () => {
-      tween.resume()
-      el.classList.remove('planet-hovered')
-      scaleTl.reverse()
-    })
-  }
+  // Hover handlers
+  el.addEventListener("mouseenter", () => {
+    draggable.enable()
+    orbitTimeline.pause()
+    el.classList.add("planet-hovered")
+    hoverTl.play()
+  })
 
-  return tween
+  el.addEventListener("mouseleave", () => {
+    draggable.disable()
+    orbitTimeline.resume()
+    el.classList.remove("planet-hovered")
+    hoverTl.reverse()
+  })
+
+  return orbitTimeline
 }
 
 
-// Little mench 
-
-let menchTl // store one master timeline
-export function showLitttleMench(menchSelector, handSelector, speechBubblePresent = false) {
+// --- Little mench ---
+let littleMenchTl
+export function showLitttleMench(
+  menchSelector,
+  handSelector,
+  speechBubblePresent = false,
+) {
   gsap.set(menchSelector, { opacity: 0, y: 50 })
-  menchTl?.kill() // kills the little mench if it exists - allows restart on click 
+  littleMenchTl?.kill() // kills the little mench if it exists - allows restart on click
 
-  menchTl = gsap.timeline({ paused: true })
-  menchTl.to(menchSelector, { opacity: 1, y: 0, duration: 0.3 })
+  littleMenchTl = gsap.timeline({ paused: true })
+  littleMenchTl.to(menchSelector, { opacity: 1, y: 0, duration: 0.3 })
 
-  menchTl.to(handSelector, {
+  littleMenchTl.to(handSelector, {
     rotation: 20,
     transformOrigin: 'bottom, bottom',
     yoyo: true,
-    repeat: 4
+    repeat: 4,
   })
 
   if (speechBubblePresent) {
-    menchTl.fromTo(
+    littleMenchTl.fromTo(
       '#speech-bubble',
       { opacity: 0, scale: 0 },
       { opacity: 1, scale: 1, duration: 0.4, ease: 'back.out(2)' },
-      '<+=0.5'
+      '<+=1',
     )
   }
 
-  menchTl.to(handSelector, { rotation: 90, x: -190, scale: 0.5 })
+  littleMenchTl.to(handSelector, { rotation: 90, x: -190, scale: 0.5 })
 
   if (speechBubblePresent) {
-    menchTl.to('#speech-bubble', {
-      opacity: 0,
-      scale: 0,
-      duration: 0.3,
-      ease: 'back.in(2)'
-    }, '+=3.5')
+    littleMenchTl.to(
+      '#speech-bubble',
+      {
+        opacity: 0,
+        scale: 0,
+        duration: 0.3,
+        ease: 'back.in(2)',
+      },
+      '+=3.5',
+    )
   }
 
   // mench hide after bubble out
-  menchTl.add(() => hideLittleMench(menchSelector, handSelector))
+  littleMenchTl.add(() => hideLittleMench(menchSelector, handSelector))
 
-  return menchTl.play()
+  return littleMenchTl.play()
 }
 
 export function hideLittleMench(menchSelector, handSelector) {
   const tl = gsap.timeline({ paused: true })
-  tl.set(handSelector, { opacity: 0 }) // instantly hide arm
+  tl.set(handSelector, { opacity: 0 })
   tl.to(menchSelector, { opacity: 0, y: 50, duration: 0.3 })
-  tl.set(handSelector, { rotation: 0, x: 0, scale: 1, opacity: 1 }) // reset arm for next run
+  tl.set(handSelector, { rotation: 0, x: 0, scale: 1, opacity: 1 })
   return tl.play()
 }
 
 // public restart
 export function restartLittleMench() {
-  if (menchTl) {
-    menchTl.restart()
-    return menchTl
+  if (littleMenchTl) {
+    littleMenchTl.restart()
+    return littleMenchTl
   } else {
     return showLitttleMench('#little-mench', '#arm-rotate', true)
   }
 }
-
