@@ -296,3 +296,17 @@ export function restartLittleMench() {
 // SCALE
 // Think about implementing orange with the sun
 // slow rotation down
+export function orbitProject(el, pathSelector, duration, offset = 0) {
+  return gsap.to(el, {
+    duration,
+    ease: 'none',
+    repeat: -1,
+    motionPath: {
+      path: pathSelector,
+      align: pathSelector,
+      alignOrigin: [0.5, 0.5],
+      start: offset,
+      end: offset + 1,
+    },
+  })
+}

@@ -234,32 +234,14 @@ onUnmounted(() => {
               stroke="black"
               stroke-width="2"
             />
-            <g class="fill-black">
-              <text
-                id="speech-text"
-                x="6"
-                y="20"
-                font-size="14"
-                font-family="sans-serif"
-              >
+            <g class="speech-text fill-black">
+              <text x="6" y="20" font-size="14" font-family="sans-serif">
                 Check out the planets.
               </text>
-              <text
-                id="speech-text"
-                x="6"
-                y="35"
-                font-size="14"
-                font-family="sans-serif"
-              >
+              <text x="6" y="35" font-size="14" font-family="sans-serif">
                 Hover and click to
               </text>
-              <text
-                id="speech-text"
-                x="6"
-                y="50"
-                font-size="14"
-                font-family="sans-serif"
-              >
+              <text x="6" y="50" font-size="14" font-family="sans-serif">
                 explore. Drag for fun.
               </text>
             </g>

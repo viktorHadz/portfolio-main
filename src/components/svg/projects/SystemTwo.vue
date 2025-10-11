@@ -1,9 +1,88 @@
-<script setup></script>
+<script setup>
+import gsap from 'gsap'
+import { MotionPathPlugin } from 'gsap/MotionPathPlugin'
+import { onMounted } from 'vue'
+import { orbitProject } from '@/composables/useGsapFuncs'
+
+gsap.registerPlugin(MotionPathPlugin)
+
+
+const rings = {
+    inner: { id: 'inner', speed: 8, radius: 100 },
+    middle: { id: 'middle', speed: 14, radius: 200 },
+    outer: { id: 'outer', speed: 20, radius: 300 },
+}
+
+const projects = [
+    {
+        id: 'project-1',
+        name: 'Invoicer',
+        ring: 'inner',
+        color: 'lightblue',
+        size: 8,
+        position: 1,
+    },
+    {
+        id: 'project-2',
+        name: 'FUKLA',
+        ring: 'middle',
+        color: 'pink',
+        size: 10,
+        position: 2,
+    },
+    {
+        id: 'project-3',
+        name: 'S.A.M. Creations',
+        ring: 'middle',
+        color: 'orange',
+        size: 12,
+        position: 3,
+    },
+    {
+        id: 'project-4',
+        name: 'Watch Maker',
+        ring: 'outer',
+        color: 'lime',
+        size: 8,
+        position: 4,
+    },
+    {
+        id: 'project-5',
+        name: 'TUL Surveyor',
+        ring: 'outer',
+        color: 'yellow',
+        size: 10,
+        position: 5,
+    },
+    {
+        id: 'project-6',
+        name: 'ASCII Generator',
+        ring: 'outer',
+        color: 'white',
+        size: 6,
+        position: 6,
+    },
+]
+
+
+onMounted(() => {
+    projects.forEach((p, i, arr) => {
+        const el = document.querySelector(`#${p.id}`)
+        const pathSelector = `#${rings[p.ring].id}`
+        if (el && pathSelector) {
+            orbitProject(el, pathSelector, rings[p.ring].speed, i / arr.length)
+        }
+        // on mouse enter stop project 
+        // get the project position 
+        // make dragable 
+        // on click open modal 
+    })
+})
+</script>
+
 <template>
     <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" fill="none"
         viewBox="0 0 1266 1053">
-
-
         <g id="lil-mench">
             <g id="menchen-arm">
                 <path fill="color(display-p3 .9373 .7412 .6353)"
@@ -45,11 +124,11 @@
         </g>
 
         <g id="solar-paths" class="stroke-[#FFEFC7]">
-            <path id="b"
+            <path id="inner"
                 d="M574.8 337.6c58.5-24.8 117.8-32.2 166.4-24.2 48.5 8 86.2 31.3 101.7 68s6 80-22.1 120.4c-28.2 40.3-74.9 77.7-133.4 102.4-58.6 24.7-117.9 32.2-166.4 24.2-48.6-8-86.3-31.3-101.8-68s-6-80 22.2-120.4 74.8-77.7 133.4-102.4" />
-            <path id="c"
+            <path id="middle"
                 d="M536.8 270.6c99.8-42.2 201-54.9 283.7-41.3 82.8 13.6 147.2 53.4 173.7 116.2 26.4 62.7 10.1 136.6-37.9 205.4S828.8 683.3 729 725.5s-200.9 54.8-283.7 41.2-147.1-53.4-173.6-116.1-10.1-136.6 37.8-205.4c48-68.8 127.6-132.5 227.4-174.6Z" />
-            <path id="d"
+            <path id="outer"
                 d="M500.2 212.4c137.8-58.2 277.5-75.7 391.8-57s203.3 73.8 240 160.5c36.5 86.7 14 188.8-52.3 283.9S903.5 782.7 765.6 840.9s-277.5 75.7-391.8 57-203.3-73.8-240-160.5-14-188.8 52.3-283.8 176.2-183 314-241.2Z" />
             <filter id="a" width="232" height="232" x="516.9" y="354.9" color-interpolation-filters="sRGB"
                 filterUnits="userSpaceOnUse">
@@ -59,5 +138,27 @@
             </filter>
         </g>
 
+        <g v-for="p in projects" :key="p.id" :id="p.id">
+            <circle :r="p.size" :fill="p.color" :cx="0" :cy="0" />
+        </g>
+
+        <!-- <g id="planet">
+            <path id="planet-body" fill="color(display-p3 .5133 .7595 .2501)" fill-opacity="1" stroke="#000"
+                stroke-opacity="1" stroke-width="1.8"
+                d="M860 355.8a35 35 0 0 0-34.4 9.3c-16.9 16.2-11.5 46.9 10.2 57.4a34.4 34.4 0 0 0 48.6-40.1 36 36 0 0 0-24.5-26.6Z" />
+            <path id="Exclude_2" fill="color(display-p3 .2824 .6 .2039)" fill-opacity="1"
+                stroke="color(display-p3 .1725 .1725 .1725)" stroke-opacity="1" stroke-width="1.8"
+                d="M874.6 378.5q-1.9-.2-2.9 1-1 1-1 3c0 2.7 1.4 5.9 4.3 7.7q1.8 1 2.6.6.9-.2 1.4-1.5c.6-1.8.2-4.9-1.8-8a12 12 0 0 0-2.3-2.7z" />
+            <path id="Exclude_3" fill="color(display-p3 .2824 .6 .2039)" fill-opacity="1"
+                stroke="color(display-p3 .1725 .1725 .1725)" stroke-opacity="1" stroke-width="1.8"
+                d="m831.5 393.3 3.5-1.7q2.2-1.6 3.8-4 .7-1 1-1.9l.2-1v-.2l-.4-.3-.9-.9a24 24 0 0 0-7.3-3.6h-.4c-4.3 1.4-6 4.3-6 7 .1 2.6 2.1 5.4 6.3 6.7z" />
+            <path id="Exclude_4" fill="color(display-p3 .2588 .4431 .1373)" fill-opacity="1"
+                stroke="color(display-p3 .1725 .1725 .1725)" stroke-opacity="1" stroke-width="1.8"
+                d="M854.5 410.9a4 4 0 0 0-4.7 4.8 4 4 0 0 0 3.1 3q2.4.5 3.8-1.5 1-1.7.2-3.8t-2.4-2.5Z" />
+            <ellipse id="light-dot" cx="859.9" cy="366.2" fill="color(display-p3 .818 .9326 .5385)" fill-opacity="1"
+                rx="7" ry="6.3" transform="rotate(-141.1 860 366.2)" />
+            <path id="planetary-shadow" fill="color(display-p3 .1762 .2272 .0516)" fill-opacity=".6"
+                d="M856.4 425.8c-22.2 2.3-37-11.8-40.5-32.4-.2-10.4 1.7-15 1.9-14.8 14.1 4.9 5.9 12.3 28 15 10.7 1.3 25.3 9.4 35.8 14.9 0 0-7.7 13.6-25.2 17.3" />
+        </g> -->
     </svg>
 </template>

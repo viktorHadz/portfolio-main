@@ -115,9 +115,10 @@
       <circle cx='35' cy='30' r='0.6' fill='white' opacity='0.3'/>\
       <circle cx='2' cy='2' r='0.8' fill='white' opacity='0.5'/>\
       </svg>");
-    background-size: 280px 280px;
+    background-size: 560px 560px;
     background-repeat: repeat;
     background-position: center center;
+    background-attachment: fixed;
   }
 }
 

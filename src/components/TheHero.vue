@@ -6,7 +6,7 @@ import PostMenchCopy from './svg/variousMench/PostMenchCopy.vue'
 
 <template>
   <section
-    class="bg-bg-prim container mx-auto flex flex-col items-center justify-center sm:flex-row"
+    class="bg-bg-prim bg-stars container mx-auto flex flex-col items-center justify-center sm:flex-row"
   >
     <div
       class="mt-24 mb-6 flex flex-col justify-center text-center sm:text-start"
