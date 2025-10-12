@@ -4,9 +4,10 @@ import Draggable from 'gsap/Draggable'
 import InertiaPlugin from 'gsap/InertiaPlugin'
 gsap.registerPlugin(MotionPathPlugin, Draggable, InertiaPlugin)
 
-// Provide Gsap context
-export function withGsapContext(fn, scope) {
-  return gsap.context(fn, scope)
+
+export function withGsapContext(fns, scope) {
+  const list = Array.isArray(fns) ? fns : [fns]
+  return gsap.context(() => list.forEach(fn => typeof fn === 'function' && fn()), scope)
 }
 
 // --- Cards ---
@@ -295,7 +296,7 @@ export function restartLittleMench() {
 // TODO:
 // SCALE
 // Think about implementing orange with the sun
-// slow rotation down
+// --- Orbit animation ---
 export function orbitProject(el, pathSelector, duration, offset = 0) {
   return gsap.to(el, {
     duration,
@@ -304,9 +305,57 @@ export function orbitProject(el, pathSelector, duration, offset = 0) {
     motionPath: {
       path: pathSelector,
       align: pathSelector,
-      alignOrigin: [0.5, 0.5],
+      alignOrigin: [0.5, 0.65],
       start: offset,
       end: offset + 1,
     },
   })
+}
+
+// --- Lil Mench ---
+let lilMenchTl
+export function showLilMench() {
+  gsap.set('#lil-mench', { opacity: 0, y: 50 })
+  gsap.set('#menchen-arm', { rotation: 0, x: 1, y: 5, scale: 0.9, opacity: 1 })
+  lilMenchTl?.kill()
+
+  lilMenchTl = gsap.timeline()
+
+  lilMenchTl
+    .to('#lil-mench', { opacity: 1, y: 0, duration: 0.3 })
+
+    .to('#menchen-arm', {
+      rotation: 20,
+      transformOrigin: '10% 90%',
+      yoyo: true,
+      repeat: 4,
+      duration: 0.25,
+      ease: 'sine.inOut',
+    })
+
+    .to('#menchen-eyes', {
+      scaleY: 0.05,
+      transformOrigin: 'center center',
+      duration: 0.06,
+      yoyo: true,
+      repeat: 3,
+      repeatDelay: 0.1,
+      ease: 'power2.inOut',
+    }, '-=0.2')
+
+    .to('#menchen-arm', {
+      rotation: 90,
+      x: -40,
+      y: 40,
+      scale: 0.5,
+      opacity: 0,
+      duration: 0.5,
+      ease: 'power2.inOut',
+    })
+
+    .to('#lil-mench', { opacity: 0, y: 50, duration: 0.5 })
+
+    .set('#menchen-arm', { rotation: 0, x: 0, y: 0, scale: 1, opacity: 1 })
+
+  return lilMenchTl.play()
 }

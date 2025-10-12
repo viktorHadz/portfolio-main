@@ -1,84 +1,73 @@
 <script setup>
-import gsap from 'gsap'
-import { MotionPathPlugin } from 'gsap/MotionPathPlugin'
-import { onMounted } from 'vue'
-import { orbitProject } from '@/composables/useGsapFuncs'
-
-gsap.registerPlugin(MotionPathPlugin)
-
+import { onMounted, onBeforeUnmount } from 'vue'
+import { orbitProject, showLilMench, withGsapContext } from '@/composables/useGsapFuncs'
 
 const rings = {
-    inner: { id: 'inner', speed: 8, radius: 100 },
-    middle: { id: 'middle', speed: 14, radius: 200 },
-    outer: { id: 'outer', speed: 20, radius: 300 },
+    inner: { id: 'inner', speed: 60 },
+    middle: { id: 'middle', speed: 80 },
+    outer: { id: 'outer', speed: 100 },
 }
 
 const projects = [
-    {
-        id: 'project-1',
-        name: 'Invoicer',
-        ring: 'inner',
-        color: 'lightblue',
-        size: 8,
-        position: 1,
-    },
-    {
-        id: 'project-2',
-        name: 'FUKLA',
-        ring: 'middle',
-        color: 'pink',
-        size: 10,
-        position: 2,
-    },
-    {
-        id: 'project-3',
-        name: 'S.A.M. Creations',
-        ring: 'middle',
-        color: 'orange',
-        size: 12,
-        position: 3,
-    },
-    {
-        id: 'project-4',
-        name: 'Watch Maker',
-        ring: 'outer',
-        color: 'lime',
-        size: 8,
-        position: 4,
-    },
-    {
-        id: 'project-5',
-        name: 'TUL Surveyor',
-        ring: 'outer',
-        color: 'yellow',
-        size: 10,
-        position: 5,
-    },
-    {
-        id: 'project-6',
-        name: 'ASCII Generator',
-        ring: 'outer',
-        color: 'white',
-        size: 6,
-        position: 6,
-    },
+    { id: 'project-1', name: 'Invoicer', ring: 'inner', color: 'lightblue', size: 20 },
+    { id: 'project-2', name: 'FUKLA', ring: 'middle', color: 'pink', size: 20 },
+    { id: 'project-3', name: 'S.A.M. Creations', ring: 'middle', color: 'orange', size: 20 },
+    { id: 'project-4', name: 'Watch Maker', ring: 'outer', color: 'lime', size: 20 },
+    { id: 'project-5', name: 'TUL Surveyor', ring: 'outer', color: 'yellow', size: 20 },
+    { id: 'project-6', name: 'ASCII Generator', ring: 'outer', color: 'white', size: 20 },
 ]
 
+let orbitAnims = []
+let gsapCtx
+let sunClickHandler
 
 onMounted(() => {
-    projects.forEach((p, i, arr) => {
-        const el = document.querySelector(`#${p.id}`)
-        const pathSelector = `#${rings[p.ring].id}`
-        if (el && pathSelector) {
-            orbitProject(el, pathSelector, rings[p.ring].speed, i / arr.length)
+    gsapCtx = withGsapContext(() => {
+        // Orbits + hover pause
+        projects.forEach((p, i, arr) => {
+            const el = document.querySelector(`#${p.id}`)
+            const path = `#${rings[p.ring].id}`
+            if (!el) return
+            const orbit = orbitProject(el, path, rings[p.ring].speed, i / arr.length)
+            orbit.play()
+            orbitAnims.push(orbit)
+
+            const pause = () => orbit.pause()
+            const play = () => orbit.play()
+            el.addEventListener('mouseenter', pause)
+            el.addEventListener('mouseleave', play)
+            orbit._pauseHandler = pause
+            orbit._playHandler = play
+            orbit._el = el
+        })
+
+        showLilMench()
+
+        const sun = document.querySelector('#sun')
+        if (sun) {
+            sunClickHandler = () => showLilMench()
+            sun.addEventListener('click', sunClickHandler)
+            sun.style.cursor = 'pointer'
         }
-        // on mouse enter stop project 
-        // get the project position 
-        // make dragable 
-        // on click open modal 
     })
 })
+
+onBeforeUnmount(() => {
+    orbitAnims.forEach((orbit) => {
+        orbit.kill()
+        if (orbit._el) {
+            orbit._el.removeEventListener('mouseenter', orbit._pauseHandler)
+            orbit._el.removeEventListener('mouseleave', orbit._playHandler)
+        }
+    })
+    orbitAnims = []
+    const sun = document.querySelector('#sun')
+    if (sun && sunClickHandler) sun.removeEventListener('click', sunClickHandler)
+    gsapCtx?.revert()
+})
 </script>
+
+
 
 <template>
     <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" fill="none"
@@ -139,9 +128,23 @@ onMounted(() => {
         </g>
 
         <g v-for="p in projects" :key="p.id" :id="p.id">
-            <circle :r="p.size" :fill="p.color" :cx="0" :cy="0" />
+            <circle :r="p.size" :fill="p.color" cx="0" cy="0" />
+            <text y="-25" text-anchor="middle" fill="currentColor"
+                class="text-acc-prim select-none pointer-events-none">
+                {{ p.name }}
+            </text>
         </g>
-
+        <g class="speech-text fill-black">
+            <text x="6" y="20" font-size="14" font-family="sans-serif">
+                Check out the planets.
+            </text>
+            <text x="6" y="35" font-size="14" font-family="sans-serif">
+                Hover and click to
+            </text>
+            <text x="6" y="50" font-size="14" font-family="sans-serif">
+                explore. Drag for fun.
+            </text>
+        </g>
         <!-- <g id="planet">
             <path id="planet-body" fill="color(display-p3 .5133 .7595 .2501)" fill-opacity="1" stroke="#000"
                 stroke-opacity="1" stroke-width="1.8"
