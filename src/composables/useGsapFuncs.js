@@ -2,12 +2,17 @@ import gsap from 'gsap'
 import MotionPathPlugin from 'gsap/MotionPathPlugin'
 import Draggable from 'gsap/Draggable'
 import InertiaPlugin from 'gsap/InertiaPlugin'
-gsap.registerPlugin(MotionPathPlugin, Draggable, InertiaPlugin)
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import { portalState } from '@/stores/portalState'
 
+gsap.registerPlugin(MotionPathPlugin, Draggable, InertiaPlugin, ScrollTrigger)
 
 export function withGsapContext(fns, scope) {
   const list = Array.isArray(fns) ? fns : [fns]
-  return gsap.context(() => list.forEach(fn => typeof fn === 'function' && fn()), scope)
+  return gsap.context(
+    () => list.forEach((fn) => typeof fn === 'function' && fn()),
+    scope,
+  )
 }
 
 // --- Cards ---
@@ -292,47 +297,46 @@ export function restartLittleMench() {
     return showLitttleMench('#little-mench', '#arm-rotate', true)
   }
 }
-
-// TODO:
-// SCALE
-// Think about implementing orange with the sun
-// --- Orbit animation ---
-export function orbitProject(el, pathSelector, duration, offset = 0) {
-  return gsap.to(el, {
-    duration,
-    ease: 'none',
-    repeat: -1,
-    motionPath: {
-      path: pathSelector,
-      align: pathSelector,
-      alignOrigin: [0.5, 0.65],
-      start: offset,
-      end: offset + 1,
-    },
-  })
-}
-
 // --- Lil Mench ---
 let lilMenchTl
-export function showLilMench() {
-  gsap.set('#lil-mench', { opacity: 0, y: 50 })
-  gsap.set('#menchen-arm', { rotation: 0, x: 1, y: 5, scale: 0.9, opacity: 1 })
-  lilMenchTl?.kill()
+export function showLilMench(restart = false) {
+  // clean up any existing
+  if (restart && lilMenchTl) {
+    lilMenchTl.restart()
+    return lilMenchTl
+  }
+  if (lilMenchTl) lilMenchTl.kill()
 
-  lilMenchTl = gsap.timeline()
+  gsap.set('#lil-mench', { opacity: 0, y: 50, scale: 1 })
+  gsap.set('#menchen-arm', { rotation: 0, x: 0, y: 5, scale: 0.9, opacity: 1 })
+  gsap.set('#speech-bubble', { opacity: 0, scale: 0.5 })
+
+  lilMenchTl = gsap.timeline({
+    defaults: { ease: 'power2.out' },
+    scrollTrigger: {
+      id: 'menchTrigger',
+      trigger: '#lil-mench',
+      start: 'top 80%',
+      once: true,
+    },
+  })
 
   lilMenchTl
-    .to('#lil-mench', { opacity: 1, y: 0, duration: 0.3 })
-
+    .to('#lil-mench', { opacity: 1, y: 0, duration: 0.4 })
     .to('#menchen-arm', {
       rotation: 20,
       transformOrigin: '10% 90%',
       yoyo: true,
-      repeat: 4,
+      repeat: 3,
       duration: 0.25,
       ease: 'sine.inOut',
-    })
-
+    }, '-=0.1')
+    .to('#speech-bubble', {
+      opacity: 1,
+      scale: 1,
+      duration: 0.4,
+      ease: 'back.out(2)',
+    }, '<+=0.1')
     .to('#menchen-eyes', {
       scaleY: 0.05,
       transformOrigin: 'center center',
@@ -341,21 +345,188 @@ export function showLilMench() {
       repeat: 3,
       repeatDelay: 0.1,
       ease: 'power2.inOut',
-    }, '-=0.2')
-
+    }, '<+=0.3')
+    .to({}, { duration: 3 })
     .to('#menchen-arm', {
       rotation: 90,
-      x: -40,
-      y: 40,
+      x: 0,
+      y: 30,
       scale: 0.5,
       opacity: 0,
-      duration: 0.5,
+      duration: 0.6,
       ease: 'power2.inOut',
     })
+    .to(['#speech-bubble', '#lil-mench'], {
+      opacity: 0,
+      scale: 0.8,
+      y: 60,
+      duration: 0.6,
+      ease: 'power1.inOut',
+    }, '<')
 
-    .to('#lil-mench', { opacity: 0, y: 50, duration: 0.5 })
+  return lilMenchTl
+}
 
-    .set('#menchen-arm', { rotation: 0, x: 0, y: 0, scale: 1, opacity: 1 })
+// --- Obrit & Dragable ---
+export function orbitProject(el, pathSelector, duration, offset = 0) {
+  const buildOrbit = () =>
+    gsap.to(el, {
+      duration,
+      ease: 'none',
+      repeat: -1,
+      paused: true,
+      motionPath: {
+        path: pathSelector,
+        align: pathSelector,
+        alignOrigin: [0.5, 0.6],
+        start: offset,
+        end: offset + 1,
+      },
+    })
 
-  return lilMenchTl.play()
+  const orbitProxy = {
+    instance: null,
+    play() { this.instance?.play() },
+    pause() { this.instance?.pause() },
+    kill() { this.instance?.kill() },
+    totalProgress(v) {
+      if (v !== undefined) this.instance?.totalProgress(v)
+      return this.instance?.totalProgress()
+    },
+  }
+
+  orbitProxy.instance = buildOrbit()
+  let savedProgress = 0
+  let startX = 0
+  let startY = 0
+  let isDragging = false
+
+  Draggable.create(el, {
+    type: 'x,y',
+    inertia: true,
+    edgeResistance: 0.9,
+    activeCursor: 'grabbing',
+
+    onPress() {
+      isDragging = false
+    },
+    onDrag() {
+      isDragging = true
+    },
+    onDragStart() {
+      savedProgress = orbitProxy.instance.totalProgress()
+      startX = this.x
+      startY = this.y
+      orbitProxy.pause()
+    },
+    onRelease() {
+      if (isDragging) {
+        orbitProxy.kill()
+        gsap.to(el, {
+          x: startX,
+          y: startY,
+          duration: 1.2,
+          ease: 'elastic.out(1, 0.3)',
+          overwrite: 'auto',
+          onComplete: () => {
+            gsap.set(el, { x: 0, y: 0 })
+            orbitProxy.instance = buildOrbit()
+            orbitProxy.instance.totalProgress(savedProgress).play()
+          },
+        })
+      } else {
+        orbitProxy.play()
+      }
+    },
+  })
+
+  orbitProxy.play()
+  return orbitProxy
+}
+
+
+
+
+const planetOrbits = new Map()
+
+export function registerOrbit(el, orbit) {
+  planetOrbits.set(el, orbit)
+}
+
+// --- Projects Portal ---
+export function openPortal(el, project) {
+  // if portal already open, ignore
+  if (portalState.isOpen) return
+
+  const orbit = planetOrbits.get(el)
+  if (orbit) orbit.pause()
+
+  portalState.open(project.name)
+  showPortalAnimation()
+}
+
+function showPortalAnimation() {
+  const modal = document.querySelector('#project-portal-modal')
+  if (!modal) return
+
+  gsap.fromTo(
+    modal,
+    {
+      opacity: 0,
+      scale: 0.5,
+      rotateZ: 45,
+      filter: 'hue-rotate(90deg) blur(4px)',
+    },
+    {
+      opacity: 1,
+      scale: 1,
+      rotateZ: 0,
+      filter: 'hue-rotate(0deg) blur(0)',
+      duration: 0.7,
+      ease: 'elastic.out(1, 0.5)',
+    }
+  )
+}
+
+export function closePortal() {
+  const modal = document.querySelector('#project-portal-modal')
+  if (!modal) return
+
+  gsap.to(modal, {
+    opacity: 0,
+    scale: 0.8,
+    rotateZ: -30,
+    duration: 0.5,
+    ease: 'power2.inOut',
+    onComplete: () => {
+      portalState.close()
+      resumeAllOrbits()
+    },
+  })
+}
+
+function resumeAllOrbits() {
+  planetOrbits.forEach((orbit) => {
+    if (orbit && orbit.instance && !orbit.instance.isActive()) {
+      orbit.play()
+    }
+  })
+}
+
+
+export function animateProjectOrb(el) {
+  gsap.to(el.querySelector('img'), {
+    rotation: 360,
+    duration: 20,
+    ease: 'none',
+    repeat: -1,
+  })
+
+  gsap.to(el, {
+    y: "+=8",
+    duration: 4,
+    ease: "sine.inOut",
+    repeat: -1,
+    yoyo: true,
+  })
 }

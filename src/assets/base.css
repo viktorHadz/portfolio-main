@@ -178,4 +178,5 @@ html {
 .planet-hovered {
   fill: #2dde9a;
   cursor: pointer;
+  scrollbar-gutter: stable;
 }
