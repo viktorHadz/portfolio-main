@@ -3,7 +3,7 @@ import MotionPathPlugin from 'gsap/MotionPathPlugin'
 import Draggable from 'gsap/Draggable'
 import InertiaPlugin from 'gsap/InertiaPlugin'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
-import { portalState } from '@/stores/portalState'
+// import { portalState } from '@/stores/portalState'
 
 gsap.registerPlugin(MotionPathPlugin, Draggable, InertiaPlugin, ScrollTrigger)
 
@@ -454,79 +454,61 @@ export function registerOrbit(el, orbit) {
 }
 
 // --- Projects Portal ---
-export function openPortal(el, project) {
-  // if portal already open, ignore
-  if (portalState.isOpen) return
+// export function openPortal(el, project) {
+//   // if portal already open, ignore
+//   if (portalState.isOpen) return
 
-  const orbit = planetOrbits.get(el)
-  if (orbit) orbit.pause()
+//   const orbit = planetOrbits.get(el)
+//   if (orbit) orbit.pause()
 
-  portalState.open(project.name)
-  showPortalAnimation()
-}
+//   portalState.open(project.name)
+//   showPortalAnimation()
+// }
 
-function showPortalAnimation() {
-  const modal = document.querySelector('#project-portal-modal')
-  if (!modal) return
+// function showPortalAnimation() {
+//   const modal = document.querySelector('#project-portal-modal')
+//   if (!modal) return
 
-  gsap.fromTo(
-    modal,
-    {
-      opacity: 0,
-      scale: 0.5,
-      rotateZ: 45,
-      filter: 'hue-rotate(90deg) blur(4px)',
-    },
-    {
-      opacity: 1,
-      scale: 1,
-      rotateZ: 0,
-      filter: 'hue-rotate(0deg) blur(0)',
-      duration: 0.7,
-      ease: 'elastic.out(1, 0.5)',
-    }
-  )
-}
+//   gsap.fromTo(
+//     modal,
+//     {
+//       opacity: 0,
+//       scale: 0.5,
+//       rotateZ: 45,
+//       filter: 'hue-rotate(90deg) blur(4px)',
+//     },
+//     {
+//       opacity: 1,
+//       scale: 1,
+//       rotateZ: 0,
+//       filter: 'hue-rotate(0deg) blur(0)',
+//       duration: 0.7,
+//       ease: 'elastic.out(1, 0.5)',
+//     }
+//   )
+// }
 
-export function closePortal() {
-  const modal = document.querySelector('#project-portal-modal')
-  if (!modal) return
+// export function closePortal() {
+//   const modal = document.querySelector('#project-portal-modal')
+//   if (!modal) return
 
-  gsap.to(modal, {
-    opacity: 0,
-    scale: 0.8,
-    rotateZ: -30,
-    duration: 0.5,
-    ease: 'power2.inOut',
-    onComplete: () => {
-      portalState.close()
-      resumeAllOrbits()
-    },
-  })
-}
+//   gsap.to(modal, {
+//     opacity: 0,
+//     scale: 0.8,
+//     rotateZ: -30,
+//     duration: 0.5,
+//     ease: 'power2.inOut',
+//     onComplete: () => {
+//       portalState.close()
+//       resumeAllOrbits()
+//     },
+//   })
+// }
 
-function resumeAllOrbits() {
-  planetOrbits.forEach((orbit) => {
-    if (orbit && orbit.instance && !orbit.instance.isActive()) {
-      orbit.play()
-    }
-  })
-}
-
-
-export function animateProjectOrb(el) {
-  gsap.to(el.querySelector('img'), {
-    rotation: 360,
-    duration: 20,
-    ease: 'none',
-    repeat: -1,
-  })
-
-  gsap.to(el, {
-    y: "+=8",
-    duration: 4,
-    ease: "sine.inOut",
-    repeat: -1,
-    yoyo: true,
-  })
-}
+// function resumeAllOrbits() {
+//   planetOrbits.forEach((orbit) => {
+//     if (orbit && orbit.instance && !orbit.instance.isActive()) {
+//       orbit.play()
+//     }
+//   })
+// }
