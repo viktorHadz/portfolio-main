@@ -40,7 +40,12 @@ const setIsOpen = (value) => {
 
 <template>
   <div>
-    <TheButton v-if="openButton" @click="setIsOpen(true)" :class="openButtonClasses" :variant="openButtonVariant">
+    <TheButton
+      v-if="openButton"
+      @click="setIsOpen(true)"
+      :class="openButtonClasses"
+      :variant="openButtonVariant"
+    >
       {{ openDialogButtonTitle }}
     </TheButton>
 
@@ -48,10 +53,14 @@ const setIsOpen = (value) => {
       <Dialog :open="isOpen" @close="setIsOpen">
         <div class="dark:bg-bg-prim/25 bg-fg-sec/25 fixed inset-0" />
         <div class="fixed inset-0 flex items-center justify-center p-4">
-          <DialogPanel class="bg-bg-sec border-brdr mx-auto flex max-w-sm flex-col gap-2 rounded-lg border px-6 py-4">
+          <DialogPanel
+            class="bg-bg-sec border-brdr mx-auto flex max-w-sm flex-col gap-2 rounded-lg border px-6 py-4"
+          >
             <DialogTitle class="text-xl font-bold">
               {{ title }}
-              <hr class="from-acc-sec to-acc-prim mt-2 h-px border-0 bg-gradient-to-r" />
+              <hr
+                class="from-acc-sec to-acc-prim mt-2 h-px border-0 bg-gradient-to-r"
+              />
             </DialogTitle>
 
             <DialogDescription class="text-fg-sec mb-2">
@@ -60,7 +69,11 @@ const setIsOpen = (value) => {
 
             <slot name="diagContent" />
 
-            <TheButton @click="setIsOpen(false)" :variant="closeButtonVariant" :class="[closeButtonClasses]">
+            <TheButton
+              @click="setIsOpen(false)"
+              :variant="closeButtonVariant"
+              :class="[closeButtonClasses]"
+            >
               Close
             </TheButton>
           </DialogPanel>

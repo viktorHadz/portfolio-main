@@ -323,29 +323,41 @@ export function showLilMench(restart = false) {
 
   lilMenchTl
     .to('#lil-mench', { opacity: 1, y: 0, duration: 0.4 })
-    .to('#menchen-arm', {
-      rotation: 20,
-      transformOrigin: '10% 90%',
-      yoyo: true,
-      repeat: 3,
-      duration: 0.25,
-      ease: 'sine.inOut',
-    }, '-=0.1')
-    .to('#speech-bubble', {
-      opacity: 1,
-      scale: 1,
-      duration: 0.4,
-      ease: 'back.out(2)',
-    }, '<+=0.1')
-    .to('#menchen-eyes', {
-      scaleY: 0.05,
-      transformOrigin: 'center center',
-      duration: 0.06,
-      yoyo: true,
-      repeat: 3,
-      repeatDelay: 0.1,
-      ease: 'power2.inOut',
-    }, '<+=0.3')
+    .to(
+      '#menchen-arm',
+      {
+        rotation: 20,
+        transformOrigin: '10% 90%',
+        yoyo: true,
+        repeat: 3,
+        duration: 0.25,
+        ease: 'sine.inOut',
+      },
+      '-=0.1',
+    )
+    .to(
+      '#speech-bubble',
+      {
+        opacity: 1,
+        scale: 1,
+        duration: 0.4,
+        ease: 'back.out(2)',
+      },
+      '<+=0.1',
+    )
+    .to(
+      '#menchen-eyes',
+      {
+        scaleY: 0.05,
+        transformOrigin: 'center center',
+        duration: 0.06,
+        yoyo: true,
+        repeat: 3,
+        repeatDelay: 0.1,
+        ease: 'power2.inOut',
+      },
+      '<+=0.3',
+    )
     .to({}, { duration: 3 })
     .to('#menchen-arm', {
       rotation: 90,
@@ -356,13 +368,17 @@ export function showLilMench(restart = false) {
       duration: 0.6,
       ease: 'power2.inOut',
     })
-    .to(['#speech-bubble', '#lil-mench'], {
-      opacity: 0,
-      scale: 0.8,
-      y: 60,
-      duration: 0.6,
-      ease: 'power1.inOut',
-    }, '<')
+    .to(
+      ['#speech-bubble', '#lil-mench'],
+      {
+        opacity: 0,
+        scale: 0.8,
+        y: 60,
+        duration: 0.6,
+        ease: 'power1.inOut',
+      },
+      '<',
+    )
 
   return lilMenchTl
 }
@@ -386,9 +402,15 @@ export function orbitProject(el, pathSelector, duration, offset = 0) {
 
   const orbitProxy = {
     instance: null,
-    play() { this.instance?.play() },
-    pause() { this.instance?.pause() },
-    kill() { this.instance?.kill() },
+    play() {
+      this.instance?.play()
+    },
+    pause() {
+      this.instance?.pause()
+    },
+    kill() {
+      this.instance?.kill()
+    },
     totalProgress(v) {
       if (v !== undefined) this.instance?.totalProgress(v)
       return this.instance?.totalProgress()
@@ -443,9 +465,6 @@ export function orbitProject(el, pathSelector, duration, offset = 0) {
   orbitProxy.play()
   return orbitProxy
 }
-
-
-
 
 const planetOrbits = new Map()
 

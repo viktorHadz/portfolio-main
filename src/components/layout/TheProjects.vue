@@ -18,7 +18,7 @@ import PlanetarySystem from '../svg/projects/PlanetarySystem.vue'
         ></path>
       </svg>
     </div>
-    <div class="py-24">
+    <div class="py-24 sm:py-42">
       <h2 class="text-acc-prim text-center text-sm font-semibold">
         my universe of projects
       </h2>
@@ -27,7 +27,7 @@ import PlanetarySystem from '../svg/projects/PlanetarySystem.vue'
       >
         Each planet a creation on my journey
       </p>
-      <PlanetarySystem class="container mx-auto"></PlanetarySystem>
+      <PlanetarySystem class="container mx-auto py-24"></PlanetarySystem>
     </div>
   </div>
 </template>

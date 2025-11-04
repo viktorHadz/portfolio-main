@@ -3,7 +3,7 @@ import { usePortalStore } from '@/stores/portalStore'
 import TheButton from './TheButton.vue'
 import TheTooltip from './TheTooltip.vue'
 import { ref } from 'vue'
-import MenchDontKnow from '../svg/variousMench/MenchDontKnow.vue'
+import { getImage } from '@/composables/imageHelper'
 function svgGetURL(name) {
   return new URL(`../../assets/icons/techIcons/${name}.svg`, import.meta.url)
     .href
@@ -16,7 +16,7 @@ const hoveredIcon = ref(null)
   <div
     v-if="portal.isOpen"
     id="project-portal-modal"
-    class="bg-bg-sec border-acc-prim fixed top-1/2 left-1/2 z-[9999] flex -translate-x-1/2 -translate-y-1/2 flex-col rounded-2xl border p-4 max-sm:w-full sm:p-8"
+    class="bg-bg-prim border-acc-prim fixed top-1/2 left-1/2 z-100 flex -translate-1/2 flex-col overflow-clip rounded-2xl border p-4 max-sm:w-full sm:w-[70%] sm:p-8 xl:w-[60%] 2xl:w-[40%]"
   >
     <div class="flex w-full items-center justify-between">
       <h2 class="text-acc-prim mb-4 text-4xl font-bold">
@@ -27,9 +27,17 @@ const hoveredIcon = ref(null)
       <div class="z-10 w-[65%]">
         <p>{{ portal.projectData.description }}</p>
       </div>
-      <!-- masked image -->
-      <div class="absolute right-0">
-        <MenchDontKnow v-if="portal.projectData.picture" class="mr-4 size-42" />
+      <!-- project image -->
+      <div class="absolute right-0 -z-10">
+        <div class="pointer-events-none select-none">
+          <img
+            :src="
+              getImage('projectPictures', portal.projectData.picture, 'webp')
+            "
+            :alt="portal.projectData.pictureAlt"
+            class="border-fg-ter pointer-events-none w-80 translate-x-24 rounded-l border-y border-l select-none sm:-translate-y-10"
+          />
+        </div>
       </div>
     </div>
 
@@ -48,7 +56,7 @@ const hoveredIcon = ref(null)
           :class="hoveredIcon === iconName ? '' : 'hidden'"
         />
         <div
-          class="shadow-bg-prim bg-bg-prim border-bg-ter/60 hover:border-acc-prim overflow-clip rounded-full border shadow-md grayscale transition-all duration-300 hover:grayscale-0"
+          class="shadow-bg-prim bg-bg-sec border-bg-ter/60 hover:border-acc-prim overflow-clip rounded-full border shadow-md grayscale transition-all duration-300 hover:grayscale-0"
         >
           <img
             :src="svgGetURL(iconName)"
