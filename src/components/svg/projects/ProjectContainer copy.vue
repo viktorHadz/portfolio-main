@@ -16,7 +16,7 @@ defineProps({ project: Object })
     </g>
 
     <text
-      y="-56"
+      y="-38"
       text-anchor="middle"
       class="label fill-acc-prim text-base font-bold"
     >

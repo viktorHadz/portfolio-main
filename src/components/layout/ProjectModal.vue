@@ -16,7 +16,7 @@ const hoveredIcon = ref(null)
   <div
     v-if="portal.isOpen"
     id="project-portal-modal"
-    class="bg-bg-prim border-acc-prim fixed top-1/2 left-1/2 z-100 flex -translate-1/2 flex-col overflow-clip rounded-2xl border p-4 max-sm:w-full sm:w-[70%] sm:p-8 xl:w-[60%] 2xl:w-[40%]"
+    class="bg-bg-prim border-acc-prim fixed top-1/2 left-1/2 z-100 flex -translate-1/2 flex-col overflow-clip rounded-2xl border p-4 max-sm:w-full sm:w-[70%] sm:p-8 xl:w-[60%] 2xl:w-[25%]"
   >
     <div class="flex w-full items-center justify-between">
       <h2 class="text-acc-prim mb-4 text-4xl font-bold">

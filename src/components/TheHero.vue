@@ -1,7 +1,7 @@
 <script setup>
 import TheButton from '@/components/layout/TheButton.vue'
 // import PostMench from '@/components/svg/PostMench.vue'
-import PostMenchCopy from './svg/variousMench/PostMenchCopy.vue'
+import HeroMench from './svg/variousMench/HeroMench.vue'
 </script>
 
 <template>
@@ -29,7 +29,7 @@ import PostMenchCopy from './svg/variousMench/PostMenchCopy.vue'
     </div>
     <div class="w-full max-w-full sm:max-w-xl lg:max-w-2xl 2xl:max-w-3xl">
       <!-- <PostMench /> -->
-      <PostMenchCopy />
+      <HeroMench />
     </div>
   </section>
 </template>
