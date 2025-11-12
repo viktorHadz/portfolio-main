@@ -4,7 +4,7 @@ import PlanetarySystem from './PlanetarySystem.vue'
 </script>
 
 <template>
-  <div class="bg-stars relative overflow-clip py-24">
+  <div class="bg-stars relative overflow-clip sm:py-24">
     <div class="py-24 sm:py-42">
       <h2 class="text-acc-prim text-center text-sm font-semibold">
         my universe of projects

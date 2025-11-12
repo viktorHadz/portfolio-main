@@ -2,7 +2,7 @@
 import TheHero from '@/components/TheHero.vue'
 import TheCards from '@/components/layout/TheCards.vue'
 import TheProjects from '@/components/svg/projects/TheProjects.vue'
-import TechStack from '@/components/svg/techStack/TechStack.vue'
+import TechStack from '@/components/techStack/TechStack.vue'
 </script>
 
 <template>
