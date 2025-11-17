@@ -13,7 +13,7 @@ import MenchPortalWave from '../svg/variousMench/MenchPortalWave.vue'
         class="container mx-auto my-12 flex flex-col items-center justify-center sm:my-24 sm:flex-row"
       >
         <div
-          class="mt-24 mb-6 flex flex-col justify-center text-center sm:text-start"
+          class="mb-6 flex flex-col justify-center text-center sm:text-start"
         >
           <p
             class="text-fg-prim text-4xl font-bold tracking-tighter sm:text-5xl 2xl:text-6xl"
@@ -21,7 +21,7 @@ import MenchPortalWave from '../svg/variousMench/MenchPortalWave.vue'
             Programming Journey
           </p>
           <h1
-            class="text-acc-prim text-lg leading-tight font-bold tracking-tight"
+            class="text-acc-prim mt-2 text-lg leading-tight font-bold tracking-tight"
           >
             A little bit more About Me
           </h1>

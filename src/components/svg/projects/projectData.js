@@ -1,9 +1,10 @@
-import planetSurveyGen from '@/assets/icons/planetSurveyGen.svg'
-import planetAscii from '@/assets/icons/planetAscii.svg'
-import planetFukla from '@/assets/icons/planetFukla.svg'
-import planetWatch from '@/assets/icons/planetWatch.svg'
-import planetInvoicer from '@/assets/icons/planetInvoicer.svg'
-import planetSam from '@/assets/icons/planetSam.svg'
+// import planetSurveyGen from '@/assets/icons/planetSurveyGen.svg'
+// import planetAscii from '@/assets/icons/planetAscii.svg'
+// import planetFukla from '@/assets/icons/planetFukla.svg'
+// import planetWatch from '@/assets/icons/planetWatch.svg'
+// import planetInvoicer from '@/assets/icons/planetInvoicer.svg'
+// import planetSam from '@/assets/icons/planetSam.svg'
+import projectVat from '@/assets/icons/projectVat.svg'
 // project icons
 
 export const projects = [
@@ -11,8 +12,8 @@ export const projects = [
     id: 'project-1',
     name: 'Invoicer',
     orbit: 'inner',
-    size: 36,
-    icon: planetInvoicer,
+    size: 60,
+    icon: projectVat,
     variant: 'gas',
     picture: 'invoicer',
     pictureAlt: 'Image showing the user interface of the invoicing program.',
@@ -32,8 +33,8 @@ export const projects = [
     id: 'project-2',
     name: 'FUKLA',
     orbit: 'middle',
-    size: 36,
-    icon: planetFukla,
+    size: 60,
+    icon: projectVat,
     variant: 'rocky',
     picture: 'fukla',
     pictureAlt: 'Image showing the home page of the fukle.me website.',
@@ -46,8 +47,8 @@ export const projects = [
     id: 'project-3',
     name: 'S.A.M. Creations',
     orbit: 'middle',
-    size: 36,
-    icon: planetSam,
+    size: 60,
+    icon: projectVat,
     variant: 'slime',
     picture: 'samCreations',
     pictureAlt:
@@ -61,8 +62,8 @@ export const projects = [
     id: 'project-4',
     name: 'Watch Maker',
     orbit: 'outer',
-    size: 36,
-    icon: planetWatch,
+    size: 60,
+    icon: projectVat,
     variant: 'gas',
     picture: 'watchMaker',
     pictureAlt: 'Image showing the home page of thewatchmaker.uk website.',
@@ -82,8 +83,8 @@ export const projects = [
     id: 'project-5',
     name: 'Survey Generator',
     orbit: 'outer',
-    size: 36,
-    icon: planetSurveyGen,
+    size: 60,
+    icon: projectVat,
     variant: 'rocky',
     picture: 'surveyGenerator',
     pictureAlt:
@@ -97,8 +98,8 @@ export const projects = [
     id: 'project-6',
     name: 'ASCII Generator',
     orbit: 'outer',
-    size: 36,
-    icon: planetAscii,
+    size: 60,
+    icon: projectVat,
     variant: 'slime',
     picture: 'asciiGenerator',
     description:

@@ -1,48 +1,41 @@
 <script setup>
 import { onMounted, onBeforeUnmount } from 'vue'
-import {
-  orbitProject,
-  withGsapContext,
-  showLilMench,
-  // openPortal,
-  registerOrbit,
-} from '@/composables/useGsapFuncs'
 import ProjectModal from '@/components/layout/ProjectModal.vue'
 import ProjectContainer from './ProjectContainer.vue'
 import { usePortalStore } from '@/stores/portalStore'
 import { projects } from './projectData'
+import { showLilMench, withGsapContext } from '@/composables/useGsapFuncs'
+import { revolvePlanet } from '@/composables/revolvePlanet' // NEW FILE
 
 const portal = usePortalStore()
 
+// Orbit path IDs
 const rings = {
-  inner: { id: 'inner', speed: 100 },
-  middle: { id: 'middle', speed: 100 },
-  outer: { id: 'outer', speed: 100 },
+  inner: 'inner',
+  middle: 'middle',
+  outer: 'outer',
 }
 
-let gsapCtx
+let gsapCtx = null
+
 onMounted(() => {
   gsapCtx = withGsapContext(() => {
     projects.forEach((project, i, arr) => {
-      const el = document.querySelector(`#${project.id}`)
-      const path = `#${rings[project.orbit].id}`
+      const planetSelector = `#${project.id}`
+      const pathSelector = `#${rings[project.orbit]}`
 
-      if (!el) return
+      // START ORBIT + INTERACTION
+      revolvePlanet(planetSelector, pathSelector, 40, i / arr.length)
 
-      const orbit = orbitProject(
-        el,
-        path,
-        rings[project.orbit].speed,
-        i / arr.length,
-      )
-
-      registerOrbit(el, orbit)
-
-      el.addEventListener('mouseenter', () => orbit.pause())
-      el.addEventListener('mouseleave', () => orbit.play())
-      el.addEventListener('click', () => portal.open(project))
+      // CLICK OPENS MODAL
+      const el = document.querySelector(planetSelector)
+      if (el) {
+        el.addEventListener('click', () => portal.open(project))
+      }
     })
   })
+
+  // Lil Mench
   const sun = document.querySelector('#sun')
   if (sun) {
     sun.addEventListener('click', () => showLilMench(true))
@@ -124,7 +117,7 @@ onBeforeUnmount(() => {
             stroke="black"
             stroke-width="2"
           />
-          <g class="speech-text fill-black">
+          <g class="speech-text fill-black" style="pointer-events: none">
             <text x="6" y="20" font-size="14" font-family="sans-serif">
               Check out the planets.
             </text>
@@ -132,7 +125,7 @@ onBeforeUnmount(() => {
               Hover and click to
             </text>
             <text x="6" y="50" font-size="14" font-family="sans-serif">
-              explore. Drag for fun.
+              explore.
             </text>
           </g>
         </g>

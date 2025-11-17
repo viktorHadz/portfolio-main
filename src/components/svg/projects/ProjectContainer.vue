@@ -1,35 +1,53 @@
 <script setup>
-defineProps({ project: Object })
+defineProps({
+  project: Object,
+})
 </script>
 
 <template>
-  <g :id="project.id" class="planet" cursor="pointer">
-    <g class="planet-body">
-      <image
-        :href="project.icon"
-        :width="project.size * 2"
-        :height="project.size * 2"
-        :x="-project.size"
-        :y="-project.size"
-        preserveAspectRatio="xMidYMid meet"
-      />
-    </g>
-
-    <text
-      y="-56"
-      text-anchor="middle"
-      class="label fill-acc-prim text-base font-bold"
+  <g
+    :id="project.id"
+    class="planet group cursor-pointer select-none"
+    overflow="visible"
+  >
+    <!-- LABEL -->
+    <foreignObject
+      x="-60"
+      y="-70"
+      width="120"
+      height="36"
+      class="project-label pointer-events-none"
     >
-      {{ project.name }}
+      <div
+        class="pointer-events-none flex h-full w-full items-center justify-center rounded-full border border-white/20 bg-zinc-900/90 text-[0.75rem] font-semibold tracking-wide text-white opacity-0"
+      >
+        {{ project.name }}
+      </div>
+    </foreignObject>
+
+    <!-- PLANET ICON -->
+    <image
+      :href="project.icon"
+      :width="project.size * 2"
+      :height="project.size * 2"
+      :x="-project.size"
+      :y="-project.size"
+      class="planet-img transition-transform duration-300 group-hover:scale-120 group-hover:rotate-45"
+    />
+    <!-- TINY INITIAL IN PLANET -->
+    <text
+      class="planet-initial pointer-events-none fill-black text-[0.8rem]"
+      text-anchor="middle"
+    >
+      <tspan
+        v-for="(word, i) in project.name.split(' ')"
+        :key="i"
+        x="0"
+        y="-3"
+        :dy="i === 0 ? 0 : '1.2em'"
+      >
+        {{ word }}
+      </tspan>
     </text>
   </g>
 </template>
-
-<style scoped>
-.label {
-  paint-order: stroke;
-  stroke-width: 2.5px;
-  letter-spacing: 0.2px;
-  pointer-events: none;
-}
-</style>

@@ -26,7 +26,6 @@ export function floatUpDown(element, y, durrr) {
     duration: durrr,
   })
 }
-
 export function blink(element, opacityFill) {
   return gsap.to(element, {
     opacity: opacityFill,
@@ -95,7 +94,6 @@ export function flyRocket(rocketSelector) {
 
   return tl
 }
-
 export function flameFlicker(flameSelector) {
   return gsap.to(flameSelector, {
     scaleY: 1.1,
@@ -384,93 +382,93 @@ export function showLilMench(restart = false) {
 }
 
 // --- Obrit & Dragable ---
-export function orbitProject(el, pathSelector, duration, offset = 0) {
-  const buildOrbit = () =>
-    gsap.to(el, {
-      duration,
-      ease: 'none',
-      repeat: -1,
-      paused: true,
-      motionPath: {
-        path: pathSelector,
-        align: pathSelector,
-        alignOrigin: [0.5, 0.6],
-        start: offset,
-        end: offset + 1,
-      },
-    })
+// export function orbitProject(el, pathSelector, duration, offset = 0) {
+//   const buildOrbit = () =>
+//     gsap.to(el, {
+//       duration,
+//       ease: 'none',
+//       repeat: -1,
+//       paused: true,
+//       motionPath: {
+//         path: pathSelector,
+//         align: pathSelector,
+//         alignOrigin: [0.5, 0.6],
+//         start: offset,
+//         end: offset + 1,
+//       },
+//     })
 
-  const orbitProxy = {
-    instance: null,
-    play() {
-      this.instance?.play()
-    },
-    pause() {
-      this.instance?.pause()
-    },
-    kill() {
-      this.instance?.kill()
-    },
-    totalProgress(v) {
-      if (v !== undefined) this.instance?.totalProgress(v)
-      return this.instance?.totalProgress()
-    },
-  }
+//   const orbitProxy = {
+//     instance: null,
+//     play() {
+//       this.instance?.play()
+//     },
+//     pause() {
+//       this.instance?.pause()
+//     },
+//     kill() {
+//       this.instance?.kill()
+//     },
+//     totalProgress(v) {
+//       if (v !== undefined) this.instance?.totalProgress(v)
+//       return this.instance?.totalProgress()
+//     },
+//   }
 
-  orbitProxy.instance = buildOrbit()
-  let savedProgress = 0
-  let startX = 0
-  let startY = 0
-  let isDragging = false
+//   orbitProxy.instance = buildOrbit()
+//   let savedProgress = 0
+//   let startX = 0
+//   let startY = 0
+//   let isDragging = false
 
-  Draggable.create(el, {
-    type: 'x,y',
-    inertia: true,
-    edgeResistance: 0.9,
-    activeCursor: 'grabbing',
+//   Draggable.create(el, {
+//     type: 'x,y',
+//     inertia: true,
+//     edgeResistance: 0.9,
+//     activeCursor: 'grabbing',
 
-    onPress() {
-      isDragging = false
-    },
-    onDrag() {
-      isDragging = true
-    },
-    onDragStart() {
-      savedProgress = orbitProxy.instance.totalProgress()
-      startX = this.x
-      startY = this.y
-      orbitProxy.pause()
-    },
-    onRelease() {
-      if (isDragging) {
-        orbitProxy.kill()
-        gsap.to(el, {
-          x: startX,
-          y: startY,
-          duration: 1.2,
-          ease: 'elastic.out(1, 0.3)',
-          overwrite: 'auto',
-          onComplete: () => {
-            gsap.set(el, { x: 0, y: 0 })
-            orbitProxy.instance = buildOrbit()
-            orbitProxy.instance.totalProgress(savedProgress).play()
-          },
-        })
-      } else {
-        orbitProxy.play()
-      }
-    },
-  })
+//     onPress() {
+//       isDragging = false
+//     },
+//     onDrag() {
+//       isDragging = true
+//     },
+//     onDragStart() {
+//       savedProgress = orbitProxy.instance.totalProgress()
+//       startX = this.x
+//       startY = this.y
+//       orbitProxy.pause()
+//     },
+//     onRelease() {
+//       if (isDragging) {
+//         orbitProxy.kill()
+//         gsap.to(el, {
+//           x: startX,
+//           y: startY,
+//           duration: 1.2,
+//           ease: 'elastic.out(1, 0.3)',
+//           overwrite: 'auto',
+//           onComplete: () => {
+//             gsap.set(el, { x: 0, y: 0 })
+//             orbitProxy.instance = buildOrbit()
+//             orbitProxy.instance.totalProgress(savedProgress).play()
+//           },
+//         })
+//       } else {
+//         orbitProxy.play()
+//       }
+//     },
+//   })
 
-  orbitProxy.play()
-  return orbitProxy
-}
+//   orbitProxy.play()
+//   return orbitProxy
+// }
 
-const planetOrbits = new Map()
+// const planetOrbits = new Map()
 
-export function registerOrbit(el, orbit) {
-  planetOrbits.set(el, orbit)
-}
+// export function registerOrbit(el, orbit) {
+//   planetOrbits.set(el, orbit)
+// }
 
 // --- Projects Portal ---
 // export function openPortal(el, project) {
