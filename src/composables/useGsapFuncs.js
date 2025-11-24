@@ -286,15 +286,15 @@ export function hideLittleMench(menchSelector, handSelector) {
   return tl.play()
 }
 
-// public restart
-export function restartLittleMench() {
-  if (littleMenchTl) {
-    littleMenchTl.restart()
-    return littleMenchTl
-  } else {
-    return showLitttleMench('#little-mench', '#arm-rotate', true)
-  }
-}
+// // public restart
+// export function restartLittleMench() {
+//   if (littleMenchTl) {
+//     littleMenchTl.restart()
+//     return littleMenchTl
+//   } else {
+//     return showLitttleMench('#little-mench', '#arm-rotate', true)
+//   }
+// }
 // --- Lil Mench ---
 let lilMenchTl
 export function showLilMench(restart = false) {

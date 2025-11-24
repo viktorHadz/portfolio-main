@@ -7,10 +7,11 @@ export function revolvePlanet(selector, pathSelector, duration = 40, offset = 0)
     const el = document.querySelector(selector)
     const ring = document.querySelector(pathSelector)
     const label = el?.querySelector(".project-label > div")
-    const initial = el?.querySelector(".planet-initial")
+    // const initial = el?.querySelector(".planet-initial")
     const img = el?.querySelector(".planet-img")
 
-    if (!el || !ring || !label || !initial || !img) return
+    // if (!el || !ring || !label || !initial || !img) return
+    if (!el || !ring || !label || !img) return
 
     // Orbit 
     const orbitTl = gsap.to(el, {
@@ -29,23 +30,31 @@ export function revolvePlanet(selector, pathSelector, duration = 40, offset = 0)
     // Text label popup
     const labelTl = gsap.timeline({ paused: true })
         .fromTo(label,
-            { opacity: 0, y: 10, scale: 0.3 },
-            { opacity: 1, y: -2, scale: 0.9, duration: 0.25, ease: "power2.out" }
+            { opacity: 1, y: 0, scale: 0.7, },
+            { opacity: 1, y: 0, scale: 1, duration: 0.3, ease: "power2.out" }
         )
+    const labelGlowTl = gsap.timeline({ paused: true })
+        .to(label, {
+            borderColor: "rgba(163, 217, 32, 0.8)",
+            borderWidth: "2px",
+            duration: 0.25,
+            ease: "power2.out"
+        })
 
     // Small initial fade
-    const initialTl = gsap.timeline({ paused: true })
-        .to(initial, {
-            opacity: 0,
-            scale: 1.3,
-            duration: 0.2,
-            ease: "power1.out"
-        })
+    // const initialTl = gsap.timeline({ paused: true })
+    //     .to(initial, {
+    //         opacity: 0,
+    //         scale: 1.3,
+    //         duration: 0.2,
+    //         ease: "power1.out"
+    //     })
 
     // Planet img hov
     const imgTl = gsap.timeline({ paused: true })
         .to(img, {
-            scale: 1.15,
+
+            // scale: 1.15,
             duration: 0.25,
             ease: "power2.out"
         })
@@ -60,21 +69,21 @@ export function revolvePlanet(selector, pathSelector, duration = 40, offset = 0)
         gsap.to(ring, { stroke: "#b2ff5f", strokeWidth: 2, duration: 0.25 })
 
     const dimRing = () =>
-        gsap.to(ring, { stroke: "#FFEFC722", strokeWidth: 1, duration: 0.35 })
+        gsap.to(ring, { stroke: "#7f7762", strokeWidth: 1, duration: 0.35 })
 
     // Events 
     el.addEventListener("pointerenter", () => {
         imgTl.play()
-        initialTl.play()
         labelTl.play()
+        labelGlowTl.play()
         brightenRing()
         gsap.to(orbitTl, { timeScale: 0.3, duration: 0.3 })
     })
 
     el.addEventListener("pointerleave", () => {
         imgTl.reverse()
-        initialTl.reverse()
         labelTl.reverse()
+        labelGlowTl.reverse()
         dimRing()
         gsap.to(orbitTl, { timeScale: 1, duration: 0.3 })
     })

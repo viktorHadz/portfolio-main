@@ -1,12 +1,13 @@
 <script setup>
 import TheDivider from '@/components/layout/TheDivider.vue'
 import MenchPortalWave from '../svg/variousMench/MenchPortalWave.vue'
+import PortalJourney from './PortalJourney.vue'
 </script>
 
 <template>
   <div class="bg-bg-sec relative overflow-clip py-24 lg:py-32">
     <TheDivider fill="fill-bg-prim" position="top" />
-
+    <PortalJourney class="top-90 left-40"></PortalJourney>
     <div class="container mx-auto max-w-3xl px-6 sm:px-8 lg:px-12">
       <!-- Header -->
       <section

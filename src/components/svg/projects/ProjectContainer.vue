@@ -13,13 +13,13 @@ defineProps({
     <!-- LABEL -->
     <foreignObject
       x="-60"
-      y="-70"
+      y="-85"
       width="120"
       height="36"
       class="project-label pointer-events-none"
     >
       <div
-        class="pointer-events-none flex h-full w-full items-center justify-center rounded-full border border-white/20 bg-zinc-900/90 text-[0.75rem] font-semibold tracking-wide text-white opacity-0"
+        class="pointer-events-none flex h-full w-full items-center justify-center rounded-full border border-white/20 bg-zinc-900/90 text-[0.75rem] font-semibold tracking-wide text-white"
       >
         {{ project.name }}
       </div>
@@ -32,10 +32,10 @@ defineProps({
       :height="project.size * 2"
       :x="-project.size"
       :y="-project.size"
-      class="planet-img transition-transform duration-300 group-hover:scale-120 group-hover:rotate-45"
+      class="planet-img"
     />
     <!-- TINY INITIAL IN PLANET -->
-    <text
+    <!-- <text
       class="planet-initial pointer-events-none fill-black text-[0.8rem]"
       text-anchor="middle"
     >
@@ -48,6 +48,6 @@ defineProps({
       >
         {{ word }}
       </tspan>
-    </text>
+    </text> -->
   </g>
 </template>

@@ -57,7 +57,7 @@ onBeforeUnmount(() => {
       fill="none"
       viewBox="0 0 1266 1053"
     >
-      <g id="solar-paths" class="stroke-[#FFEFC7]">
+      <g id="solar-paths" class="stroke-[#7f7762]">
         <path
           id="inner"
           d="M574.8 337.6c58.5-24.8 117.8-32.2 166.4-24.2 48.5 8 86.2 31.3 101.7 68s6 80-22.1 120.4c-28.2 40.3-74.9 77.7-133.4 102.4-58.6 24.7-117.9 32.2-166.4 24.2-48.6-8-86.3-31.3-101.8-68s-6-80 22.2-120.4 74.8-77.7 133.4-102.4"
@@ -102,7 +102,7 @@ onBeforeUnmount(() => {
           <rect
             x="0"
             y="0"
-            width="150"
+            width="140"
             height="60"
             rx="12"
             ry="12"
@@ -118,14 +118,11 @@ onBeforeUnmount(() => {
             stroke-width="2"
           />
           <g class="speech-text fill-black" style="pointer-events: none">
-            <text x="6" y="20" font-size="14" font-family="sans-serif">
-              Check out the planets.
+            <text x="10" y="25" font-size="16" font-family="sans-serif">
+              Click each planet
             </text>
-            <text x="6" y="35" font-size="14" font-family="sans-serif">
-              Hover and click to
-            </text>
-            <text x="6" y="50" font-size="14" font-family="sans-serif">
-              explore.
+            <text x="10" y="45" font-size="16" font-family="sans-serif">
+              to learn more.
             </text>
           </g>
         </g>
