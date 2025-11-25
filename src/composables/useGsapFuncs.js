@@ -228,56 +228,6 @@ export function revolvePlanet(
 }
 
 // --- Little mench ---
-let littleMenchTl
-export function showLitttleMench(
-  menchSelector,
-  handSelector,
-  speechBubblePresent = false,
-) {
-  gsap.set(menchSelector, { opacity: 0, y: 50 })
-  littleMenchTl?.kill() // kills the little mench if it exists - allows restart on click
-
-  littleMenchTl = gsap.timeline({ paused: true })
-  littleMenchTl.to(menchSelector, { opacity: 1, y: 0, duration: 0.3 })
-
-  littleMenchTl.to(handSelector, {
-    rotation: 20,
-    transformOrigin: 'bottom, bottom',
-    yoyo: true,
-    repeat: 4,
-    duration: 0.3,
-  })
-
-  if (speechBubblePresent) {
-    littleMenchTl.fromTo(
-      '#speech-bubble',
-      { opacity: 0, scale: 0 },
-      { opacity: 1, scale: 1, duration: 0.4, ease: 'back.out(2)' },
-      '<+=1',
-    )
-  }
-
-  littleMenchTl.to(handSelector, { rotation: 90, x: -190, scale: 0.5 })
-
-  if (speechBubblePresent) {
-    littleMenchTl.to(
-      '#speech-bubble',
-      {
-        opacity: 0,
-        scale: 0,
-        duration: 0.3,
-        ease: 'back.in(2)',
-      },
-      '+=3.5',
-    )
-  }
-
-  // mench hide after bubble out
-  littleMenchTl.add(() => hideLittleMench(menchSelector, handSelector))
-
-  return littleMenchTl.play()
-}
-
 export function hideLittleMench(menchSelector, handSelector) {
   const tl = gsap.timeline({ paused: true })
   tl.set(handSelector, { opacity: 0 })
@@ -286,18 +236,9 @@ export function hideLittleMench(menchSelector, handSelector) {
   return tl.play()
 }
 
-// // public restart
-// export function restartLittleMench() {
-//   if (littleMenchTl) {
-//     littleMenchTl.restart()
-//     return littleMenchTl
-//   } else {
-//     return showLitttleMench('#little-mench', '#arm-rotate', true)
-//   }
-// }
 // --- Lil Mench ---
 let lilMenchTl
-export function showLilMench(restart = false) {
+export function showLittleMench(restart = false) {
   // clean up any existing
   if (restart && lilMenchTl) {
     lilMenchTl.restart()
@@ -374,6 +315,7 @@ export function showLilMench(restart = false) {
         y: 60,
         duration: 0.6,
         ease: 'power1.inOut',
+        onComplete: () => { ['#speech-bubble', '#lil-mench'], { pointerEvents: 'none' } }
       },
       '<',
     )

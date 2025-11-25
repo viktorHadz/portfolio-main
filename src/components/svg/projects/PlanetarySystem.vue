@@ -4,7 +4,7 @@ import ProjectModal from '@/components/layout/ProjectModal.vue'
 import ProjectContainer from './ProjectContainer.vue'
 import { usePortalStore } from '@/stores/portalStore'
 import { projects } from './projectData'
-import { showLilMench, withGsapContext } from '@/composables/useGsapFuncs'
+import { showLittleMench, withGsapContext } from '@/composables/useGsapFuncs'
 import { revolvePlanet } from '@/composables/revolvePlanet' // NEW FILE
 
 const portal = usePortalStore()
@@ -38,10 +38,10 @@ onMounted(() => {
   // Lil Mench
   const sun = document.querySelector('#sun')
   if (sun) {
-    sun.addEventListener('click', () => showLilMench(true))
+    sun.addEventListener('click', () => showLittleMench(true))
     sun.style.cursor = 'pointer'
   }
-  showLilMench()
+  showLittleMench()
 })
 
 onBeforeUnmount(() => {
@@ -98,6 +98,7 @@ onBeforeUnmount(() => {
           transform="translate(600, 250)"
           opacity="0"
           scale="0.5"
+          pointer-events="none"
         >
           <rect
             x="0"

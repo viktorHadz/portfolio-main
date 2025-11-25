@@ -8,18 +8,20 @@ onMounted(() => {
 })
 </script>
 <template>
-  <div class="absolute">
-    <ThePortal class="size-20 rotate-y-70 transform-3d"></ThePortal>
-    <!-- The Scroll Line -->
-    <div class="relative top-20 left-16">
-      <div id="beam-container" class="absolute">
-        <!-- The glowing head -->
-        <div
-          id="beam-head"
-          class="absolute h-3 w-3 rounded-full bg-[#a3d920]"
-        ></div>
+  <div class="absolute top-36 -left-20">
+    <div class="relative">
+      <ThePortal
+        class="portal-scroll portal-warped size-20 rotate-y-80 transform-3d"
+      ></ThePortal>
 
-        <!-- The trailing line behind it -->
+      <div class="absolute">
+        <div id="line-container" class="absolute">
+          <!-- Emitting ball -->
+          <div
+            id="ball"
+            class="absolute h-3 w-3 rounded-full bg-[#a3d920]"
+          ></div>
+        </div>
       </div>
     </div>
   </div>
