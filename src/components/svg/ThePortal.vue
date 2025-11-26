@@ -48,6 +48,29 @@
           />
         </g>
       </g>
+      <defs>
+        <filter
+          id="filter0_f_1198_662"
+          x="-0.00312424"
+          y="0.000782013"
+          width="133.6"
+          height="213.6"
+          filterUnits="userSpaceOnUse"
+          color-interpolation-filters="sRGB"
+        >
+          <feFlood flood-opacity="0" result="BackgroundImageFix" />
+          <feBlend
+            mode="normal"
+            in="SourceGraphic"
+            in2="BackgroundImageFix"
+            result="shape"
+          />
+          <feGaussianBlur
+            stdDeviation="12.4"
+            result="effect1_foregroundBlur_1198_662"
+          />
+        </filter>
+      </defs>
     </svg>
   </div>
 </template>

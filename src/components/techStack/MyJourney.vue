@@ -2,6 +2,7 @@
 import TheDivider from '@/components/layout/TheDivider.vue'
 import MenchPortalWave from '../svg/variousMench/MenchPortalWave.vue'
 import PortalJourney from './PortalJourney.vue'
+import { PlayIcon } from '@heroicons/vue/24/solid'
 const articles = [
   {
     title: 'The Beginning',
@@ -59,6 +60,31 @@ const articles = [
             class="text-acc-prim mt-12 mask-x-from-0 mask-x-to-transparent mask-radial-at-center"
           />
         </article>
+      </div>
+      <!-- Remote -->
+      <div class="my-24">
+        <div
+          class="bg-bg-prim flex w-fit flex-col items-center justify-center place-self-center rounded-2xl border p-6"
+        >
+          <!-- progression mini hud -->
+          <div
+            class="mb-6 h-28 w-60 rounded-2xl border-2 p-4 outline-2 outline-offset-4"
+          >
+            <h3 class="text-acc-prim text-center text-sm font-bold">
+              Chapter 1example text
+            </h3>
+          </div>
+          <!-- remote -->
+          <div class="flex items-center gap-4">
+            <button>
+              <PlayIcon class="size-10 rotate-180"></PlayIcon>
+            </button>
+            <button class="bg-fg-prim size-16 rounded-full border-2"></button>
+            <button>
+              <PlayIcon class="size-10"></PlayIcon>
+            </button>
+          </div>
+        </div>
       </div>
     </div>
   </div>
